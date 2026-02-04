@@ -1,0 +1,266 @@
+---
+title: 'Notion'
+description: 'Connect Notion workspaces to enable AI-powered documentation search and automated updates'
+icon: '/images/integrations/notion.svg'
+---
+
+## About Notion
+
+Notion is an all-in-one workspace that combines notes, documents, databases, and project management. Connecting Notion to Harmony enables your AI agents to access organizational knowledge, provide context-aware support responses, and automatically update documentation based on support interactions.
+
+## What the Notion integration enables
+
+| Capability                   | Description                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| Knowledge Base Access        | Search and retrieve information from Notion pages and databases                                  |
+| AI-Powered Search            | Harmony AI can query Notion content to answer user questions                                     |
+| Documentation Sync           | Keep runbooks and IT documentation in sync with support activities                               |
+| Automated Updates            | Update Notion pages based on resolved tickets and new solutions                                  |
+| Wiki Integration             | Surface relevant Notion content during ticket resolution                                         |
+| Database Queries             | Query Notion databases for asset info, employee data, and more                                   |
+
+## Prerequisites
+
+Before configuring the Notion integration, ensure you have:
+
+- **Notion Workspace Admin**: Ability to create and manage integrations
+- **Notion API Access**: Workspace with API access enabled
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Pages to Share**: Specific pages or databases to integrate with Harmony
+
+## Configuration in Notion
+
+### Step 1: Create Internal Integration
+
+1. Go to [Notion Integrations](https://www.notion.so/my-integrations)
+2. Click **+ New integration**
+3. Configure integration settings:
+   - **Name**: "Harmony AI"
+   - **Associated workspace**: Select your workspace
+   - **Logo**: Upload Harmony logo (optional)
+4. Under **Capabilities**, select:
+   - ☑️ Read content
+   - ☑️ Update content (if you want Harmony to update pages)
+   - ☑️ Insert content (if you want Harmony to create pages)
+5. Click **Submit**
+6. Copy the **Internal Integration Token** (starts with `secret_`)
+
+### Step 2: Share Pages with Integration
+
+The integration needs explicit access to pages:
+
+1. Open the Notion page or database you want to share
+2. Click **Share** in the top right
+3. Click **Invite**
+4. Search for your integration name ("Harmony AI")
+5. Select the integration and click **Invite**
+6. Repeat for all pages/databases Harmony should access
+
+<Note>
+For full workspace access, share your root workspace page. All child pages will be accessible.
+</Note>
+
+### Step 3: Organize Content for AI Access
+
+Structure your Notion workspace for optimal AI retrieval:
+
+1. **IT Documentation**: Create a dedicated section for IT runbooks
+2. **FAQs**: Maintain a database of frequently asked questions
+3. **Asset Information**: Keep hardware and software inventory in databases
+4. **Policies**: Store IT policies and procedures
+5. **Troubleshooting Guides**: Maintain step-by-step resolution guides
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Notion** and click **Connect**
+
+### Step 2: Enter Integration Token
+
+1. Paste the **Internal Integration Token** from Notion
+2. Click **Verify Connection**
+3. Harmony will discover all accessible pages and databases
+
+### Step 3: Configure Knowledge Base Settings
+
+1. **Select Searchable Pages**: Choose which pages should be searchable by AI
+2. **Priority Levels**: Set priority for different content types (e.g., prioritize runbooks over meeting notes)
+3. **Update Permissions**: Enable if Harmony should update pages with new solutions
+4. **Sync Frequency**: Choose how often to sync content (real-time, hourly, daily)
+5. Click **Save Configuration**
+
+### Step 4: Set Up Content Templates (Optional)
+
+Create templates for Harmony to use when creating new documentation:
+
+1. **Incident Resolution Template**: For documenting resolved incidents
+2. **Runbook Template**: For new troubleshooting procedures
+3. **FAQ Template**: For frequently asked questions
+4. Click **Enable Integration**
+
+## What Harmony Syncs
+
+### From Notion to Harmony
+
+- **Page Content**: All text, headings, and formatted content from shared pages
+- **Page Titles**: Page and section titles for indexing
+- **Databases**: Database schemas, properties, and records
+- **Page Hierarchy**: Parent-child relationships between pages
+- **Last Updated**: Modification timestamps for freshness tracking
+- **Page URLs**: Deep links to specific pages
+- **Mentions**: User mentions and page references
+- **Embeds**: Embedded content (limited support)
+
+### From Harmony to Notion
+
+- **New Documentation**: Pages created for new runbooks or procedures
+- **Resolution Notes**: Updates to existing troubleshooting guides
+- **FAQ Entries**: New frequently asked questions
+- **Statistics**: Usage metrics for documentation effectiveness
+- **Comments**: AI-generated suggestions for content improvements
+- **Links**: Cross-references to related tickets or documentation
+
+## Use Cases
+
+### Intelligent Support Responses
+
+Use Notion as your AI's knowledge base:
+
+```
+User: "How do I reset my VPN password?"
+Harmony AI:
+1. Searches Notion for "VPN password reset"
+2. Finds relevant runbook page
+3. Provides step-by-step instructions
+4. Includes link to full documentation
+```
+
+### Automated Documentation
+
+Keep documentation current with resolved tickets:
+
+- When Harmony resolves a new issue type, it creates a Notion page
+- Updates existing runbooks when procedures change
+- Tracks which documentation is most frequently accessed
+- Suggests consolidation of duplicate content
+
+### Self-Service Knowledge Portal
+
+Empower users with instant access to information:
+
+- Harmony surfaces relevant Notion pages during conversations
+- Users can browse documentation without leaving Slack/Teams
+- AI summarizes long documentation into actionable steps
+- Tracks which articles help resolve issues most effectively
+
+### Asset Management
+
+Use Notion databases for IT asset tracking:
+
+- Query Notion databases for hardware/software information
+- Update asset status when tickets are resolved
+- Track license assignments and renewal dates
+- Generate reports from Notion database data
+
+## Troubleshooting
+
+### Harmony Can't Find Pages
+
+**Issue**: AI doesn't retrieve expected Notion content
+
+**Solutions**:
+- Verify pages are shared with the Harmony integration
+- Check that integration token has required permissions
+- Ensure pages aren't in archived sections
+- Re-sync content in Harmony settings
+
+### Outdated Content
+
+**Issue**: AI provides information from old documentation
+
+**Solutions**:
+- Increase sync frequency in Harmony settings
+- Manually trigger a sync from Harmony dashboard
+- Check Notion page "Last edited" timestamps
+- Enable real-time sync for critical documentation
+
+### Integration Token Expired
+
+**Issue**: Connection to Notion fails
+
+**Solutions**:
+- Notion integration tokens don't expire, but workspace changes can affect them
+- Verify integration still exists in Notion integrations page
+- Check that workspace admin hasn't revoked access
+- Regenerate token and update in Harmony if necessary
+
+### Permission Errors
+
+**Issue**: "Unauthorized" or "Forbidden" errors
+
+**Solutions**:
+- Verify integration capabilities include required permissions
+- Ensure pages are explicitly shared with integration
+- Check that user who created integration still has workspace access
+- Re-share pages with integration if permissions changed
+
+## Best Practices
+
+### Content Organization
+
+- **Dedicated IT Section**: Keep IT documentation in a specific section
+- **Consistent Structure**: Use templates for consistent page formatting
+- **Clear Naming**: Use descriptive titles that AI can understand
+- **Tags and Properties**: Use database properties to categorize content
+- **Regular Reviews**: Audit and update documentation quarterly
+
+### Performance Optimization
+
+- **Selective Sharing**: Only share pages relevant to IT support
+- **Database Limits**: Large databases may impact sync performance
+- **Embed Minimization**: Minimize embeds and integrations that slow loading
+- **Archive Old Content**: Move outdated pages to archive section
+- **Index Optimization**: Use clear headings and structure for better AI retrieval
+
+### Security and Privacy
+
+- **Sensitive Data**: Don't store credentials or secrets in shared pages
+- **Access Review**: Regularly review which pages are shared with integration
+- **User Training**: Educate team on what content is accessible to AI
+- **Data Classification**: Mark sensitive pages and exclude from integration
+
+### Documentation Quality
+
+- **Actionable Content**: Write step-by-step procedures, not just descriptions
+- **Regular Updates**: Keep documentation current with system changes
+- **User Feedback**: Track which articles are most helpful
+- **Continuous Improvement**: Update based on AI usage patterns
+- **Version History**: Use Notion's version history for tracking changes
+
+## Data & Privacy
+
+### Data Handling
+
+- Harmony indexes Notion content for search but doesn't store full copies
+- Page content is encrypted in transit (TLS 1.2+)
+- Search indexes are encrypted at rest (AES-256)
+- Content is re-synced based on configured frequency
+- Notion content remains under your control in your workspace
+
+### Compliance
+
+- **GDPR**: Content processing complies with GDPR requirements
+- **Data Residency**: Notion data stays in Notion; only indexes are stored
+- **Access Logs**: All integration access is logged in Notion audit trail
+- **Right to Erasure**: Unsharing pages removes them from Harmony's index
+
+### Access Control
+
+- Integration only accesses explicitly shared pages
+- Notion's workspace permissions apply
+- Integration can be revoked instantly from Notion settings
+- Harmony respects Notion's page-level permissions
+

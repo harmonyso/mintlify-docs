@@ -1,0 +1,352 @@
+---
+title: 'Workday'
+description: 'Sync Workday HR events to trigger intelligent IT provisioning and access management'
+icon: '/images/integrations/workday.svg'
+---
+
+## About Workday
+
+Workday is an enterprise cloud platform for finance and human resources management. Connecting Workday to Harmony enables automated IT provisioning triggered by HR events, comprehensive employee lifecycle management, and data-driven workforce analytics for IT operations.
+
+## What the Workday integration enables
+
+| Capability                  | Description                                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| Automated Provisioning      | Trigger IT workflows automatically based on Workday HR events                              |
+| Employee Lifecycle          | Manage onboarding, transfers, and offboarding seamlessly                                   |
+| Organizational Sync         | Keep employee data and org structure synchronized across IT systems                        |
+| Cost Center Tracking        | Allocate IT costs based on Workday cost centers and departments                            |
+| Compliance Reporting        | Generate audit reports linking IT access to employee records                               |
+| Workflow Automation         | Build custom workflows using the Workday REST API                                          |
+
+Anything defined in the [Workday REST API](https://community.workday.com/sites/default/files/file-hosting/restapi) can be accessed through Harmony workflows.
+
+***
+
+## Prerequisites
+
+Before connecting Workday to Harmony, ensure you have:
+
+1. **Workday Administrator access** to your tenant
+2. **Permissions to create Integration System Users (ISUs)**
+3. **Access to configure security groups and policies**
+4. **Your Workday tenant name** (e.g., `company`)
+5. **A Harmony account** with admin privileges
+
+<Warning>
+  Workday recommends using Integration System Users (ISUs) for third-party integrations. Never use personal admin accounts.
+</Warning>
+
+***
+
+## Workday Configuration
+
+### Step 1: Create Integration System User
+
+<Steps>
+  <Step title="Create ISU Account">
+    1. Log in to your Workday tenant
+    2. Search for **Create Integration System User**
+    3. Fill in account information:
+
+    | Field       | Value                     |
+    | ----------- | ------------------------- |
+    | **User Name** | `HarmonyIntegration`    |
+    | **Password** | Create a strong password |
+
+    <Warning>
+      Password cannot contain &, \<, or > characters.
+    </Warning>
+  </Step>
+
+  <Step title="Prevent Password Expiration">
+    1. Search for **Maintain Password Rules**
+    2. Add the ISU username to **System Users exempt from password expiration**
+    3. Click **OK** to save
+
+    <Tip>
+      This ensures your integration won't break due to password expiration.
+    </Tip>
+  </Step>
+</Steps>
+
+### Step 2: Create Security Group
+
+<Steps>
+  <Step title="Create Security Group">
+    1. Search for **Create Security Group**
+    2. Select **Integration System Security Group (Unconstrained)**
+    3. Enter name: `Harmony Integration Group`
+    4. Click **OK**
+  </Step>
+
+  <Step title="Assign ISU to Security Group">
+    1. In **Integration System Users** field, enter `HarmonyIntegration`
+    2. Click **OK** to save
+  </Step>
+</Steps>
+
+### Step 3: Configure Domain Security Permissions
+
+<Steps>
+  <Step title="Set Permissions">
+    1. Search for **Maintain Permissions for Security Group**
+    2. Set **Source Security Group** to `Harmony Integration Group`
+    3. Add required domain security policies:
+
+    **Required Permissions:**
+    - Worker Data: Public Worker Reports (Get Only)
+    - Person Data: Name (Get Only)
+    - Person Data: Work Contact Information (Get Only)
+    - Worker Data: Current Staffing Information (Get Only)
+    - Worker Data: Organization Information (Get Only)
+    - Worker Data: Workers (Get Only)
+
+    **Optional (for enhanced features):**
+    - Worker Data: Employment Data
+    - Worker Data: Compensation
+    - Worker Data: Time Off
+  </Step>
+
+  <Step title="Activate Security Changes">
+    1. Search for **Activate Pending Security Policy Changes**
+    2. Review and confirm changes
+    3. Click **OK** to activate
+  </Step>
+</Steps>
+
+### Step 4: Register API Client
+
+<Steps>
+  <Step title="Create API Client">
+    1. Search for **Register API Client for Integrations**
+    2. Configure:
+
+    | Field              | Value                       |
+    | ------------------ | --------------------------- |
+    | **Client Name**    | `Harmony Workday API Client` |
+    | **Non-Expiring Refresh Tokens** | ✅ Enabled   |
+    | **Grant Type**     | Client Credentials          |
+
+    3. Click **Save**
+  </Step>
+
+  <Step title="Note Credentials">
+    After creation, copy:
+    - **Client ID**
+    - **Client Secret**
+    - **Token Endpoint URL**
+
+    <Warning>
+      Save these credentials securely—the secret cannot be retrieved later.
+    </Warning>
+  </Step>
+</Steps>
+
+### Step 5: Generate Refresh Token
+
+<Steps>
+  <Step title="Generate Token">
+    1. Search for **Manage Refresh Tokens for Integrations**
+    2. Select your API client
+    3. Add ISU as **Authorized User**
+    4. Generate refresh token
+    5. Copy and save the token securely
+
+    <Warning>
+      The refresh token is shown only once. Save it immediately.
+    </Warning>
+  </Step>
+</Steps>
+
+***
+
+## Harmony Configuration
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. Log into your Harmony dashboard
+    2. Navigate to **Settings → Integrations**
+    3. Find **Workday** under **Human Resources**
+    4. Click **Connect**
+  </Step>
+
+  <Step title="Enter Configuration">
+    Fill in the following fields:
+
+    | Field                | Description                          | Example                      |
+    | -------------------- | ------------------------------------ | ---------------------------- |
+    | **Tenant Name**      | Your Workday tenant name             | `company`                    |
+    | **Client ID**        | From API Client registration         | `1234567890abcdef`           |
+    | **Client Secret**    | From API Client registration         | `your_secure_secret`         |
+    | **Refresh Token**    | Generated refresh token              | `your_refresh_token`         |
+    | **API Endpoint**     | Your Workday REST API endpoint       | Auto-populated based on tenant |
+    | **Token Endpoint**   | Your Workday token endpoint          | Auto-populated based on tenant |
+  </Step>
+
+  <Step title="Test Connection">
+    1. Click **Connect**
+    2. Harmony will authenticate and fetch employee data
+    3. If successful, you'll see a confirmation message
+    4. Employee sync will begin automatically
+  </Step>
+</Steps>
+
+***
+
+## What Harmony Syncs from Workday
+
+Once connected, Harmony automatically syncs:
+
+### Employee Data
+
+- Employee profiles (name, email, employee ID)
+- Job information (title, position, job profile)
+- Department and cost center
+- Manager relationships
+- Work location and address
+- Employment status and type
+- Hire date and termination date
+
+### Organizational Structure
+
+- Organization hierarchy
+- Supervisory organizations
+- Cost centers and regions
+- Business units and divisions
+
+### Employment Events
+
+- New hire notifications
+- Termination events
+- Job changes and transfers
+- Status changes (active, leave, terminated)
+- Manager changes
+
+<Tip>
+  Harmony syncs critical events (new hires, terminations) in real-time via webhooks, with full data sync every 24 hours.
+</Tip>
+
+***
+
+## Configure Automated Workflows
+
+### Onboarding Automation
+
+<Steps>
+  <Step title="Create Onboarding Workflow">
+    Trigger: **New Employee Added (Workday)**
+
+    Actions:
+    - Extract employee details (name, email, department, manager)
+    - Create email account
+    - Provision applications based on job profile
+    - Assign to security groups
+    - Order equipment based on role
+    - Create onboarding ticket for IT
+    - Notify manager of new hire
+  </Step>
+
+  <Step title="Job Profile-Based Provisioning">
+    Use conditional logic based on job profile:
+    - **Engineering**: Development tools, code repositories
+    - **Sales**: CRM, communication tools
+    - **Finance**: Financial systems, compliance tools
+    - **HR**: HRIS, recruiting platforms
+  </Step>
+</Steps>
+
+### Offboarding Automation
+
+<Steps>
+  <Step title="Create Offboarding Workflow">
+    Trigger: **Employee Terminated (Workday)**
+
+    Actions:
+    - Immediately suspend critical access (VPN, production systems)
+    - Schedule email deactivation (end of last day)
+    - Revoke application access
+    - Create equipment collection ticket
+    - Transfer file ownership to manager
+    - Generate offboarding report
+    - Notify stakeholders
+  </Step>
+
+  <Step title="Grace Period Configuration">
+    Set timing for access revocation:
+    - **Immediate**: Production systems, VPN, admin access
+    - **End of day**: Email, Slack, collaboration tools
+    - **After 7 days**: File archive access
+    - **After 30 days**: Complete data deletion
+  </Step>
+</Steps>
+
+***
+
+## Use Cases
+
+### Day-One Ready Onboarding
+
+Ensure new hires have everything on their first day:
+
+**Pre-Start (1 week before)**
+- Equipment ordered based on job profile
+- Accounts created in staging
+- Licenses allocated
+- Manager notified of upcoming start
+
+**First Day**
+- All accounts activated at 8 AM
+- Equipment ready at desk
+- Welcome email sent
+- Onboarding checklist created
+
+### Role Change Management
+
+Automate access changes for transfers:
+- Detect job change in Workday
+- Evaluate new role requirements
+- Add new access automatically
+- Queue old access for review
+- Notify current and new managers
+
+### Compliance & Audit
+
+Maintain comprehensive audit trails:
+- Link IT access to employee records
+- Track provisioning/deprovisioning dates
+- Generate SOC 2 compliance reports
+- Monitor orphaned accounts
+- Enforce quarterly access reviews
+
+***
+
+## Troubleshooting
+
+### Connection fails with authentication error
+
+**Solutions:**
+1. Verify Client ID and Secret are correct
+2. Check refresh token is valid and not expired
+3. Ensure ISU password hasn't expired
+4. Confirm security group permissions are active
+
+### Employee sync incomplete
+
+**Solutions:**
+1. Check domain security policy permissions
+2. Verify employees have required data fields
+3. For large organizations, allow extra sync time
+4. Review sync logs for specific errors
+
+### Workflows not triggering
+
+**Solutions:**
+1. Verify webhook configuration in Workday
+2. Check workflow trigger conditions
+3. Ensure events meet trigger criteria
+4. Test with manual workflow execution
+
+***
+
+Need help? Contact **[support@harmony.io](mailto:support@harmony.io)** for assistance with your Workday integration.

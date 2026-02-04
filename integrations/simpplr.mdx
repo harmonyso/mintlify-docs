@@ -1,0 +1,77 @@
+---
+title: 'Simpplr'
+description: 'Integrate Simpplr intranet to power AI responses with employee experience insights'
+icon: '/images/integrations/simpplr.svg'
+---
+
+## About Simpplr
+
+Simpplr is an AI-powered employee experience platform that combines intranet, knowledge management, and employee communications. Connecting Simpplr to Harmony enables your AI to access organizational knowledge, company news, and employee resources to provide context-aware support and enhance the employee experience.
+
+## What the Simpplr integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Knowledge Base Access         | Search Simpplr content for IT support responses                                                 |
+| News and Announcements        | Surface relevant company updates during support interactions                                     |
+| Employee Resources            | Provide access to HR policies, IT guides, and company documents                                 |
+| People Directory              | Access employee directory for contact and organizational information                             |
+| Content Analytics             | Track which content is most helpful for IT support                                              |
+| Automated Content Updates     | Update IT documentation based on common support queries                                         |
+
+## Prerequisites
+
+- **Simpplr Administrator Access**: Admin role in Simpplr
+- **Simpplr Subscription**: Active Simpplr account
+- **API Access**: API enabled for your Simpplr instance
+- **Harmony Account**: Active Harmony workspace
+
+## Configuration
+
+### In Simpplr
+
+1. Log in to your Simpplr instance
+2. Navigate to **Admin Center** > **Integrations** > **API**
+3. Click **Generate API Key**
+4. Configure:
+   - Name: "Harmony IT Integration"
+   - Permissions: Read access to content, people directory
+5. Copy the API key
+
+### In Harmony
+
+1. Go to **Settings** > **Integrations** > **Simpplr**
+2. Enter Simpplr instance URL and API key
+3. Select content types to search:
+   - IT Knowledge Base
+   - HR Policies
+   - Company News
+   - Employee Resources
+4. Configure search priority and relevance
+5. Enable AI-powered content retrieval
+
+## What Harmony Syncs
+
+**From Simpplr:**
+- Knowledge base articles and content
+- Company news and announcements
+- HR policies and procedures
+- Employee directory and profiles
+- Document library content
+- Content categories and tags
+- Page views and engagement metrics
+
+**To Simpplr:**
+- Content usage analytics
+- Search query trends
+- Content effectiveness metrics
+- Suggested content improvements
+
+## Use Cases
+
+- **Policy Lookup**: User asks about PTO policy, AI retrieves from Simpplr
+- **IT Guides**: Surface relevant IT documentation during support conversations
+- **Company News**: Include relevant announcements in employee communications
+- **People Directory**: Find employee contact information and reporting structure
+- **Content Discovery**: Suggest helpful resources based on support patterns
+

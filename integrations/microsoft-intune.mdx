@@ -1,0 +1,297 @@
+---
+title: 'Microsoft Intune'
+description: 'Unified endpoint management with automated compliance and cross-platform device control'
+icon: '/images/integrations/intune.svg'
+---
+
+## About Microsoft Intune
+
+Microsoft Intune is a cloud-based endpoint management solution that helps organizations manage mobile devices, desktops, and applications. Connecting Intune to Harmony enables automated device provisioning, intelligent compliance monitoring, and AI-powered troubleshooting for your entire endpoint fleet.
+
+## What the Microsoft Intune integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Device Inventory              | Sync all managed devices with real-time status and compliance data                             |
+| Automated Provisioning        | Trigger device enrollment and configuration through Harmony workflows                           |
+| Compliance Monitoring         | Track compliance policies and automate remediation actions                                      |
+| App Management                | Deploy, update, and remove applications through AI-driven workflows                             |
+| Remote Actions                | Execute remote wipe, lock, restart, and other management tasks                                  |
+| Policy Enforcement            | Automate policy application and compliance checks                                               |
+
+## Prerequisites
+
+Before configuring the Microsoft Intune integration, ensure you have:
+
+- **Microsoft 365 Administrator Access**: Global Administrator or Intune Administrator role
+- **Intune License**: Microsoft 365 E3/E5 or standalone Intune license
+- **Azure AD Application**: Registered app with Intune API permissions
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Device Enrollment**: At least some devices enrolled in Intune
+
+## Configuration in Microsoft 365
+
+### Step 1: Register Azure AD Application
+
+1. Sign in to [Azure Portal](https://portal.azure.com)
+2. Navigate to **Azure Active Directory** > **App registrations**
+3. Click **New registration**
+4. Configure application:
+   - **Name**: "Harmony Intune Integration"
+   - **Supported account types**: Accounts in this organizational directory only
+   - **Redirect URI**: Web - `https://app.harmony.io/auth/callback`
+5. Click **Register**
+6. Copy the **Application (client) ID** and **Directory (tenant) ID**
+
+### Step 2: Configure API Permissions
+
+1. In your app registration, go to **API permissions**
+2. Click **Add a permission** > **Microsoft Graph**
+3. Select **Application permissions**
+4. Add the following permissions:
+   - `DeviceManagementManagedDevices.Read.All` - Read managed devices
+   - `DeviceManagementManagedDevices.ReadWrite.All` - Manage devices (for remote actions)
+   - `DeviceManagementApps.ReadWrite.All` - Manage apps
+   - `DeviceManagementConfiguration.Read.All` - Read device configuration
+   - `DeviceManagementServiceConfig.Read.All` - Read service configuration
+5. Click **Add permissions**
+6. Click **Grant admin consent for [Your Organization]**
+
+### Step 3: Create Client Secret
+
+1. Go to **Certificates & secrets**
+2. Click **New client secret**
+3. Configure:
+   - **Description**: "Harmony Integration Secret"
+   - **Expires**: 24 months (recommended)
+4. Click **Add**
+5. **Copy the secret value immediately**
+
+### Step 4: Configure Intune Policies
+
+Prepare your Intune environment:
+
+1. **Device Categories**: Create categories for better organization
+2. **Compliance Policies**: Ensure policies are configured and assigned
+3. **Configuration Profiles**: Set up profiles for automated deployment
+4. **App Deployment**: Configure required and available apps
+5. **Dynamic Groups**: Create Azure AD groups for automated assignment
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Microsoft Intune** and click **Connect**
+
+### Step 2: Enter Azure AD Credentials
+
+Provide the following information:
+
+- **Tenant ID**: Your Azure AD Directory (tenant) ID
+- **Client ID**: Application (client) ID from app registration
+- **Client Secret**: The secret value you copied
+- **Intune Region**: Select your Intune service region
+
+Click **Verify Connection**
+
+### Step 3: Configure Sync Settings
+
+1. **Device Sync Frequency**: Choose how often to sync device data (real-time, hourly, daily)
+2. **Compliance Monitoring**: Enable automatic compliance checks
+3. **Remote Actions**: Enable Harmony to execute remote device actions
+4. **App Management**: Enable app deployment capabilities
+5. **Policy Enforcement**: Enable automated policy application
+
+### Step 4: Set Up Automation Rules
+
+Configure intelligent automation:
+
+1. **Auto-Compliance Remediation**: Fix common compliance issues automatically
+2. **Device Provisioning**: Auto-enroll devices based on employee onboarding
+3. **App Deployment**: Deploy apps based on user role and department
+4. **Policy Application**: Apply configurations based on device category
+5. **Alert Routing**: Route compliance alerts to appropriate teams
+6. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From Intune to Harmony
+
+- **Device Inventory**: All enrolled devices with hardware details
+- **Compliance Status**: Real-time compliance policy status
+- **Device Health**: Battery health, storage, encryption status
+- **Installed Apps**: List of installed applications on each device
+- **Configuration Profiles**: Applied configuration profile status
+- **User Assignments**: Primary user for each device
+- **Device Groups**: Group memberships and assignments
+- **Enrollment Status**: Enrollment type and date
+- **Last Sync**: Last check-in timestamp
+
+### From Harmony to Intune
+
+- **Remote Commands**: Wipe, lock, restart, sync commands
+- **Policy Assignments**: Apply compliance and configuration policies
+- **App Deployments**: Install or remove applications
+- **Device Categories**: Update device categorization
+- **Primary User**: Change primary user assignment
+- **Retirement Requests**: Retire or delete devices
+- **Custom Attributes**: Update custom device properties
+
+## Use Cases
+
+### Automated Onboarding
+
+Streamline new employee device setup:
+
+1. Employee starts in HRIS (BambooHR, Workday)
+2. Harmony triggers device enrollment
+3. Device is automatically categorized by department
+4. Compliance policies applied based on role
+5. Required apps deployed automatically
+6. User receives setup instructions via Slack/Teams
+
+### Compliance Remediation
+
+Automate resolution of compliance issues:
+
+```
+Scenario: Device falls out of compliance
+1. Harmony detects non-compliant device
+2. Identifies issue (e.g., outdated OS)
+3. Notifies user via Slack
+4. Guides user through update process
+5. Verifies compliance after remediation
+6. Documents resolution
+```
+
+### Device Troubleshooting
+
+AI-powered endpoint support:
+
+- User reports slow device performance
+- Harmony queries Intune for device health
+- Identifies issues (low storage, resource-heavy apps)
+- Recommends and executes remediation steps
+- Follows up to verify resolution
+- Updates knowledge base with solution
+
+### Offboarding Automation
+
+Secure device management during employee exits:
+
+1. Employee offboarding initiated in HRIS
+2. Harmony retrieves device list from Intune
+3. Executes remote lock on corporate devices
+4. Initiates data wipe after confirmation
+5. Removes device from management
+6. Updates asset tracking systems
+7. Documents offboarding completion
+
+## Troubleshooting
+
+### Devices Not Syncing
+
+**Issue**: Device inventory not updating in Harmony
+
+**Solutions**:
+- Verify API permissions include DeviceManagementManagedDevices.Read.All
+- Check that admin consent was granted
+- Ensure client secret hasn't expired
+- Trigger manual sync from Harmony dashboard
+- Verify devices are actually enrolled in Intune
+
+### Remote Actions Failing
+
+**Issue**: Unable to execute remote commands on devices
+
+**Solutions**:
+- Confirm ReadWrite permissions are granted (not just Read)
+- Verify device is online and connected to Intune
+- Check that device hasn't reached action limit
+- Ensure device supports the requested action
+- Review Intune service health in Microsoft 365 admin center
+
+### Compliance Status Delays
+
+**Issue**: Compliance status not updating in real-time
+
+**Solutions**:
+- Intune devices check in periodically (every 8 hours by default)
+- Force device to sync with Intune from device or portal
+- Adjust sync frequency in Harmony settings
+- Check device network connectivity
+- Verify compliance policy is correctly configured
+
+### App Deployment Issues
+
+**Issue**: Apps not deploying to devices
+
+**Solutions**:
+- Verify app is properly configured in Intune
+- Check that deployment is targeted to correct groups
+- Ensure device meets app requirements
+- Review app deployment status in Intune portal
+- Check device has sufficient storage for app
+
+## Best Practices
+
+### Device Management
+
+- **Categorization**: Use device categories for organized management
+- **Dynamic Groups**: Leverage Azure AD dynamic groups for automatic assignment
+- **Naming Conventions**: Standardize device naming for easy identification
+- **Regular Audits**: Review device inventory quarterly
+- **Lifecycle Management**: Automate device retirement for termed employees
+
+### Compliance and Security
+
+- **Layered Policies**: Create baseline and role-specific compliance policies
+- **Grace Periods**: Allow reasonable time for compliance remediation
+- **Conditional Access**: Combine Intune compliance with Azure AD Conditional Access
+- **Regular Updates**: Keep policies current with security best practices
+- **User Communication**: Notify users before enforcing new policies
+
+### Performance Optimization
+
+- **Selective Sync**: Only sync devices that require active management
+- **Batch Operations**: Schedule bulk changes during off-hours
+- **Efficient Polling**: Use webhooks where possible instead of polling
+- **Group-Based Management**: Manage devices via groups rather than individually
+- **Caching**: Cache frequently accessed device data
+
+### Automation Strategy
+
+- **Start Small**: Begin with simple automation rules and expand gradually
+- **Test Thoroughly**: Test automation on pilot groups before full deployment
+- **Monitor Closely**: Track automation success rates and adjust rules
+- **Human Escalation**: Always provide path to human intervention
+- **Documentation**: Document automation rules and their purposes
+
+## Data & Privacy
+
+### Data Handling
+
+- Device data is encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches device metadata; full data remains in Microsoft 365
+- Personal device data on BYOD devices handled according to privacy policies
+- Data retention follows your configured policies
+- Device information is processed according to GDPR requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with EU data protection regulations
+- **HIPAA**: Available for healthcare organizations (BAA required)
+- **SOC 2 Type II**: Both Intune and Harmony maintain certification
+- **Microsoft 365 Compliance**: Inherits Microsoft's compliance framework
+- **Audit Trails**: All actions logged for compliance reporting
+
+### Access Control
+
+- Respects Intune role-based access control (RBAC)
+- Service principal permissions can be scoped to specific actions
+- Integration can be disabled immediately if needed
+- All remote actions require appropriate permissions
+- Audit logs track all integration activities
+

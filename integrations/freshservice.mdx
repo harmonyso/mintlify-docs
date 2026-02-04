@@ -1,0 +1,328 @@
+---
+title: 'Freshservice'
+description: 'Enhance Freshservice knowledge base with AI-powered search and automated content retrieval'
+icon: '/images/integrations/freshservice.svg'
+---
+
+## About Freshservice
+
+Freshservice is a cloud-based IT service management (ITSM) solution built on the ITIL framework. Connecting Freshservice to Harmony enables bidirectional ticket synchronization, AI-enhanced knowledge base search, and seamless integration of traditional ITSM with autonomous IT operations.
+
+## What the Freshservice integration enables
+
+| Capability                   | Description                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| Ticket Synchronization       | Sync tickets bidirectionally between Freshservice and Harmony                                   |
+| Knowledge Base Integration   | Search Freshservice solutions and articles with AI                                              |
+| Asset Management             | Sync CMDB assets and configuration items                                                         |
+| Agent Collaboration          | Coordinate between Freshservice agents and Harmony AI                                           |
+| Service Catalog              | Integrate service requests with autonomous fulfillment                                           |
+| SLA Management               | Maintain SLA compliance across both platforms                                                    |
+
+## Prerequisites
+
+Before configuring the Freshservice integration, ensure you have:
+
+- **Freshservice Administrator Access**: Admin role in Freshservice
+- **Freshservice Plan**: Estate plan or higher (for API access)
+- **API Key**: Generated from Freshservice profile
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Domain**: Your Freshservice domain (e.g., `company.freshservice.com`)
+
+## Configuration in Freshservice
+
+### Step 1: Generate API Key
+
+1. Log in to Freshservice at `https://[your-domain].freshservice.com`
+2. Click your profile icon in the top right
+3. Go to **Profile settings**
+4. In the right sidebar, look for **Your API Key**
+5. Click **View API Key** or **Generate API Key**
+6. **Copy the API key** (you can always view it again later)
+
+<Note>
+Freshservice API keys are tied to individual user accounts. Consider creating a dedicated service account for integrations.
+</Note>
+
+### Step 2: Create Service Account (Recommended)
+
+For better tracking and security:
+
+1. Navigate to **Admin** > **Agents**
+2. Click **New Agent**
+3. Configure:
+   - **First Name**: "Harmony"
+   - **Last Name**: "Integration"
+   - **Email**: `harmony-integration@yourcompany.com`
+   - **Agent Type**: Administrator or custom role with API access
+4. Click **Create Agent**
+5. Log in as this service account to generate its API key
+
+### Step 3: Configure Ticket Fields
+
+Prepare ticket fields for synchronization:
+
+1. Go to **Admin** > **Ticket Fields**
+2. Create custom fields for Harmony sync:
+   - **Harmony Ticket ID**: Text field
+   - **Harmony Status**: Dropdown (Synced, Pending, AI Resolved)
+   - **AI Resolution**: Checkbox (to mark AI-resolved tickets)
+3. Click **Save** for each field
+
+### Step 4: Set Up Webhook (Optional)
+
+For real-time ticket updates:
+
+1. Navigate to **Admin** > **Workflow Automator**
+2. Create new automation:
+   - **Trigger**: Ticket is created/updated
+   - **Action**: Trigger webhook
+   - **Webhook URL**: Provided by Harmony (e.g., `https://api.harmony.io/webhooks/freshservice`)
+   - **Method**: POST
+   - **Content**: Include ticket JSON payload
+3. Click **Save**
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Freshservice** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **Freshservice Domain**: Your domain (e.g., `company.freshservice.com`)
+- **API Key**: The key you generated
+- **Email**: Email address associated with the API key
+
+Click **Verify Connection**
+
+### Step 3: Configure Ticket Sync
+
+1. **Sync Direction**: Choose:
+   - Bidirectional (recommended for full integration)
+   - Freshservice → Harmony (import tickets for AI resolution)
+   - Harmony → Freshservice (maintain Freshservice records)
+2. **Status Mapping**: Map ticket statuses between systems:
+   - Freshservice "Open" → Harmony "New"
+   - Freshservice "Pending" → Harmony "In Progress"
+   - Freshservice "Resolved" → Harmony "Resolved"
+   - Freshservice "Closed" → Harmony "Closed"
+3. **Priority Mapping**: Align priority levels
+4. **Ticket Types**: Select which ticket types to sync (Incident, Service Request, Problem, Change)
+5. **Field Mapping**: Map custom fields between systems
+
+### Step 4: Configure Knowledge Base
+
+1. **Enable KB Search**: Allow Harmony AI to search Freshservice solutions
+2. **Solution Categories**: Select which categories to include
+3. **Article Freshness**: Set minimum last-updated date (e.g., articles from last 2 years)
+4. **Search Priority**: Set priority level for Freshservice articles vs. other knowledge sources
+5. **Auto-Linking**: Enable automatic linking of relevant articles to tickets
+
+### Step 5: Set Up Automation Rules
+
+Configure intelligent workflows:
+
+1. **AI-Powered Ticket Resolution**:
+   - Trigger: New incident ticket in Freshservice
+   - Condition: Ticket category is "Password Reset" or "Access Request"
+   - Action: Sync to Harmony, attempt AI resolution
+   - Update: Mark as resolved in Freshservice if successful
+2. **Knowledge Article Search**:
+   - Trigger: User asks question in Slack/Teams
+   - Action: Search Freshservice solutions
+   - Response: Provide answer with link to article
+   - Create: Create ticket if no solution found
+3. **SLA Escalation**:
+   - Trigger: Ticket approaching SLA breach
+   - Action: Escalate to human agent
+   - Notify: Alert support team via Slack
+4. **Asset Sync**:
+   - Trigger: Device provisioned in Harmony
+   - Action: Create or update CI in Freshservice CMDB
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From Freshservice to Harmony
+
+- **Tickets**: All ticket data including subject, description, status, priority
+- **Conversations**: Full ticket conversation thread
+- **Attachments**: Files attached to tickets
+- **Requesters**: User information and contact details
+- **Agents**: Support agent information
+- **Groups**: Support groups and assignments
+- **Knowledge Articles**: Solutions and solution articles
+- **Assets**: CMDB configuration items and relationships
+- **SLA Policies**: Service level agreements and breach notifications
+- **Custom Fields**: All configured custom field values
+
+### From Harmony to Freshservice
+
+- **Resolution Actions**: Steps taken by AI to resolve tickets
+- **AI Responses**: Harmony-generated responses and solutions
+- **Status Updates**: Ticket status changes from Harmony
+- **Notes**: Internal notes and context
+- **Asset Updates**: Changes to CMDB items from device management
+- **Time Entries**: Time tracking for automated resolutions
+- **Knowledge Links**: Links to related documentation
+
+## Use Cases
+
+### Migrating to Autonomous IT
+
+Gradual transition from traditional ITSM:
+
+1. Enable bidirectional sync to maintain Freshservice records
+2. Route specific ticket categories to Harmony for AI resolution (e.g., password resets)
+3. Monitor resolution success rates
+4. Gradually expand AI-resolved categories
+5. Maintain Freshservice for compliance and reporting
+6. Eventually phase out Freshservice as confidence grows
+
+### Hybrid Support Model
+
+Best-of-both-worlds approach:
+
+- **Freshservice**: External customer support, compliance tickets, change management
+- **Harmony**: Internal IT support, autonomous resolution, employee self-service
+- **Sync**: Maintain visibility across both platforms
+
+### Knowledge Base Enhancement
+
+Leverage existing Freshservice content:
+
+- User asks question via Slack
+- Harmony searches Freshservice solution articles
+- Provides answer with link to original article
+- Tracks which articles are most useful
+- Suggests updates for outdated articles
+
+### Service Catalog Fulfillment
+
+Automate service requests:
+
+- User submits service request in Freshservice portal
+- Request syncs to Harmony
+- Harmony fulfills request automatically (provisions access, deploys software)
+- Updates Freshservice ticket with completion status
+- User notified of completion
+
+### Asset and CMDB Sync
+
+Maintain configuration management database:
+
+- Harmony provisions new laptop
+- Creates CI in Freshservice CMDB
+- Updates relationships (user, software, peripherals)
+- Tracks device lifecycle in both systems
+- Syncs hardware changes and updates
+
+## Troubleshooting
+
+### Tickets Not Syncing
+
+**Issue**: Tickets created in Freshservice don't appear in Harmony
+
+**Solutions**:
+- Verify API key is valid and hasn't been revoked
+- Check sync filters and ticket type selection
+- Review status mapping configuration
+- Trigger manual sync from Harmony dashboard
+- Verify network connectivity and API rate limits
+
+### Authentication Failures
+
+**Issue**: "Unauthorized" or "Invalid API key" errors
+
+**Solutions**:
+- Verify API key copied correctly (no extra spaces)
+- Check that service account hasn't been deactivated
+- Ensure account has sufficient permissions
+- Regenerate API key if needed
+- Verify Freshservice domain is correct
+
+### Duplicate Tickets
+
+**Issue**: Same ticket appears multiple times
+
+**Solutions**:
+- Check custom field mapping for unique identifiers
+- Verify webhook configuration isn't sending duplicate events
+- Review sync direction settings
+- Disable and re-enable integration if necessary
+
+### Knowledge Articles Not Found
+
+**Issue**: AI can't find Freshservice solutions
+
+**Solutions**:
+- Verify articles are published (not drafts)
+- Check solution category filters in Harmony
+- Ensure articles meet freshness criteria
+- Confirm API key has access to knowledge base
+- Review article content for searchable text
+
+## Best Practices
+
+### Ticket Management
+
+- **Clear Status Mapping**: Ensure statuses mean the same thing in both systems
+- **Consistent Priorities**: Align priority definitions across platforms
+- **Field Consistency**: Use same terminology and values
+- **SLA Preservation**: Configure Harmony SLAs to match or exceed Freshservice
+
+### Knowledge Base
+
+- **Regular Updates**: Keep articles current with latest procedures
+- **Clear Writing**: Write articles for AI and human readability
+- **Rich Content**: Include screenshots and step-by-step guides
+- **Categorization**: Properly categorize for better AI retrieval
+- **Analytics**: Track article usage to identify gaps
+
+### Performance Optimization
+
+- **Selective Sync**: Only sync tickets that require dual visibility
+- **Webhook Usage**: Use webhooks for real-time updates
+- **Batch Processing**: Schedule bulk operations during off-hours
+- **Archive Strategy**: Archive old tickets to reduce overhead
+- **Rate Limiting**: Respect Freshservice API rate limits
+
+### Migration Strategy
+
+- **Phased Approach**: Migrate ticket types gradually
+- **Pilot Program**: Start with one department or ticket type
+- **Success Metrics**: Define clear KPIs (resolution time, satisfaction, etc.)
+- **Training**: Educate support team on hybrid model
+- **Rollback Plan**: Maintain ability to revert if needed
+
+## Data & Privacy
+
+### Data Handling
+
+- All ticket data encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches ticket metadata; full content synchronized as needed
+- Personal information processed according to GDPR and privacy regulations
+- Data retention policies configurable to match compliance requirements
+- Attachments stored securely with access controls
+
+### Compliance
+
+- **GDPR**: Full data subject rights support
+- **SOC 2 Type II**: Both Freshservice and Harmony maintain certification
+- **HIPAA**: Available for healthcare organizations
+- **Audit Trails**: All integration activities logged
+- **Data Residency**: Freshservice data location respected
+
+### Access Control
+
+- Harmony respects Freshservice role-based access control
+- API key permissions scoped appropriately
+- Integration can be disabled instantly
+- All actions logged for audit purposes
+- Ticket access follows Freshservice group permissions
+

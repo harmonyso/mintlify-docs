@@ -1,0 +1,59 @@
+/* Add white background to integration icons in the sidebar navigation for better dark mode visibility */
+img[src*="/images/integrations/"] {
+  background-color: white !important;
+  box-shadow: 0 0 0 4px white !important;
+  border-radius: 4px !important;
+}
+
+/* Remove underlines and styling from trust & security page links */
+a[href*="privacy@harmony.io"],
+a[href*="harmony.io"] {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+a[href*="privacy@harmony.io"]:hover,
+a[href*="harmony.io"]:hover {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Center compliance card titles */
+[class*="card"] h3,
+[class*="Card"] h3 {
+  text-align: center !important;
+}
+
+/* Ensure consistent sizing for certification logos */
+img[src*="/certifications/"] {
+  width: 80px !important;
+  height: 80px !important;
+  object-fit: contain !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+/* Ensure consistent sizing for provider/subprocessor logos */
+img[src*="/providers/"] {
+  width: 48px !important;
+  height: 48px !important;
+  object-fit: contain !important;
+  padding: 8px !important;
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+}
+
+/* Also target icons in navigation items */
+nav img[src*="/images/integrations/"],
+[class*="sidebar"] img[src*="/images/integrations/"],
+[class*="nav"] img[src*="/images/integrations/"] {
+  background-color: white !important;
+  box-shadow: 0 0 0 4px white !important;
+  border-radius: 4px !important;
+}

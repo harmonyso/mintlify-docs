@@ -1,0 +1,310 @@
+---
+title: 'Kandji'
+description: 'Zero-touch Apple deployment with automated compliance checks and security enforcement'
+icon: '/images/integrations/kandji.svg'
+---
+
+## About Kandji
+
+Kandji is a modern Apple device management platform that provides zero-touch deployment, automated compliance, and intelligent device management for macOS, iOS, and iPadOS. Connecting Kandji to Harmony enables automated device provisioning, AI-powered troubleshooting, and seamless endpoint management workflows.
+
+## What the Kandji integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Device Inventory              | Sync all managed Apple devices with real-time status                                           |
+| Zero-Touch Deployment         | Automate device setup through Apple Business Manager                                            |
+| Compliance Automation         | Monitor and enforce security baselines automatically                                            |
+| App Management                | Deploy, update, and manage applications intelligently                                           |
+| Remote Actions                | Execute lock, restart, and erase commands                                                       |
+| Blueprint Management          | Manage Kandji blueprints and device assignments                                                 |
+
+## Prerequisites
+
+Before configuring the Kandji integration, ensure you have:
+
+- **Kandji Administrator Access**: Admin or full access role in Kandji
+- **Kandji Subscription**: Active Kandji tenant
+- **API Token**: Generated from Kandji settings
+- **Apple Business Manager**: Integration with ABM (for zero-touch deployment)
+- **Harmony Account**: Active Harmony workspace with integration permissions
+
+## Configuration in Kandji
+
+### Step 1: Generate API Token
+
+1. Log in to your Kandji tenant at `https://[your-tenant].kandji.io`
+2. Navigate to **Settings** > **Access** > **API Tokens**
+3. Click **Create API Token**
+4. Configure the token:
+   - **Name**: "Harmony Integration"
+   - **Permissions**:
+     - Devices: Read + Write
+     - Library Items: Read + Write
+     - Blueprints: Read
+     - Users: Read
+5. Click **Create Token**
+6. **Copy the token immediately** (it won't be shown again)
+
+### Step 2: Configure Blueprints
+
+Organize your Kandji environment for automation:
+
+1. **Standard Blueprints**: Create blueprints for different employee types
+   - Developer Blueprint
+   - Sales Blueprint
+   - General Employee Blueprint
+2. **Library Items**: Ensure required apps and profiles are in library
+3. **Auto Apps**: Configure automatic app installation
+4. **Parameters**: Set up custom parameters for automation
+
+### Step 3: Set Up Device Tags
+
+Create tags for better organization:
+
+1. Go to **Devices** > **Device Tags**
+2. Create tags:
+   - Department tags (Engineering, Sales, Support)
+   - Location tags (HQ, Remote, Office-NYC)
+   - Status tags (Active, Pending Setup, Offboarding)
+3. These tags will be synced to Harmony for intelligent routing
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Kandji** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **Kandji Tenant URL**: Your Kandji URL (e.g., `https://company.kandji.io`)
+- **API Token**: The token you generated in Step 1
+- **Region**: Select your Kandji region (US or EU)
+
+Click **Verify Connection**
+
+### Step 3: Configure Sync Settings
+
+1. **Device Sync Frequency**: Choose sync interval (real-time, hourly, daily)
+2. **Blueprint Mapping**: Map Kandji blueprints to Harmony roles/departments
+3. **Compliance Monitoring**: Enable automatic compliance tracking
+4. **Remote Actions**: Enable Harmony to execute device commands
+5. **Auto-Assignment**: Configure automatic blueprint assignment rules
+
+### Step 4: Set Up Automation Rules
+
+Configure intelligent workflows:
+
+1. **New Hire Provisioning**:
+   - Trigger: New employee in HRIS
+   - Action: Assign device to appropriate blueprint
+   - Notify: Send setup instructions via Slack
+2. **Compliance Alerts**:
+   - Trigger: Device falls out of compliance
+   - Action: Notify user and IT team
+   - Remediate: Apply fixes automatically when possible
+3. **App Deployment**:
+   - Trigger: User requests software
+   - Action: Deploy app via Kandji library
+   - Verify: Confirm successful installation
+4. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From Kandji to Harmony
+
+- **Device Inventory**: All managed devices with hardware details
+- **Device Status**: Online/offline status, last check-in time
+- **Compliance State**: Security compliance and parameter status
+- **Installed Apps**: Applications and versions on each device
+- **Blueprint Assignment**: Current blueprint for each device
+- **Device Tags**: All assigned tags and categories
+- **User Information**: Assigned user for each device
+- **MDM Profiles**: Installed configuration profiles
+- **FileVault Status**: Encryption status for Macs
+- **OS Versions**: Current macOS/iOS/iPadOS versions
+
+### From Harmony to Intune
+
+- **Blueprint Changes**: Reassign devices to different blueprints
+- **Remote Commands**: Lock, restart, erase, clear passcode
+- **App Installations**: Deploy apps from Kandji library
+- **Device Tags**: Add or remove device tags
+- **Custom Parameters**: Update custom parameter values
+- **Compliance Actions**: Trigger compliance remediation
+- **Device Notes**: Add notes and context to devices
+
+## Use Cases
+
+### Automated Onboarding
+
+Zero-touch deployment for new employees:
+
+1. New employee record created in HRIS
+2. Harmony detects new hire in Engineering
+3. Device assigned to "Developer Blueprint" in Kandji
+4. Employee receives Mac via mail
+5. Device auto-enrolls via Apple Business Manager
+6. All apps and settings configured automatically
+7. User receives welcome message with setup guide
+
+### Compliance Monitoring
+
+Proactive security management:
+
+```
+Scenario: MacBook falls out of compliance
+1. Kandji reports FileVault not enabled
+2. Harmony detects compliance violation
+3. Sends Slack message to user:
+   "Your Mac needs FileVault encryption enabled for security"
+4. Provides step-by-step enablement guide
+5. Monitors until compliance restored
+6. Logs resolution in ticket system
+```
+
+### Software Requests
+
+Self-service app deployment:
+
+- User: "I need Figma installed"
+- Harmony AI:
+  1. Verifies Figma is in Kandji library
+  2. Checks user's blueprint permissions
+  3. Initiates deployment via Kandji
+  4. Monitors installation progress
+  5. Confirms with user when complete
+
+### Device Troubleshooting
+
+Intelligent endpoint support:
+
+- User: "My Mac is running slowly"
+- Harmony queries Kandji for device health
+- Identifies issues (low storage, outdated OS)
+- Recommends cleanup and updates
+- Guides user through resolution
+- Verifies performance improvement
+
+### Offboarding Automation
+
+Secure device management during exits:
+
+1. Employee offboarding initiated in HRIS
+2. Harmony retrieves employee's devices from Kandji
+3. Applies "Offboarding" tag to devices
+4. Sends notification to manager for device retrieval
+5. After confirmation, executes remote lock
+6. Schedules full erase after data backup
+7. Removes device from Kandji after completion
+
+## Troubleshooting
+
+### Devices Not Appearing
+
+**Issue**: Devices enrolled in Kandji don't show up in Harmony
+
+**Solutions**:
+- Verify API token has "Devices: Read" permission
+- Check that API token hasn't been revoked or expired
+- Ensure devices are fully enrolled (not pending)
+- Trigger manual sync from Harmony dashboard
+- Verify Kandji tenant URL is correct
+
+### Blueprint Assignment Failed
+
+**Issue**: Unable to assign device to blueprint
+
+**Solutions**:
+- Confirm API token has "Blueprints: Write" permission
+- Verify blueprint exists and is active in Kandji
+- Check that device is in a state that allows blueprint changes
+- Ensure device isn't locked or erasing
+- Review Kandji audit logs for error details
+
+### Remote Commands Not Executing
+
+**Issue**: Lock, erase, or restart commands fail
+
+**Solutions**:
+- Verify device is online and checked in recently
+- Confirm API token has "Devices: Write" permission
+- Check device hasn't already been erased or retired
+- Ensure device supports the requested command
+- Review command queue in Kandji portal
+
+### Compliance Data Outdated
+
+**Issue**: Compliance status not current
+
+**Solutions**:
+- Kandji devices report status on check-in (varies by device state)
+- Force device to check in via Kandji portal or device
+- Adjust sync frequency in Harmony settings
+- Verify device has network connectivity
+- Check Kandji service status
+
+## Best Practices
+
+### Device Management
+
+- **Blueprint Design**: Create role-specific blueprints aligned with job functions
+- **Library Organization**: Keep Kandji library organized with clear naming
+- **Tag Strategy**: Use consistent tagging for reporting and automation
+- **Regular Audits**: Review device inventory and assignments quarterly
+- **Automated Enforcement**: Use Kandji's Auto Apps and Compliance features
+
+### Onboarding Efficiency
+
+- **Zero-Touch Setup**: Leverage Apple Business Manager for seamless enrollment
+- **Automated Provisioning**: Connect HRIS to trigger device assignment
+- **Self-Service Portal**: Enable users to request common apps via Harmony
+- **Welcome Documentation**: Provide clear setup guides for new users
+- **Progress Tracking**: Monitor onboarding completion rates
+
+### Security and Compliance
+
+- **Security Baselines**: Implement Kandji's recommended security parameters
+- **FileVault Enforcement**: Require disk encryption on all Macs
+- **OS Update Management**: Automate macOS updates with testing periods
+- **Password Policies**: Enforce strong password requirements
+- **Regular Reviews**: Audit compliance status and remediation rates
+
+### Performance Optimization
+
+- **Selective Sync**: Focus on actively managed devices
+- **Efficient Polling**: Use webhooks when available (check Kandji roadmap)
+- **Batch Operations**: Group device actions when possible
+- **Cache Management**: Cache frequently accessed device data
+- **Query Optimization**: Use filters to reduce API call volume
+
+## Data & Privacy
+
+### Data Handling
+
+- Device data encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches device metadata; full data remains in Kandji
+- User privacy respected per Apple's privacy features
+- Data retention configurable based on requirements
+- All data processing complies with GDPR and CCPA
+
+### Compliance
+
+- **GDPR**: Full compliance with EU data protection regulations
+- **CCPA**: California privacy law compliance
+- **SOC 2 Type II**: Both Kandji and Harmony maintain certification
+- **Apple Requirements**: Adheres to Apple's device management standards
+- **Audit Logging**: All actions logged for compliance reporting
+
+### Access Control
+
+- API token permissions are scoped to required actions only
+- Harmony respects Kandji's role-based access control
+- Integration can be disabled instantly from Harmony settings
+- API token can be revoked immediately in Kandji
+- All remote actions require appropriate permissions
+

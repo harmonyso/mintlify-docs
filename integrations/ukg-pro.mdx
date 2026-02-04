@@ -1,0 +1,356 @@
+---
+title: 'UKG Pro'
+description: 'Streamline enterprise HR and payroll with UKG Pro-driven IT provisioning and access workflows'
+icon: '/images/integrations/ukg-pro.svg'
+---
+
+## About UKG Pro
+
+UKG Pro (formerly UltiPro) is an enterprise HCM solution that manages the complete employee lifecycle from recruitment to retirement, including payroll, benefits, talent, and workforce management. Connecting UKG Pro to Harmony enables automated IT provisioning based on HR events, intelligent workforce management, and seamless organizational synchronization.
+
+## What the UKG Pro integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Employee Lifecycle Automation | Trigger IT actions based on hire, transfer, and termination events                            |
+| Organizational Sync           | Maintain current org structure and reporting relationships                                      |
+| Role-Based Provisioning       | Automatically provision access based on job roles                                              |
+| Payroll-Driven Workflows      | Coordinate IT operations with payroll events                                                    |
+| Position Management           | Track positions and assignments for resource allocation                                         |
+| Custom Field Integration      | Leverage UKG custom fields for IT-specific data                                                |
+
+## Prerequisites
+
+Before configuring the UKG Pro integration, ensure you have:
+
+- **UKG Pro Administrator Access**: System administrator role with API access
+- **UKG Pro Subscription**: Active UKG Pro subscription with API entitlements
+- **API Credentials**: Service account credentials from UKG
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **UKG API Access**: Enabled in your UKG Pro instance
+
+## Configuration in UKG Pro
+
+### Step 1: Create API Service Account
+
+1. Log in to UKG Pro as system administrator
+2. Navigate to **System Configuration** > **Security** > **Service Accounts**
+3. Click **Add Service Account**
+4. Configure:
+   - **Username**: `harmony_integration_svc`
+   - **Description**: "Harmony IT Operations Integration"
+   - **Authentication Type**: API Key
+   - **API Permissions**: Select required permissions:
+     - Employee Data: Read
+     - Organizational Data: Read
+     - Employment Records: Read
+     - Custom Fields: Read
+5. Click **Generate API Key**
+6. **Copy the API Key, Customer API Key, and User API Key**
+
+### Step 2: Configure API Permissions
+
+Ensure the service account can access required endpoints:
+
+- Person Information API
+- Organization API
+- Employment API
+- Job Information API
+- Custom Fields API (if using custom fields)
+
+### Step 3: Set Up Custom Fields (Optional)
+
+Add IT-specific fields to employee records:
+
+1. Go to **System Configuration** > **Employee Data** > **Custom Fields**
+2. Create fields:
+   - IT Asset ID
+   - Primary Device Type
+   - Software Access Level
+   - Remote Work Status
+3. Make fields visible to API
+4. Document field codes for mapping
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **UKG Pro** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **UKG Instance URL**: Your UKG Pro instance URL
+- **Customer API Key**: From service account creation
+- **User API Key**: From service account creation  
+- **Service Account Username**: The service account username
+- **Service Account Password**: The service account password
+
+Click **Verify Connection**
+
+### Step 3: Configure Data Sync
+
+1. **Sync Frequency**: Choose interval (hourly or daily recommended)
+2. **Employee Status Filter**: Select statuses:
+   - ☑️ Active
+   - ☑️ Pending (for new hires)
+   - ☐ Terminated (optional)
+   - ☐ Leave of Absence
+3. **Data Fields**: Select fields to sync:
+   - Personal (name, email, employee ID)
+   - Organization (department, job title, manager)
+   - Employment (hire date, status, location, pay group)
+   - Position (position code, grade, level)
+   - Custom fields (IT-specific data)
+4. **Organization Mapping**: Map UKG departments/divisions to Harmony teams
+
+### Step 4: Set Up Automation Rules
+
+Configure enterprise-scale workflows:
+
+1. **Enterprise Onboarding**:
+   - Trigger: New employee record created
+   - Pre-board (2 weeks before): Order hardware, prepare accounts
+   - Week before: Ship device, send welcome email
+   - Start date: Enable all accounts, assign licenses
+   - Day 1: Send onboarding checklist, assign IT buddy
+2. **Position Changes**:
+   - Trigger: Position or job code changes
+   - Actions: Adjust access based on new role
+   - Escalate: Require approval for elevated access
+   - Document: Log all permission changes
+3. **Organizational Changes**:
+   - Trigger: Department or business unit transfer
+   - Actions: Update group memberships, adjust workflows
+   - Notify: Alert new manager and IT team
+4. **Termination Workflow**:
+   - Trigger: Employment status = "Terminated"
+   - Immediate: Disable accounts, revoke access
+   - 24 hours: Archive email, transfer files
+   - 7 days: Remove from all systems
+   - Document: Generate comprehensive offboarding report
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From UKG Pro to Harmony
+
+- **Employee Records**: Complete employee profiles
+- **Personal Information**: Name, contact info, employee number
+- **Employment Details**: Job title, department, business unit, division
+- **Organizational Data**: Manager, supervisor, organizational hierarchy
+- **Position Information**: Position code, job code, grade, level
+- **Employment Status**: Active, pending, terminated, LOA
+- **Work Location**: Physical location, remote status
+- **Employment Dates**: Hire date, termination date, original hire date
+- **Pay Information**: Pay group, pay frequency (optional)
+- **Custom Fields**: IT-configured custom field values
+- **Organization Structure**: Complete org chart and reporting relationships
+
+### From Harmony to UKG Pro
+
+- **IT Asset Information**: Update custom fields with device data
+- **Contact Information**: Update work phone, mobile (if permitted)
+- **Custom Field Updates**: Populate IT-specific custom fields
+- **Notes**: Add IT onboarding/offboarding notes to employee records
+
+## Use Cases
+
+### Enterprise-Scale Onboarding
+
+Automated provisioning for large organizations:
+
+1. HR adds 50 new hires for quarterly start date
+2. Harmony processes new employee batch
+3. For each employee:
+   - Determines hardware needs by role and location
+   - Orders devices 3 weeks in advance
+   - Creates accounts in all required systems
+   - Assigns Microsoft 365 licenses
+   - Provisions role-based application access
+   - Schedules device shipment to arrive before start date
+4. On start date:
+   - Enables all accounts simultaneously
+   - Sends personalized welcome messages
+   - Creates individual onboarding tickets
+   - Tracks setup completion by cohort
+
+### Position-Based Access Control
+
+Dynamic permissions based on job roles:
+
+```
+Scenario: Promotion from Analyst to Manager
+1. HR updates position code: A01 → M02
+2. UKG Pro syncs position change to Harmony
+3. Harmony detects elevated position
+4. Automatically grants:
+   - Manager dashboard access
+   - Budget approval permissions
+   - Team management tools
+   - Elevated AWS/Azure permissions
+5. Removes: Limited analyst-only access
+6. Notifies: Employee and IT team of changes
+7. Documents: All permission modifications for audit
+```
+
+### Business Unit Reorganization
+
+Automated access during corporate restructuring:
+
+- Company reorganizes: Engineering splits into Platform and Products
+- 200 employees reassigned to new business units in UKG Pro
+- Harmony processes bulk organizational changes:
+  - Updates Slack channels and workspaces
+  - Adjusts GitHub organization teams
+  - Modifies AWS account access
+  - Updates Jira project permissions
+  - Changes email distribution lists
+  - Redirects approval workflows
+- Generates impact report for management
+- Verifies all changes with spot checks
+
+### Acquisition Integration
+
+Onboarding acquired company employees:
+
+1. Acquisition closes, 500 employees added to UKG Pro
+2. Harmony processes new employee cohort
+3. Identifies acquisition employees by business unit code
+4. Special onboarding workflow:
+   - Creates accounts with acquisition welcome template
+   - Provisions access based on equivalent roles
+   - Schedules hardware migration timeline
+   - Provides transition resources and FAQs
+5. Tracks integration progress by department
+6. Reports completion metrics to leadership
+
+### Leave of Absence Management
+
+Temporary access control for extended leaves:
+
+- Employee goes on medical leave (6 months)
+- HR updates status in UKG Pro to "LOA"
+- Harmony:
+  1. Suspends non-critical accounts
+  2. Maintains email access (read-only)
+  3. Sets out-of-office notifications
+  4. Removes from distribution lists
+  5. Pauses license billing where possible
+  6. Documents leave start and return dates
+- Before return:
+  7. Re-enables all accounts
+  8. Restores full permissions
+  9. Sends welcome back communication
+  10. Schedules IT check-in
+
+## Troubleshooting
+
+### Authentication Failures
+
+**Issue**: "Unauthorized" or API authentication errors
+
+**Solutions**:
+- Verify Customer API Key and User API Key are correct
+- Check service account hasn't been disabled
+- Ensure API access is enabled in UKG Pro instance
+- Confirm service account has required permissions
+- Review UKG Pro API logs for specific errors
+
+### Employees Not Syncing
+
+**Issue**: New employees don't appear in Harmony
+
+**Solutions**:
+- Verify service account has Person Information API access
+- Check employment status filter settings
+- Ensure employees have required fields (email, employee number)
+- Trigger manual sync from Harmony dashboard
+- Review sync logs for specific errors or failures
+
+### Organizational Structure Issues
+
+**Issue**: Reporting relationships incorrect
+
+**Solutions**:
+- Verify service account has Organization API access
+- Check that manager relationships are current in UKG Pro
+- Review organizational hierarchy mapping
+- Ensure position and reporting structure data is complete
+- Refresh organization sync manually
+
+### Slow Sync Performance
+
+**Issue**: Data synchronization takes too long
+
+**Solutions**:
+- UKG Pro API has rate limits for large datasets
+- Adjust sync frequency to off-peak hours
+- Use incremental sync instead of full sync when possible
+- Reduce number of fields synced
+- Contact UKG support to review API performance
+
+## Best Practices
+
+### Enterprise Data Management
+
+- **Data Governance**: Establish clear data ownership and quality standards
+- **Regular Audits**: Review employee data accuracy quarterly
+- **Position Codes**: Maintain consistent job and position coding
+- **Organizational Design**: Keep org structure current in UKG
+- **Custom Field Standards**: Document custom field usage and meanings
+
+### Automation at Scale
+
+- **Batch Processing**: Group similar provisioning tasks for efficiency
+- **Exception Handling**: Plan for edge cases and manual overrides
+- **Testing Environment**: Test automation with non-production data first
+- **Rollback Procedures**: Maintain ability to reverse bulk changes
+- **Performance Monitoring**: Track automation success rates and timing
+
+### Security and Compliance
+
+- **Role-Based Access**: Use position and job codes for access decisions
+- **Approval Workflows**: Require approvals for sensitive access
+- **Audit Trail**: Maintain comprehensive logs of all changes
+- **Regular Recertification**: Conduct access reviews quarterly
+- **Segregation of Duties**: Enforce SoD policies in automation
+
+### Change Management
+
+- **Communication**: Notify affected employees of access changes
+- **Training**: Provide resources for new systems and access
+- **Support**: Ensure helpdesk ready for post-change support
+- **Rollback Planning**: Have contingency plans for major changes
+- **Post-Implementation Review**: Evaluate automation effectiveness
+
+## Data & Privacy
+
+### Data Handling
+
+- Employee data encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches essential HR data for operational purposes
+- Sensitive data (SSN, compensation details) excluded from sync
+- Data processed according to GDPR, CCPA, SOX, and privacy regulations
+- Data retention configurable for compliance requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with EU data protection regulations
+- **CCPA**: California Consumer Privacy Act compliance
+- **SOX**: Sarbanes-Oxley compliance for public companies
+- **SOC 2 Type II**: Both UKG Pro and Harmony maintain certification
+- **Audit Trails**: All employee data access and changes logged
+- **Data Minimization**: Only sync fields necessary for IT operations
+
+### Access Control
+
+- Service account credentials scoped to minimum permissions
+- API keys encrypted and stored securely in Harmony
+- Integration can be disabled immediately if needed
+- All automation actions logged with employee and admin context
+- Role-based access control in Harmony for viewing HR data
+

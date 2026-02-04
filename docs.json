@@ -8,6 +8,7 @@
     "dark": "#4E2ABD"
   },
   "favicon": "/favicon.svg",
+  "css": "/custom.css",
   "navigation": {
     "tabs": [
       {
@@ -16,33 +17,7 @@
           {
             "group": "Getting started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "index"
             ]
           }
         ]
@@ -58,22 +33,114 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
+          {
+            "group": " ",
+            "pages": [
+              "integrations/overview"
+            ]
+          },
+          {
+            "group": "Collaboration",
+            "pages": [
+              "integrations/slack",
+              "integrations/teams"
+            ]
+          },
+          {
+            "group": "Identity Provider",
+            "pages": [
+              "integrations/okta",
+              "integrations/microsoft-entra",
+              "integrations/google-workspace",
+              "integrations/jumpcloud-idp"
+            ]
+          },
+          {
+            "group": "IT Service Management",
+            "pages": [
+              "integrations/atlassian",
+              "integrations/manage-engine-servicedesk",
+              "integrations/solarwinds",
+              "integrations/zendesk"
+            ]
+          },
+          {
+            "group": "HRIS",
+            "pages": [
+              "integrations/bamboohr",
+              "integrations/ceridian-dayforce",
+              "integrations/hibob",
+              "integrations/sage-hr",
+              "integrations/ukg-pro",
+              "integrations/workday"
+            ]
+          },
+          {
+            "group": "MDM",
+            "pages": [
+              "integrations/apple-business-manager",
+              "integrations/microsoft-intune",
+              "integrations/jamf",
+              "integrations/jumpcloud-mdm",
+              "integrations/kandji",
+              "integrations/manage-engine-mdm"
+            ]
+          },
+          {
+            "group": "Knowledge Base",
+            "pages": [
+              "integrations/confluence",
+              "integrations/freshservice",
+              "integrations/notion",
+              "integrations/sharepoint",
+              "integrations/simpplr"
+            ]
+          },
+          {
+            "group": "EDR",
+            "pages": [
+              "integrations/crowdstrike",
+              "integrations/sentinelone"
+            ]
+          },
+          {
+            "group": "SaaS Applications",
+            "pages": [
+              "integrations/github",
+              "integrations/monday",
+              "integrations/zoom"
+            ]
+          },
+          {
+            "group": "Software Management",
+            "pages": [
+              "integrations/torii"
+            ]
+          },
+          {
+            "group": "IT Asset Management",
+            "pages": [
+              "integrations/workwize"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Trust & Security",
+        "groups": [
+          {
+            "group": " ",
+            "pages": [
+              "trust-security/overview"
+            ]
+          }
+        ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
@@ -83,17 +150,12 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:info@harmony.io"
+        "href": "mailto:support@harmony.io"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://prod.harmony.io/"
-    }
+    ]
   },
   "api": {
-    "baseUrl": "http://localhost:8000",
+    "baseUrl": "https://<customer_subdomain>.harmony.io",
     "auth": {
       "method": "bearer"
     },

@@ -1,0 +1,90 @@
+---
+title: 'Atlassian'
+description: 'Integrate Jira issues and Confluence knowledge with autonomous resolution workflows'
+icon: '/images/integrations/confluence.svg'
+---
+
+## About Atlassian
+
+Atlassian provides a suite of collaboration and project management tools including Jira, Confluence, and Jira Service Management. Connecting Atlassian to Harmony enables bidirectional ticket synchronization, AI-powered knowledge base access, and seamless integration between traditional ITSM and autonomous IT operations.
+
+## What the Atlassian integration enables
+
+| Capability                   | Description                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| Jira Ticket Sync             | Bidirectional synchronization with Jira and Jira Service Management                             |
+| Confluence Knowledge Base    | Search and retrieve Confluence content for AI responses                                          |
+| Project Tracking             | Link IT operations with Jira projects and sprints                                               |
+| Automation Integration       | Coordinate Jira automation rules with Harmony workflows                                          |
+| Asset Management             | Sync with Jira Service Management asset database                                                 |
+| SLA Tracking                 | Maintain SLA compliance across both platforms                                                    |
+
+## Prerequisites
+
+- **Atlassian Cloud Admin Access**: Site admin or org admin role
+- **Jira/JSM Instance**: Active Jira or Jira Service Management instance
+- **Confluence Space**: Confluence space with IT documentation (optional)
+- **API Token**: Generated from Atlassian account settings
+- **Harmony Account**: Active Harmony workspace
+
+## Configuration
+
+### In Atlassian
+
+1. Log in to [id.atlassian.com](https://id.atlassian.com)
+2. Go to **Settings** > **Security** > **API tokens**
+3. Click **Create API token**
+4. Name it "Harmony Integration"
+5. Copy the token
+
+**Configure Jira:**
+1. Create custom fields for Harmony sync:
+   - Harmony Ticket ID
+   - Harmony Status
+   - AI Resolution Flag
+2. Set up automation rules to trigger webhooks (optional)
+
+**Configure Confluence:**
+1. Create or identify IT knowledge space
+2. Ensure proper page organization and labels
+3. Set appropriate permissions
+
+### In Harmony
+
+1. Go to **Settings** > **Integrations** > **Atlassian**
+2. Enter credentials:
+   - Atlassian Site URL (e.g., `yourcompany.atlassian.net`)
+   - Email address
+   - API Token
+3. Select Jira projects to sync
+4. Select Confluence spaces for knowledge base
+5. Configure field mapping and status synchronization
+6. Enable automation workflows
+
+## What Harmony Syncs
+
+**From Atlassian:**
+- Jira issues and tickets (JSM requests)
+- Issue status, priority, assignee
+- Comments and attachments
+- Custom fields and labels
+- Confluence pages and content
+- Space and page hierarchy
+- Asset information (JSM)
+- SLA metrics
+
+**To Atlassian:**
+- New Jira issues from Harmony tickets
+- Status and resolution updates
+- AI-generated comments and notes
+- Links to documentation
+- Time tracking entries
+- Asset updates
+
+## Use Cases
+
+- **Hybrid ITSM**: Maintain Jira Service Management while using Harmony AI for resolution
+- **Knowledge Integration**: Surface Confluence articles during support conversations
+- **Developer Workflows**: Link IT operations with engineering Jira projects
+- **Migration Path**: Gradual transition from JSM to Harmony with bidirectional sync
+

@@ -1,0 +1,342 @@
+---
+title: 'Torii'
+description: 'Optimize SaaS spend and automate license management with Torii intelligent platform'
+icon: '/images/integrations/torii.svg'
+---
+
+## About Torii
+
+Torii is a SaaS management platform that provides visibility, optimization, and automation for your entire SaaS stack. Connecting Torii to Harmony enables intelligent license management, automated provisioning workflows, and data-driven SaaS optimization to reduce costs and improve security.
+
+## What the Torii integration enables
+
+| Capability                   | Description                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| License Optimization         | Track and optimize SaaS licenses across all applications                                         |
+| Automated Provisioning       | Provision SaaS access based on employee onboarding                                              |
+| Offboarding Automation       | Revoke SaaS access during employee exits                                                        |
+| Usage Analytics              | Track application usage to identify unused licenses                                              |
+| Cost Management              | Monitor SaaS spending and identify savings opportunities                                         |
+| Shadow IT Discovery          | Detect and manage unsanctioned applications                                                      |
+
+## Prerequisites
+
+Before configuring the Torii integration, ensure you have:
+
+- **Torii Administrator Access**: Admin role in Torii
+- **Torii Subscription**: Active Torii account
+- **API Token**: Generated from Torii settings
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Connected Apps**: SaaS applications connected to Torii
+
+## Configuration in Torii
+
+### Step 1: Generate API Token
+
+1. Log in to Torii at `https://app.toriihq.com`
+2. Click **Settings** > **Integrations** > **API**
+3. Click **Generate New Token**
+4. Configure:
+   - **Name**: "Harmony Integration"
+   - **Permissions**: Full access (or scoped to Users, Apps, Licenses)
+5. Click **Generate**
+6. **Copy the API token immediately**
+
+### Step 2: Connect SaaS Applications
+
+Ensure your SaaS apps are connected to Torii:
+
+1. Go to **Apps** > **App Catalog**
+2. Connect key applications:
+   - Identity providers (Okta, Google Workspace)
+   - Collaboration (Slack, Microsoft Teams)
+   - Development (GitHub, GitLab)
+   - Productivity (Notion, Asana, Monday)
+3. Authorize Torii to access user and license data
+4. Configure sync frequency (real-time recommended)
+
+### Step 3: Set Up License Types
+
+Define license types for tracking:
+
+1. Navigate to **Settings** > **License Management**
+2. Create license types:
+   - Named User License
+   - Concurrent User License
+   - Usage-Based License
+3. Map applications to license types
+4. Set cost per license for cost tracking
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Torii** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **API Token**: The token you generated from Torii
+- **Organization ID**: Your Torii organization ID
+
+Click **Verify Connection**
+
+### Step 3: Configure License Management
+
+1. **App Sync**: Select which Torii apps to manage via Harmony
+2. **License Pools**: Define license pools for common apps:
+   - Microsoft 365 E3
+   - Slack Enterprise
+   - GitHub Enterprise Seats
+   - Figma Professional
+3. **Cost Thresholds**: Set alerts for spending limits
+4. **Usage Monitoring**: Enable tracking of inactive licenses
+5. **Shadow IT Policy**: Define how to handle discovered shadow IT
+
+### Step 4: Set Up Automation Rules
+
+Configure intelligent workflows:
+
+1. **Onboarding License Provisioning**:
+   - Trigger: New employee added (from HRIS)
+   - Check: Torii for available licenses
+   - Assign: Provision licenses based on role
+   - Track: Log license assignment
+   - Alert: Notify if licenses need purchase
+2. **Offboarding License Revocation**:
+   - Trigger: Employee termination
+   - Retrieve: Get all SaaS apps assigned to user
+   - Revoke: Remove access from all applications
+   - Reclaim: Return licenses to available pool
+   - Report: Document all revoked access
+3. **Inactive License Cleanup**:
+   - Trigger: License inactive for 30 days
+   - Notify: Alert user and manager
+   - Grace period: 7 days to respond
+   - Revoke: Remove if no response
+   - Reallocate: Assign to pending requests
+4. **Shadow IT Detection**:
+   - Trigger: Torii discovers unsanctioned app usage
+   - Assess: Evaluate security risk
+   - Notify: Alert security and IT team
+   - Action: Request approval or block
+   - Document: Log shadow IT incidents
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From Torii to Harmony
+
+- **Applications**: All discovered SaaS applications
+- **Licenses**: License counts and assignments
+- **Users**: User accounts across all apps
+- **Usage Data**: Application usage statistics
+- **Cost Data**: Spending by application and user
+- **Contracts**: Contract details and renewal dates
+- **Vendors**: Vendor information and contacts
+- **Integrations**: Connected applications and auth methods
+- **Shadow IT**: Discovered unsanctioned applications
+
+### From Harmony to Torii
+
+- **License Assignments**: Provision users to applications
+- **License Revocations**: Remove user access
+- **User Updates**: Update user information
+- **App Approval Status**: Mark apps as approved/denied
+- **Cost Allocations**: Update department cost allocations
+- **Contract Notes**: Add notes to contracts
+
+## Use Cases
+
+### Automated License Lifecycle
+
+End-to-end license management:
+
+1. **Hire**: New employee (Marketing Manager)
+2. **Check**: Torii for available licenses
+3. **Provision**: Assign licenses:
+   - Slack Enterprise ($8/mo)
+   - HubSpot Professional ($50/mo)
+   - Canva Pro ($13/mo)
+   - Zoom ($15/mo)
+4. **Track**: Monitor usage after 30 days
+5. **Optimize**: Revoke Canva if unused
+6. **Terminate**: Reclaim all licenses on exit
+
+### Cost Optimization
+
+Identify and eliminate waste:
+
+```
+Scenario: Quarterly License Review
+1. Torii identifies 15 inactive Figma licenses
+2. Harmony notifies license owners:
+   "Your Figma license hasn't been used in 60 days"
+3. Owners respond:
+   - 8 users: "Don't need it anymore"
+   - 5 users: "Still need it"
+   - 2 users: No response (auto-revoked after 7 days)
+4. Licenses revoked: 10 total
+5. Monthly savings: $150 (10 × $15/mo)
+6. Annual savings: $1,800
+7. Reallocate licenses to waitlist requests
+```
+
+### Shadow IT Governance
+
+Manage unsanctioned application usage:
+
+- Torii discovers employee using Dropbox (not approved)
+- Harmony creates security review ticket
+- Security team assesses:
+  - Risk level: Medium
+  - Business justification: Valid
+  - Official alternative: Google Drive
+- Harmony notifies employee:
+  - Explains security policy
+  - Offers Google Drive as alternative
+  - Provides migration assistance
+- If accepted: Provisions Google Drive, blocks Dropbox
+- If declined: Escalates to manager for decision
+- Documents outcome in compliance records
+
+### Just-in-Time Provisioning
+
+On-demand access with automated cleanup:
+
+- Developer: "I need temporary Datadog access for 2 weeks"
+- Harmony checks Torii for available license
+- Assigns Datadog license with 14-day expiration
+- Sends access credentials
+- After 14 days:
+  - Automatically revokes access
+  - Returns license to pool
+  - Notifies user of expiration
+- Developer can request extension if needed
+
+### New Starter License Optimization
+
+Role-based intelligent provisioning:
+
+1. New hire: Software Engineer
+2. Harmony consults Torii for standard engineer apps
+3. Analyzes usage patterns of similar engineers
+4. Provisions core tools immediately:
+   - GitHub (100% of engineers use)
+   - Slack (100% use)
+   - Zoom (100% use)
+5. Defers optional tools:
+   - Figma (40% use) - Provision on request
+   - Postman (60% use) - Provision on request
+6. Saves $50/month by not over-provisioning
+7. Provides self-service catalog for additional tools
+
+## Troubleshooting
+
+### Applications Not Syncing
+
+**Issue**: Torii apps don't appear in Harmony
+
+**Solutions**:
+- Verify API token has Apps read permission
+- Check that apps are properly connected in Torii
+- Ensure Torii has completed discovery scan
+- Trigger manual sync from Harmony dashboard
+- Review Torii connection status for each app
+
+### License Assignment Failures
+
+**Issue**: Cannot assign licenses to users
+
+**Solutions**:
+- Verify API token has Users write permission
+- Check that licenses are available in Torii
+- Ensure user exists in Torii database
+- Confirm application supports API provisioning
+- Review Torii logs for specific errors
+
+### Usage Data Not Updating
+
+**Issue**: Usage statistics are outdated
+
+**Solutions**:
+- Check Torii data connector status
+- Verify applications are sharing usage data
+- Some apps update usage data weekly/monthly
+- Trigger manual refresh in Torii
+- Review app-specific sync schedules
+
+### Cost Data Missing
+
+**Issue**: Spending information incomplete
+
+**Solutions**:
+- Verify cost data entered in Torii for each app
+- Check that license costs are configured
+- Ensure contract information is up to date
+- Update cost allocations in Torii
+- Review finance integration settings
+
+## Best Practices
+
+### License Management
+
+- **Regular Audits**: Review licenses monthly for optimization
+- **Usage Thresholds**: Define clear inactivity thresholds (30-60 days)
+- **Communication**: Notify users before revoking licenses
+- **Self-Service**: Enable users to request access themselves
+- **Cost Tracking**: Monitor spending trends and budgets
+
+### Shadow IT Governance
+
+- **Detection Policies**: Define what constitutes shadow IT
+- **Risk Assessment**: Evaluate security and compliance risks
+- **Alternative Offering**: Provide approved alternatives
+- **Education**: Explain why certain apps aren't approved
+- **Exceptions Process**: Allow justified exceptions with approval
+
+### Onboarding Efficiency
+
+- **Role-Based Templates**: Define standard app sets by role
+- **Just-in-Time Provisioning**: Provision only what's needed initially
+- **Self-Service Catalog**: Allow employees to request additional apps
+- **Usage Monitoring**: Track which apps new hires actually use
+- **Template Optimization**: Refine templates based on usage data
+
+### Cost Optimization
+
+- **Vendor Negotiations**: Use usage data in renewal negotiations
+- **Right-Sizing**: Match license tiers to actual usage
+- **Consolidation**: Eliminate redundant applications
+- **Utilization Targets**: Set minimum utilization thresholds
+- **Forecasting**: Project future license needs for budgeting
+
+## Data & Privacy
+
+### Data Handling
+
+- Application and license data encrypted in transit (TLS 1.2+)
+- Harmony caches license assignments and usage statistics
+- User activity data processed for optimization only
+- Financial data handled according to data protection regulations
+- Data retention configurable to match compliance requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with data protection regulations
+- **SOC 2 Type II**: Both Torii and Harmony maintain certification
+- **Data Minimization**: Only sync necessary application data
+- **Audit Trails**: All license changes logged
+- **Vendor Management**: Maintain vendor compliance records
+
+### Access Control
+
+- API token scoped to required permissions only
+- Token encrypted in Harmony
+- Integration can be disabled immediately
+- All provisioning actions logged
+- Role-based access in Harmony for license management
+

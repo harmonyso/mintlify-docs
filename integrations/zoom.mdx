@@ -1,0 +1,398 @@
+---
+title: 'Zoom'
+description: 'Optimize license spend and automate meeting room management with intelligent usage tracking'
+icon: '/images/integrations/zoom.svg'
+---
+
+## About Zoom
+
+Zoom is a video communications platform that provides video conferencing, webinars, and collaboration tools. Connecting Zoom to Harmony enables intelligent license optimization, automated usage tracking, and data-driven insights to reduce costs and improve meeting room efficiency.
+
+## What the Zoom integration enables
+
+| Capability               | Description                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| License Optimization     | Track Zoom usage to identify underutilized licenses and reduce costs                      |
+| Usage Analytics          | Understand meeting patterns, user adoption, and collaboration trends                       |
+| Automated Provisioning   | Streamline user onboarding and license assignment workflows                                |
+| Meeting Room Management  | Optimize Zoom Rooms allocation and identify unused conference room licenses                |
+| Compliance Reporting     | Generate audit reports for meeting history and user activity                               |
+| Automation Workflows     | Build custom workflows using the Zoom API for user and meeting management                  |
+
+Anything defined in the [Zoom API](https://developers.zoom.us/docs/api/) can be accessed through Harmony workflows.
+
+***
+
+## Prerequisites
+
+Before connecting Zoom to Harmony, ensure you have:
+
+1. **Zoom Administrator access** (Account Owner or Admin role)
+2. **A Zoom Business, Education, or Enterprise account** (Pro accounts have limited API access)
+3. **A Harmony account** with admin privileges
+4. **Permission to install Zoom apps** (may require organizational approval)
+
+<Note>
+  Zoom Pro accounts have limited API capabilities. For full integration features, a Business or Enterprise account is recommended.
+</Note>
+
+***
+
+## Zoom Configuration
+
+### Step 1: Create a Server-to-Server OAuth App
+
+<Steps>
+  <Step title="Navigate to Zoom App Marketplace">
+    1. Sign in to the [Zoom App Marketplace](https://marketplace.zoom.us/)
+    2. Click **Develop** in the top-right corner
+    3. Select **Build App**
+  </Step>
+
+  <Step title="Create Server-to-Server OAuth App">
+    1. Choose **Server-to-Server OAuth** as the app type
+    2. Click **Create**
+    3. Enter app details:
+       - **App Name**: `Harmony Integration`
+       - **Company Name**: Your organization name
+       - **Developer Contact**: Your email address
+    4. Click **Continue**
+  </Step>
+
+  <Step title="Note Credentials">
+    On the **App Credentials** page, copy the following securely:
+
+    | Credential        | Description                                    |
+    | ----------------- | ---------------------------------------------- |
+    | **Account ID**    | Your Zoom account identifier                   |
+    | **Client ID**     | OAuth application client identifier            |
+    | **Client Secret** | OAuth application secret (shown once)          |
+
+    <Warning>
+      Save the Client Secret securely—you cannot view it again. If lost, you'll need to regenerate it.
+    </Warning>
+  </Step>
+</Steps>
+
+### Step 2: Configure OAuth Scopes
+
+<Steps>
+  <Step title="Navigate to Scopes">
+    1. On the app configuration page, click on the **Scopes** tab
+    2. Click **+ Add Scopes**
+  </Step>
+
+  <Step title="Add Required Scopes">
+    Search for and add the following scopes:
+
+    | Scope                          | Purpose                                              |
+    | ------------------------------ | ---------------------------------------------------- |
+    | `account:read:admin`           | Read account information and settings                |
+    | `user:read:admin`              | Read user profiles and details                       |
+    | `user:write:admin`             | Manage user accounts and licenses                    |
+    | `meeting:read:admin`           | Read meeting information and history                 |
+    | `meeting:write:admin`          | Manage meetings and webinars                         |
+    | `report:read:admin`            | Access usage reports and analytics                   |
+    | `dashboard:read:admin`         | Read dashboard metrics for license optimization      |
+    | `phone:read:admin`             | Read Zoom Phone usage (if applicable)                |
+    | `room:read:admin`              | Read Zoom Rooms information                          |
+    | `room:write:admin`             | Manage Zoom Rooms                                    |
+
+    <Tip>
+      Only add scopes for features you plan to use. You can always add more scopes later if needed.
+    </Tip>
+  </Step>
+
+  <Step title="Save Configuration">
+    1. Click **Done** after adding all required scopes
+    2. Click **Continue** to proceed
+  </Step>
+</Steps>
+
+### Step 3: Activate the App
+
+<Steps>
+  <Step title="Complete App Information">
+    1. Fill in any remaining required fields (short description, logo, etc.)
+    2. These details are for internal identification only
+  </Step>
+
+  <Step title="Activate">
+    1. Review the app configuration
+    2. Click **Activate** to enable the app
+    3. The app status should change to **Activated**
+  </Step>
+</Steps>
+
+***
+
+## Harmony Configuration
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. Log into your Harmony dashboard
+    2. Navigate to **Settings → Integrations**
+    3. Find **Zoom** under **Collaboration**
+    4. Click **Connect**
+  </Step>
+
+  <Step title="Enter Configuration">
+    Fill in the following fields with values from your Zoom app:
+
+    | Field             | Description                                  | Example                      |
+    | ----------------- | -------------------------------------------- | ---------------------------- |
+    | **Account ID**    | Your Zoom account identifier                 | `abc123xyz456`               |
+    | **Client ID**     | OAuth application client ID                  | `aBcDeFgHiJkLmNoPqRsTuVwXyZ` |
+    | **Client Secret** | OAuth application client secret              | `••••••••••••`               |
+
+    <Note>
+      Harmony uses Server-to-Server OAuth for secure, automated access without requiring user login.
+    </Note>
+  </Step>
+
+  <Step title="Test Connection">
+    1. Click **Connect**
+    2. Harmony will test the connection by fetching basic account information
+    3. If successful, you'll see a confirmation message
+    4. User and usage data sync will begin automatically
+  </Step>
+</Steps>
+
+***
+
+## Verify the Integration
+
+After connecting, verify that Harmony can access your Zoom data:
+
+<Steps>
+  <Step title="Check User Sync">
+    1. Navigate to **Users** in the Harmony dashboard
+    2. Filter by Zoom integration
+    3. Verify that Zoom users are synced with their license types
+    4. Check that user status (active, inactive) is accurate
+  </Step>
+
+  <Step title="Review License Analytics">
+    1. Navigate to **Applications → Zoom** in Harmony
+    2. View license utilization dashboard
+    3. Identify underutilized licenses
+    4. Review cost optimization recommendations
+  </Step>
+
+  <Step title="Test Workflows">
+    1. Create a test workflow using Zoom actions (e.g., "Assign license to user")
+    2. Execute the workflow
+    3. Verify the changes in your Zoom admin portal
+  </Step>
+</Steps>
+
+***
+
+## What Harmony Syncs from Zoom
+
+Once connected, Harmony automatically syncs the following data:
+
+### Users
+
+- User profiles (name, email, department)
+- License types (Basic, Licensed, On-Prem)
+- User status (active, inactive, pending)
+- Last login date and activity
+- Meeting host statistics
+
+### Meetings
+
+- Scheduled meetings and webinars
+- Meeting history and attendance
+- Recording information
+- Meeting duration and frequency
+
+### Usage Analytics
+
+- Daily/weekly/monthly active users
+- Meeting minutes consumed
+- Average meeting duration
+- Peak usage times and patterns
+- Adoption metrics by department
+
+### Licenses
+
+- Total license count by type
+- Assigned vs. unassigned licenses
+- License utilization percentage
+- Cost per license
+- Inactive users with licenses
+
+### Zoom Rooms
+
+- Room devices and status
+- Room utilization rates
+- Equipment health metrics
+- Booking patterns
+
+<Tip>
+  Harmony syncs data every 24 hours by default. Usage analytics are updated daily to provide fresh optimization insights.
+</Tip>
+
+***
+
+## Use Cases
+
+### License Optimization
+
+Harmony automatically identifies cost-saving opportunities:
+
+- **Unused Licenses**: Users with licenses who haven't hosted meetings in 30+ days
+- **Downgrade Candidates**: Licensed users who only attend (don't host) meetings
+- **Upgrade Candidates**: Basic users who frequently need to host meetings
+- **Seasonal Patterns**: Identify licenses that can be temporarily removed during low-usage periods
+
+**Estimated Savings**: Organizations typically save 15-30% on Zoom costs within the first quarter.
+
+### Automated Provisioning
+
+Streamline user onboarding with automated workflows:
+
+1. **New Hire Onboarding**: Automatically assign Zoom licenses based on department or role
+2. **Offboarding**: Remove licenses when users leave the organization
+3. **License Reallocation**: Reclaim licenses from inactive users and reassign to active users
+4. **Role-Based Assignment**: Auto-assign Pro vs. Basic licenses based on job function
+
+### Usage Insights
+
+Understand collaboration patterns to make data-driven decisions:
+
+- Identify departments with high/low Zoom adoption
+- Track meeting trends over time
+- Analyze Zoom Rooms utilization to optimize conference room investments
+- Measure impact of remote work policies on meeting frequency
+
+### Compliance & Governance
+
+Maintain audit trails and enforce policies:
+
+- Generate reports on meeting history for compliance audits
+- Track recording storage and retention
+- Monitor external participant access
+- Enforce meeting security settings organization-wide
+
+***
+
+## Troubleshooting
+
+### Connection fails with "Invalid credentials"
+
+**Possible causes:**
+- Incorrect Account ID, Client ID, or Client Secret
+- App not activated in Zoom Marketplace
+- Credentials expired or revoked
+
+**Solutions:**
+1. Verify you copied the credentials exactly without extra spaces
+2. Ensure the app status is **Activated** in Zoom App Marketplace
+3. Regenerate Client Secret if unsure about its validity
+4. Confirm you're using Server-to-Server OAuth (not OAuth or JWT)
+
+### User sync is incomplete
+
+**Possible causes:**
+- Missing `user:read:admin` scope
+- Users are pending activation in Zoom
+- API rate limits being hit
+
+**Solutions:**
+1. Verify all required scopes are granted to the app
+2. Check that users are fully activated in Zoom admin portal
+3. For large organizations (5,000+ users), contact Harmony support to enable incremental sync
+
+### Cannot assign licenses to users
+
+**Possible causes:**
+- Missing `user:write:admin` scope
+- No available licenses to assign
+- User is not eligible for the license type
+
+**Solutions:**
+1. Ensure `user:write:admin` scope is granted
+2. Verify you have unassigned licenses available in Zoom
+3. Check that user meets requirements for the license type (e.g., email domain)
+
+### Usage data not updating
+
+**Possible causes:**
+- Missing `report:read:admin` or `dashboard:read:admin` scopes
+- Zoom's API reporting delay (up to 24 hours)
+- Account doesn't have Business or Enterprise plan
+
+**Solutions:**
+1. Verify reporting scopes are granted
+2. Wait 24-48 hours after first connection for initial data
+3. Confirm your Zoom account has access to reporting APIs (Business+ plan)
+
+***
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Schedule Regular License Reviews">
+    Set up automated workflows to:
+    - Review inactive licenses weekly
+    - Send reminders to users with low usage
+    - Auto-reclaim licenses from users inactive for 60+ days
+    - Generate monthly cost optimization reports
+  </Accordion>
+
+  <Accordion title="Implement Approval Workflows">
+    For license requests:
+    - Require manager approval for Pro license upgrades
+    - Auto-approve Basic license assignments
+    - Route webinar license requests to IT leadership
+    - Track license request patterns to forecast needs
+  </Accordion>
+
+  <Accordion title="Monitor Zoom Rooms ROI">
+    Optimize conference room investments:
+    - Track booking rates vs. capacity
+    - Identify underutilized rooms for repurposing
+    - Right-size room licenses based on actual usage
+    - Set alerts for rooms with technical issues
+  </Accordion>
+
+  <Accordion title="Leverage Usage Analytics">
+    Make data-driven decisions:
+    - Compare usage across departments
+    - Identify training needs based on adoption rates
+    - Correlate meeting patterns with productivity metrics
+    - Plan capacity for peak usage periods
+  </Accordion>
+</AccordionGroup>
+
+***
+
+## Data Retention
+
+Harmony stores the following Zoom data:
+
+- **User profiles**: Retained while integration is active
+- **Meeting history**: Last 12 months of meeting metadata
+- **Usage analytics**: Rolling 12-month aggregated statistics
+- **License assignments**: Current state plus 30-day history
+
+When you disconnect the integration, data is retained for 30 days then permanently deleted.
+
+***
+
+Need help? Contact **[support@harmony.io](mailto:support@harmony.io)** for assistance with your Zoom integration.
+
+***
+
+## Data & Privacy
+
+For information about how Harmony handles your data, see our [Privacy Policy](https://harmony.io/privacy).
+
+**Key privacy principles:**
+- Zoom credentials are encrypted at rest and in transit
+- Only metadata (not meeting content) is accessed
+- Usage data is anonymized in aggregate reports
+- Recordings are never accessed or stored by Harmony
+- Integration can be revoked at any time from Zoom or Harmony settings

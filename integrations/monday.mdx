@@ -1,0 +1,335 @@
+---
+title: 'Monday'
+description: 'Streamline project workflows with Monday.com integration for automated task management'
+icon: '/images/integrations/monday.svg'
+---
+
+## About Monday
+
+Monday.com is a work operating system that enables teams to run projects and workflows with confidence. Connecting Monday to Harmony allows IT teams to track projects, automate task creation from IT requests, and maintain visibility across project management and IT operations.
+
+## What the Monday integration enables
+
+| Capability                   | Description                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| Task Automation              | Create Monday tasks automatically from IT tickets                                                |
+| Project Tracking             | Sync IT projects with Monday boards                                                             |
+| Status Synchronization       | Keep task status in sync between platforms                                                       |
+| Resource Management          | Track IT team capacity and workload                                                              |
+| Timeline Coordination        | Align IT deliverables with project timelines                                                     |
+| Progress Reporting           | Generate IT metrics from Monday data                                                             |
+
+## Prerequisites
+
+Before configuring the Monday integration, ensure you have:
+
+- **Monday Admin Access**: Board admin or account admin role
+- **Monday Subscription**: Standard plan or higher (for API access)
+- **API Token**: Generated from Monday account settings
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Monday Boards**: Boards created for IT projects/tasks
+
+## Configuration in Monday
+
+### Step 1: Generate API Token
+
+1. Log in to Monday at `https://[your-account].monday.com`
+2. Click your profile photo in the bottom left
+3. Select **Admin** > **API**
+4. Click **Generate API Token** (or copy existing token)
+5. Configure token:
+   - **Name**: "Harmony Integration"
+   - **Scope**: Full access (or custom scope with boards:read and boards:write)
+6. Click **Generate**
+7. **Copy the API token immediately**
+
+<Note>
+API tokens have access to all boards visible to the generating user. Consider using a dedicated service account.
+</Note>
+
+### Step 2: Set Up IT Boards
+
+Create boards for IT operations:
+
+1. **IT Projects Board**: Track major IT initiatives
+   - Columns: Status, Priority, Assigned To, Due Date, Progress
+2. **IT Tasks Board**: Day-to-day IT operations
+   - Columns: Request Type, Status, Urgency, Owner, Resolution Time
+3. **IT Hardware Board**: Track hardware procurement
+   - Columns: Device Type, Status, Employee, Order Date, Delivery
+
+### Step 3: Configure Board Templates
+
+Create templates for common IT workflows:
+
+1. Go to board settings
+2. Click **Save as template**
+3. Create templates:
+   - New Employee Onboarding
+   - Software Deployment
+   - Hardware Refresh
+   - Security Incident Response
+4. These templates can be instantiated automatically by Harmony
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Monday** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **API Token**: The token you generated
+- **Account Slug**: Your Monday account slug (from URL)
+
+Click **Verify Connection**
+
+### Step 3: Configure Board Mapping
+
+1. Harmony will discover all accessible Monday boards
+2. Select which boards to integrate:
+   - ☑️ IT Projects
+   - ☑️ IT Tasks
+   - ☑️ IT Hardware Requests
+   - ☐ HR Onboarding (different team)
+3. Map ticket types to Monday boards:
+   - Hardware Request → IT Hardware Board
+   - Project Request → IT Projects Board
+   - General Support → IT Tasks Board
+4. Map status columns:
+   - Harmony "New" → Monday "To Do"
+   - Harmony "In Progress" → Monday "Working on It"
+   - Harmony "Resolved" → Monday "Done"
+
+### Step 4: Set Up Automation Rules
+
+Configure intelligent workflows:
+
+1. **Ticket to Task Creation**:
+   - Trigger: High-priority ticket created in Harmony
+   - Action: Create Monday task in IT Tasks board
+   - Assign: Map to appropriate team member
+   - Link: Maintain bidirectional link
+2. **Project Initiation**:
+   - Trigger: Project-type request approved
+   - Action: Create Monday board from template
+   - Populate: Fill in requester and requirements
+   - Notify: Alert project team
+3. **Status Synchronization**:
+   - Trigger: Task status changes in either platform
+   - Action: Update status in the other platform
+   - Notify: Alert assignee if needed
+4. **Deadline Alerts**:
+   - Trigger: Monday task approaching due date
+   - Action: Send reminder via Slack
+   - Escalate: Alert manager if overdue
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From Monday to Harmony
+
+- **Boards**: Board names, IDs, and structure
+- **Items**: All items (tasks) from mapped boards
+- **Columns**: Column definitions and values
+- **Status**: Item status and progress
+- **Assignees**: Person column assignments
+- **Due Dates**: Timeline and deadline information
+- **Updates**: Item updates and comments
+- **Sub-items**: Nested tasks and subtasks
+- **Files**: Attached documents and files
+
+### From Harmony to Monday
+
+- **New Items**: Create items from IT tickets
+- **Status Updates**: Update item status based on ticket resolution
+- **Assignments**: Assign items to team members
+- **Comments**: Add resolution notes to items
+- **File Attachments**: Upload relevant documentation
+- **Due Date Updates**: Adjust timelines based on SLAs
+
+## Use Cases
+
+### IT Project Tracking
+
+Centralize IT project management:
+
+1. IT receives request for new software deployment
+2. Harmony creates Monday board from template
+3. Board includes:
+   - Requirements gathering tasks
+   - Infrastructure setup tasks
+   - Testing and QA tasks
+   - Deployment and rollout tasks
+4. Each task linked to related Harmony tickets
+5. Project progress visible in both systems
+6. Stakeholders updated via Monday dashboards
+
+### Hardware Procurement Workflow
+
+Streamline device ordering:
+
+```
+User: "I need a new laptop"
+Harmony:
+1. Creates ticket for hardware request
+2. Creates Monday item in IT Hardware board
+3. Assigns to procurement team
+4. Tracks status:
+   - "Pending Approval" (manager approval)
+   - "Ordered" (procurement)
+   - "In Transit" (logistics)
+   - "Ready for Pickup" (IT team)
+   - "Delivered" (user confirmed)
+5. Updates user at each status change
+6. Logs completion in both systems
+```
+
+### Sprint Planning Integration
+
+Align IT support with sprint cycles:
+
+- IT team uses 2-week sprints in Monday
+- Harmony tickets automatically added to current sprint board
+- Team capacity visible in Monday
+- Harmony routes tickets based on Monday workload
+- Sprint burndown tracked in both systems
+- Retrospective data combined from both sources
+
+### Incident Management
+
+Coordinate major incident response:
+
+1. Critical system outage detected
+2. Harmony creates high-priority incident ticket
+3. Automatically creates Monday board for incident:
+   - Investigation tasks
+   - Communication tasks
+   - Fix implementation tasks
+   - Post-mortem tasks
+4. War room team assigned in Monday
+5. Status updates synchronized to Harmony
+6. Users informed via Harmony/Slack
+7. Incident timeline documented in Monday
+8. Post-mortem report generated from both systems
+
+### Resource Allocation
+
+Balance IT team workload:
+
+- Monday tracks all IT projects and capacity
+- Harmony routes new tickets based on Monday workload
+- AI avoids assigning to overloaded team members
+- Managers view capacity dashboard
+- Forecasts resource needs based on trends
+- Identifies bottlenecks and rebalances work
+
+## Troubleshooting
+
+### Items Not Creating
+
+**Issue**: Harmony tickets don't create Monday items
+
+**Solutions**:
+- Verify API token has write permissions (boards:write)
+- Check board mapping configuration
+- Ensure board isn't archived or deleted
+- Verify column mappings are correct
+- Review Harmony logs for API errors
+
+### Status Not Syncing
+
+**Issue**: Status changes don't sync between platforms
+
+**Solutions**:
+- Verify status column mapping is correct
+- Check that status values match exactly
+- Ensure API token has update permissions
+- Review webhook configuration
+- Trigger manual sync to refresh
+
+### Permission Errors
+
+**Issue**: "Forbidden" or "Access Denied" errors
+
+**Solutions**:
+- Verify API token hasn't expired or been revoked
+- Check user/service account has access to boards
+- Ensure boards aren't private/restricted
+- Regenerate API token if needed
+- Verify Monday account permissions
+
+### Duplicate Items
+
+**Issue**: Same task appears multiple times
+
+**Solutions**:
+- Check for multiple automation rules triggering
+- Verify unique identifier mapping
+- Review webhook configuration for duplicates
+- Disable and re-enable integration if needed
+
+## Best Practices
+
+### Board Organization
+
+- **Clear Structure**: Use consistent board structures across IT
+- **Column Standards**: Standardize column names and types
+- **Status Values**: Use same status names across boards
+- **Templates**: Create templates for repeatable workflows
+- **Archival**: Archive completed boards regularly
+
+### Workflow Efficiency
+
+- **Selective Sync**: Only sync boards relevant to IT operations
+- **Automation Rules**: Use Monday's native automations in addition to Harmony
+- **Notifications**: Configure notifications to avoid alert fatigue
+- **Batch Updates**: Group similar tasks for efficiency
+- **Regular Reviews**: Review workflows monthly for optimization
+
+### Team Collaboration
+
+- **Visibility**: Make IT boards visible to stakeholders
+- **Updates**: Use Monday updates for communication
+- **@Mentions**: Tag relevant people in updates
+- **Dashboards**: Create Monday dashboards for IT metrics
+- **Training**: Ensure team knows how to use Monday effectively
+
+### Performance
+
+- **API Rate Limits**: Monday has API rate limits (complexity-based)
+- **Efficient Queries**: Request only necessary data
+- **Webhooks**: Use webhooks for real-time updates when available
+- **Caching**: Cache frequently accessed data
+- **Batch Operations**: Batch API calls when possible
+
+## Data & Privacy
+
+### Data Handling
+
+- Task and project data encrypted in transit (TLS 1.2+)
+- Harmony caches board and item data for operations
+- File attachments stored in Monday, linked from Harmony
+- Data processed according to GDPR and privacy regulations
+- Data retention configurable to match requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with data protection regulations
+- **SOC 2 Type II**: Both Monday and Harmony maintain certification
+- **Audit Trails**: All integration actions logged
+- **Data Residency**: Monday offers EU data residency options
+- **Access Controls**: Respects Monday's permission structure
+
+### Access Control
+
+- API token scoped to minimum required permissions
+- Token encrypted in Harmony
+- Integration can be disabled immediately
+- All actions logged for audit
+- Board-level permissions respected
+

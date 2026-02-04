@@ -1,33 +1,115 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Your guide to building with Harmony autonomous IT platform'
 ---
 
+Welcome to Harmony! This guide covers everything you need to integrate with our autonomous IT service management platform.
+
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+New to Harmony's API? Start with our [Authentication](#authentication) section to get your first API call working in minutes.
 </Note>
 
-## Welcome
+## IT Service Desk
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Harmony transforms traditional IT support into an autonomous, AI-powered experience. Employees submit requests through any channel, and Harmony's AI handles each intelligently:
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+- **Autonomous Resolution** — AI resolves common requests instantly without human intervention
+- **Smart Routing** — Tickets are automatically classified and assigned to the right teams
+- **Knowledge-Powered** — Answers questions with accurate, sourced information from your knowledge base
+- **Seamless Escalation** — Hands off to human agents with full context when needed
+
+<CardGroup cols={2}>
+  <Card title="List Tickets" icon="list" href="/api-reference/tickets">
+    Query and filter tickets programmatically
+  </Card>
+  <Card title="Create Tickets" icon="plus" href="/api-reference/tickets">
+    Submit tickets via API for custom integrations
+  </Card>
+  <Card title="Update Tickets" icon="pen" href="/api-reference/tickets">
+    Modify ticket status, priority, and assignments
+  </Card>
+  <Card title="Get Activity" icon="clock" href="/api-reference/tickets">
+    Track ticket history and changes
+  </Card>
+</CardGroup>
+
+## Base URL
+
+Each organization has its own subdomain. Replace `<customer_subdomain>` with your organization's subdomain:
+
+```
+https://<customer_subdomain>.harmony.io
+```
+
+<Tip>
+Example: If your organization is Acme Corp with subdomain `acme`, your API base URL is `https://acme.harmony.io`
+</Tip>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require authentication using Bearer tokens:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```bash
+curl -X GET https://<customer_subdomain>.harmony.io/api/v1/tickets \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
 ```
+
+To obtain an API token:
+1. Log into your Harmony dashboard
+2. Navigate to **Settings > API Keys**
+3. Click **Generate New API Key**
+4. Copy the token (it will only be shown once)
+
+<Warning>
+Keep your API tokens secure. Never commit them to source control or share them publicly.
+</Warning>
+
+## Rate Limits
+
+API requests are rate limited to ensure service stability:
+
+| Limit Type | Value |
+|-----------|-------|
+| Per Hour | 1,000 requests |
+| Per Minute | 100 requests |
+
+Rate limit information is included in response headers:
+- `X-RateLimit-Limit` — Maximum requests allowed
+- `X-RateLimit-Remaining` — Remaining requests in current window
+- `X-RateLimit-Reset` — Unix timestamp when the rate limit resets
+
+## Response Format
+
+All API responses follow a consistent JSON structure:
+
+**Success Response (200-299)**
+```json
+{
+  "id": "ticket-123",
+  "title": "Reset password request",
+  "status": "open",
+  "priority": "high",
+  "created_at": "2024-01-15T10:30:00Z"
+}
+```
+
+**Error Response (400-599)**
+```json
+{
+  "detail": "Ticket not found"
+}
+```
+
+## Integrations
+
+Connect Harmony to 40+ tools for seamless IT operations:
+
+<Card title="Browse All Integrations" icon="grid" href="/integrations/overview">
+  Explore our complete integration catalog including Slack, Teams, Okta, ServiceNow, Jira, and more
+</Card>
+
+## Need Help?
+
+<Card title="Contact Support" icon="envelope" href="mailto:support@harmony.io">
+  Reach out to our team at support@harmony.io
+</Card>

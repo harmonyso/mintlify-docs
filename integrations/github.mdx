@@ -1,0 +1,340 @@
+---
+title: 'GitHub'
+description: 'Automate repository access management and developer onboarding with GitHub integration'
+icon: '/images/integrations/github.svg'
+---
+
+## About GitHub
+
+GitHub is the world's leading software development platform providing Git repository hosting, code review, project management, and collaboration tools. Connecting GitHub to Harmony enables automated repository access provisioning, intelligent developer onboarding, and streamlined license management for your engineering organization.
+
+## What the GitHub integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Access Management             | Automate repository and organization access provisioning                                        |
+| Team Synchronization          | Sync GitHub teams with HR systems and org structure                                             |
+| License Optimization          | Track seat usage and optimize GitHub license spending                                           |
+| Onboarding Automation         | Automatically provision access for new developers                                               |
+| Offboarding Security          | Remove access and archive repositories during employee exits                                    |
+| Self-Service Access           | Enable developers to request repository access via Harmony                                      |
+
+## Prerequisites
+
+Before configuring the GitHub integration, ensure you have:
+
+- **GitHub Organization**: Organization owner or admin access
+- **GitHub Plan**: Team, Enterprise Cloud, or Enterprise Server
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **OAuth App or GitHub App**: Created in GitHub organization settings
+
+## Configuration in GitHub
+
+### Step 1: Create GitHub App (Recommended)
+
+1. Go to your GitHub organization settings: `https://github.com/organizations/[org-name]/settings/apps`
+2. Click **New GitHub App**
+3. Configure app settings:
+   - **GitHub App name**: "Harmony IT Operations"
+   - **Homepage URL**: `https://harmony.io`
+   - **Callback URL**: `https://app.harmony.io/auth/github/callback`
+   - **Webhook URL**: `https://api.harmony.io/webhooks/github`
+   - **Webhook secret**: Generate a secure random string
+4. Set **Repository permissions**:
+   - Administration: Read & Write (for repo creation/deletion)
+   - Metadata: Read (required, automatically selected)
+   - Members: Read & Write (for access management)
+5. Set **Organization permissions**:
+   - Members: Read & Write
+   - Administration: Read & Write
+6. Set **User permissions** (optional):
+   - Email addresses: Read
+7. Subscribe to events:
+   - Member
+   - Membership
+   - Organization
+   - Repository
+   - Team
+8. Click **Create GitHub App**
+9. After creation, click **Generate a private key** and download it
+10. Note the **App ID** and **Client ID**
+
+### Step 2: Install GitHub App
+
+1. In your GitHub App settings, click **Install App**
+2. Select your organization
+3. Choose repository access:
+   - **All repositories** (recommended for full management)
+   - **Select repositories** (for limited scope)
+4. Click **Install**
+
+### Step 3: Organize Teams (Optional)
+
+Structure GitHub teams for automation:
+
+1. Navigate to `https://github.com/orgs/[org-name]/teams`
+2. Create teams by department or function:
+   - Engineering-Backend
+   - Engineering-Frontend
+   - Data-Team
+   - DevOps
+3. Nest teams if using hierarchical structure
+4. Assign team maintainers
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **GitHub** and click **Connect**
+
+### Step 2: Enter GitHub App Credentials
+
+Provide the following information:
+
+- **Organization Name**: Your GitHub organization name
+- **App ID**: GitHub App ID from Step 1
+- **Client ID**: Client ID from GitHub App
+- **Private Key**: Upload the private key file you downloaded
+- **Webhook Secret**: The webhook secret you generated
+
+Click **Verify Connection**
+
+### Step 3: Configure Sync Settings
+
+1. **Team Mapping**: Map GitHub teams to departments/roles:
+   - Engineering Dept → Engineering-Team
+   - Data Science Dept → Data-Team
+   - DevOps Role → DevOps
+2. **Access Levels**: Define default repository permissions by role:
+   - Junior Developer → Read access
+   - Developer → Write access
+   - Senior/Lead → Admin access
+3. **License Management**: Enable seat usage tracking
+4. **Repository Rules**: Set naming conventions and creation policies
+
+### Step 4: Set Up Automation Workflows
+
+Configure intelligent workflows:
+
+1. **Developer Onboarding**:
+   - Trigger: New developer in HRIS
+   - Action: Add to GitHub organization
+   - Assign: Add to appropriate teams
+   - Provision: Grant repository access based on role
+   - Welcome: Send onboarding guide via Slack
+2. **Repository Access Requests**:
+   - Trigger: User requests repo access via Slack
+   - Verify: Check if user should have access
+   - Approve: Manager approval for sensitive repos
+   - Grant: Add user with appropriate permissions
+   - Notify: Confirm access granted
+3. **Offboarding**:
+   - Trigger: Developer exit in HRIS
+   - Review: List all repositories with access
+   - Archive: Personal repos to organization
+   - Remove: Remove from all teams and repos
+   - Document: Log access removal
+4. **License Optimization**:
+   - Monitor: Track inactive users
+   - Alert: Notify unused seats
+   - Recommend: Suggest downgrade opportunities
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From GitHub to Harmony
+
+- **Organization Members**: All users and their roles
+- **Teams**: Team structure, memberships, and permissions
+- **Repositories**: Repository list, visibility, permissions
+- **Repository Access**: Who has access to which repositories
+- **Seats and Licenses**: Seat usage and billing information
+- **User Activity**: Last active dates and contribution metrics
+- **Pending Invitations**: Outstanding org and repo invitations
+- **Security Alerts**: Dependabot and security advisory notifications
+
+### From Harmony to GitHub
+
+- **Member Management**: Add or remove organization members
+- **Team Assignments**: Add/remove users from teams
+- **Repository Access**: Grant or revoke repository permissions
+- **Repository Creation**: Create new repositories with templates
+- **Team Creation**: Create teams and set permissions
+- **Invitation Management**: Send organization invitations
+- **Access Revocation**: Remove access during offboarding
+
+## Use Cases
+
+### Automated Developer Onboarding
+
+Seamless access provisioning for new engineers:
+
+1. New developer hired (recorded in BambooHR/Workday)
+2. Harmony detects new engineering employee
+3. Sends GitHub organization invitation automatically
+4. Adds to teams based on role (Backend Team, Mobile Team, etc.)
+5. Grants repository access according to permissions matrix
+6. Sends welcome message with getting started guide
+7. Tracks onboarding completion
+
+### Self-Service Repository Access
+
+Empower developers with instant access:
+
+```
+Developer via Slack: "I need access to the api-gateway repository"
+Harmony:
+1. Checks if api-gateway exists
+2. Verifies user's role and permissions
+3. Confirms access is appropriate for role
+4. Grants write access to repository
+5. Responds: "✅ You now have write access to api-gateway"
+6. Logs access grant for audit
+```
+
+### License Optimization
+
+Reduce GitHub seat costs:
+
+- Harmony tracks last active date for all users
+- Identifies users inactive for 90+ days
+- Alerts IT team with inactive user list
+- Recommends converting to outside collaborators
+- Projects potential cost savings
+- Automates seat reclamation with approval
+
+### Secure Offboarding
+
+Ensure access removal during employee exits:
+
+1. Employee offboarding initiated in HRIS
+2. Harmony retrieves all GitHub access
+3. Generates report of repositories and teams
+4. Checks for any repositories owned by user
+5. Archives or transfers repository ownership
+6. Removes from all teams and repositories
+7. Removes from organization
+8. Documents complete access removal
+9. Notifies manager of completion
+
+### Repository Creation
+
+Standardized repository setup:
+
+- Developer: "Create a new microservice repo called user-service"
+- Harmony:
+  1. Validates naming convention
+  2. Creates repository from template
+  3. Sets up branch protection rules
+  4. Adds to appropriate teams
+  5. Configures CI/CD integration
+  6. Sends setup guide to developer
+
+## Troubleshooting
+
+### Unable to Add Members
+
+**Issue**: Cannot add users to GitHub organization
+
+**Solutions**:
+- Verify GitHub App has "Members: Write" organization permission
+- Check organization membership limits on plan
+- Ensure user has GitHub account with correct email
+- Verify SSO/SAML requirements (Enterprise Cloud)
+- Check that organization hasn't reached maximum seats
+
+### Team Sync Failures
+
+**Issue**: Team memberships not syncing correctly
+
+**Solutions**:
+- Confirm "Members: Write" permission is granted
+- Verify team slug/name is correct
+- Check that user is member of organization first
+- Ensure team permissions allow additions
+- Review GitHub audit log for errors
+
+### Repository Access Not Granting
+
+**Issue**: Users don't receive repository access
+
+**Solutions**:
+- Verify "Administration: Write" repository permission
+- Check that repository exists and is accessible
+- Ensure user is organization member
+- Verify not blocked by branch protection or security rules
+- Review repository settings for access restrictions
+
+### Webhook Events Not Received
+
+**Issue**: Real-time updates not working
+
+**Solutions**:
+- Verify webhook URL is correct and accessible
+- Check webhook secret matches configuration
+- Review webhook delivery logs in GitHub App settings
+- Ensure webhook events are subscribed
+- Test webhook with manual delivery
+
+## Best Practices
+
+### Access Management
+
+- **Least Privilege**: Grant minimum required access by default
+- **Team-Based Access**: Use teams for permissions, not individual grants
+- **Regular Audits**: Review repository access quarterly
+- **Just-in-Time Access**: Provide time-limited access for sensitive repos
+- **Separation of Duties**: Separate read/write/admin access appropriately
+
+### Onboarding Efficiency
+
+- **Automation First**: Automate standard access provisioning
+- **Role-Based Templates**: Define access templates by job role
+- **Progressive Access**: Start with minimal access, increase as needed
+- **Documentation**: Provide clear onboarding guides
+- **Feedback Loop**: Collect developer feedback on onboarding experience
+
+### Security and Compliance
+
+- **Offboarding Verification**: Always verify complete access removal
+- **Repository Ownership**: Ensure all repos have active owners
+- **Access Logging**: Maintain audit trail of all access changes
+- **Sensitive Repos**: Require additional approval for sensitive repositories
+- **Regular Reviews**: Conduct access reviews with engineering managers
+
+### License Management
+
+- **Usage Monitoring**: Track seat utilization monthly
+- **Inactive User Cleanup**: Remove inactive users regularly
+- **Outside Collaborators**: Use for external/limited access needs
+- **Cost Optimization**: Right-size license tiers based on usage
+- **Forecast Planning**: Project seat needs for hiring plans
+
+## Data & Privacy
+
+### Data Handling
+
+- User and repository data encrypted in transit (TLS 1.2+)
+- Harmony caches membership and access data
+- Source code is never accessed or stored by Harmony
+- All data processing complies with GDPR
+- Data retention configurable based on requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with data protection regulations
+- **SOC 2 Type II**: Both GitHub and Harmony maintain certification
+- **HIPAA**: Available for healthcare organizations (Enterprise plans)
+- **Audit Trail**: All access changes logged for compliance
+- **Data Residency**: GitHub Enterprise Server for specific requirements
+
+### Access Control
+
+- GitHub App permissions scoped to required actions
+- Private key stored encrypted in Harmony
+- App can be uninstalled immediately if needed
+- All actions logged in GitHub audit log
+- Integration can be disabled instantly
+

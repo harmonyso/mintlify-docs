@@ -1,0 +1,353 @@
+---
+title: 'BambooHR'
+description: 'Automate employee onboarding and offboarding with BambooHR-driven IT provisioning workflows'
+icon: '/images/integrations/bamboohr.svg'
+---
+
+## About BambooHR
+
+BambooHR is a human resources management software designed for small and medium-sized businesses. Connecting BambooHR to Harmony enables automated IT provisioning triggered by HR events, seamless employee lifecycle management, and streamlined onboarding/offboarding workflows.
+
+## What the BambooHR integration enables
+
+| Capability                  | Description                                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| Automated Onboarding        | Trigger IT provisioning workflows when new employees are added                             |
+| Automated Offboarding       | Automatically revoke access and collect equipment when employees leave                     |
+| Role-Based Provisioning     | Assign IT resources based on department, role, and location                                |
+| Organizational Sync         | Keep employee data synchronized across IT systems                                          |
+| Equipment Tracking          | Track IT equipment assignments linked to employee records                                  |
+| Workflow Automation         | Build custom workflows using the BambooHR API                                              |
+
+Anything defined in the [BambooHR API](https://documentation.bamboohr.com/docs) can be accessed through Harmony workflows.
+
+***
+
+## Prerequisites
+
+Before connecting BambooHR to Harmony, ensure you have:
+
+1. **BambooHR Administrator access**
+2. **Permissions to generate API keys**
+3. **Your BambooHR subdomain** (e.g., `company.bamboohr.com`)
+4. **A Harmony account** with admin privileges
+
+<Note>
+  Only BambooHR administrators can generate API keys required for the integration.
+</Note>
+
+***
+
+## BambooHR Configuration
+
+### Step 1: Generate API Key
+
+<Steps>
+  <Step title="Navigate to API Keys">
+    1. Log in to your BambooHR account
+    2. Click your profile icon in the top-right corner
+    3. Select **API Keys** from the dropdown menu
+  </Step>
+
+  <Step title="Create New API Key">
+    1. Click **Add New Key**
+    2. Enter a descriptive name: `Harmony Integration`
+    3. Click **Generate Key**
+    4. **Important**: Copy the API key immediately—it won't be shown again
+
+    <Warning>
+      Save the API key securely. If lost, you'll need to generate a new key and update your Harmony configuration.
+    </Warning>
+  </Step>
+</Steps>
+
+### Step 2: Configure Access Levels (Optional)
+
+BambooHR API keys have the same permissions as your user account. If you want to limit access:
+
+<Steps>
+  <Step title="Create Dedicated API User">
+    1. Navigate to **Settings → Employees**
+    2. Add a new employee record for the API integration
+    3. Set **Access Level** appropriately
+    4. Generate an API key for this user
+  </Step>
+</Steps>
+
+***
+
+## Harmony Configuration
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. Log into your Harmony dashboard
+    2. Navigate to **Settings → Integrations**
+    3. Find **BambooHR** under **Human Resources**
+    4. Click **Connect**
+  </Step>
+
+  <Step title="Enter Configuration">
+    Fill in the following fields:
+
+    | Field          | Description                            | Example                        |
+    | -------------- | -------------------------------------- | ------------------------------ |
+    | **Subdomain**  | Your BambooHR subdomain (without .bamboohr.com) | `company`                      |
+    | **API Key**    | The API key generated in BambooHR      | `abc123def456ghi789jkl...`     |
+
+    <Note>
+      Enter only your subdomain, not the full URL. For example, if your BambooHR is at `company.bamboohr.com`, enter just `company`.
+    </Note>
+  </Step>
+
+  <Step title="Test Connection">
+    1. Click **Connect**
+    2. Harmony will test the connection by fetching basic company information
+    3. If successful, you'll see a confirmation message
+    4. Employee data sync will begin automatically
+  </Step>
+</Steps>
+
+***
+
+## What Harmony Syncs from BambooHR
+
+Once connected, Harmony automatically syncs:
+
+### Employee Data
+
+- Employee profiles (name, email, phone)
+- Job information (title, department, division)
+- Employment status (active, terminated, on leave)
+- Start and end dates
+- Manager relationships
+- Work location and address
+- Emergency contact information
+
+### Organizational Structure
+
+- Departments and divisions
+- Reporting hierarchy
+- Office locations
+- Cost centers
+
+### Employment Events
+
+- New hire notifications
+- Termination notices
+- Job changes and transfers
+- Status changes (full-time, part-time, contractor)
+
+<Tip>
+  Harmony syncs data in real-time when webhooks are configured, or every 4 hours by default. Critical events like new hires and terminations trigger immediate sync.
+</Tip>
+
+***
+
+## Configure Automated Workflows
+
+### Onboarding Automation
+
+Set up workflows that trigger when new employees are added:
+
+<Steps>
+  <Step title="Create Onboarding Workflow">
+    1. Navigate to **Workflows** in Harmony
+    2. Click **Create Workflow**
+    3. Select trigger: **New Employee Added (BambooHR)**
+    4. Add actions:
+       - Create email account
+       - Assign to groups based on department
+       - Provision applications (Slack, Zoom, etc.)
+       - Order equipment
+       - Create onboarding ticket for IT
+       - Send welcome email
+  </Step>
+
+  <Step title="Configure Role-Based Logic">
+    Use conditional logic to provision based on role:
+    - **Engineering**: GitHub, Jira, development tools
+    - **Sales**: Salesforce, HubSpot, CRM access
+    - **Marketing**: Figma, Adobe Creative Cloud
+    - **Finance**: QuickBooks, expense management tools
+  </Step>
+
+  <Step title="Set Up Approvals">
+    1. Configure approval requirements for:
+       - Manager approval for equipment orders
+       - IT approval for admin access requests
+       - Security review for contractor access
+    2. Set escalation rules for pending approvals
+  </Step>
+</Steps>
+
+### Offboarding Automation
+
+Automate access revocation when employees leave:
+
+<Steps>
+  <Step title="Create Offboarding Workflow">
+    1. Select trigger: **Employee Terminated (BambooHR)**
+    2. Add actions:
+       - Suspend all application access immediately
+       - Disable email account
+       - Revoke VPN and network access
+       - Remove from Slack/Teams channels
+       - Create equipment collection ticket
+       - Transfer file ownership
+       - Schedule exit interview
+  </Step>
+
+  <Step title="Configure Grace Periods">
+    Set timing for different revocation steps:
+    - **Immediate**: VPN, production system access
+    - **End of day**: Email, Slack
+    - **After 30 days**: File archive and deletion
+  </Step>
+
+  <Step title="Manager Notifications">
+    Automatically notify managers when:
+    - Offboarding workflow starts
+    - Equipment needs to be collected
+    - Access has been fully revoked
+    - Files have been transferred
+  </Step>
+</Steps>
+
+***
+
+## Use Cases
+
+### Day-One Ready Onboarding
+
+Ensure new hires have everything they need on their first day:
+
+1. **Pre-boarding (1 week before)**
+   - Order equipment
+   - Create accounts
+   - Provision licenses
+
+2. **Day One**
+   - Equipment ready at desk
+   - All accounts active
+   - Welcome email sent
+   - Onboarding checklist created
+
+3. **First Week**
+   - Training scheduled
+   - Manager notified
+   - IT check-in scheduled
+
+### Role Change Management
+
+Automate access changes when employees change roles:
+
+- Detect job title or department changes in BambooHR
+- Evaluate new role requirements
+- Add new access automatically
+- Queue old access for review and removal
+- Notify managers of pending changes
+
+### Compliance & Audit
+
+Maintain audit trails for security and compliance:
+
+- Track all provisioning and deprovisioning actions
+- Link IT access to employee records
+- Generate compliance reports
+- Monitor orphaned accounts
+- Enforce access review policies
+
+***
+
+## Troubleshooting
+
+### Connection fails with "Invalid API key"
+
+**Possible causes:**
+- API key entered incorrectly
+- API key has been revoked
+- Wrong subdomain specified
+
+**Solutions:**
+1. Verify API key was copied correctly without extra spaces
+2. Generate a new API key in BambooHR
+3. Confirm subdomain matches your BambooHR URL
+
+### Employee sync is incomplete
+
+**Possible causes:**
+- Employee records missing required fields (email)
+- Employees marked as archived in BambooHR
+- API rate limits being hit
+
+**Solutions:**
+1. Check that all employees have valid email addresses
+2. Verify sync includes archived employees if needed
+3. For large organizations (1,000+ employees), contact support
+
+### Workflows not triggering automatically
+
+**Possible causes:**
+- Webhooks not configured
+- Workflow trigger conditions not met
+- Workflow disabled
+
+**Solutions:**
+1. Configure webhooks in BambooHR for real-time updates
+2. Check workflow trigger conditions match event data
+3. Verify workflow is enabled in Harmony
+
+***
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Test with Sandbox Data First">
+    Before going live:
+    - Create test employee records
+    - Run onboarding workflows in test mode
+    - Verify all systems receive correct provisioning
+    - Test offboarding with inactive employee records
+  </Accordion>
+
+  <Accordion title="Use Approval Workflows">
+    Implement approvals for sensitive actions:
+    - Require manager approval for equipment over $500
+    - IT approval for admin access
+    - Security review for contractor onboarding
+    - Prevents mistakes and ensures proper oversight
+  </Accordion>
+
+  <Accordion title="Set Up Notifications">
+    Keep stakeholders informed:
+    - Notify managers when direct reports are provisioned
+    - Alert IT when equipment needs ordering
+    - Remind employees to return equipment
+    - Escalate if offboarding isn't complete
+  </Accordion>
+
+  <Accordion title="Regular Access Reviews">
+    Schedule periodic reviews:
+    - Quarterly review of employee access vs. role
+    - Flag unusual access patterns
+    - Remove access from employees on extended leave
+    - Audit contractor access expiration
+  </Accordion>
+</AccordionGroup>
+
+***
+
+Need help? Contact **[support@harmony.io](mailto:support@harmony.io)** for assistance with your BambooHR integration.
+
+***
+
+## Data & Privacy
+
+For information about how Harmony handles your data, see our [Privacy Policy](https://harmony.io/privacy).
+
+**Key privacy principles:**
+- Employee PII is encrypted at rest and in transit
+- Only necessary employee data is synced
+- Data access is logged for audit compliance
+- Integration can be revoked at any time
+- Employee data is retained per your retention policies

@@ -1,0 +1,228 @@
+---
+title: 'Google Workspace'
+description: 'Automate Google Workspace provisioning and manage application access with intelligent policies'
+icon: '/images/integrations/google-workspace.svg'
+---
+
+## About Google Workspace
+
+Google Workspace (formerly G Suite) is a collection of cloud computing, productivity, and collaboration tools developed by Google. Connecting Google Workspace to Harmony enables automated user provisioning, intelligent license optimization, and seamless access management across your Google ecosystem.
+
+## What the Google Workspace integration enables
+
+| Capability               | Description                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| User Provisioning        | Automate user onboarding and offboarding across Google services                            |
+| License Management       | Track and optimize Google Workspace licenses to reduce costs                               |
+| Group Management         | Sync organizational units and groups for access control                                    |
+| Application Discovery    | Identify all Google Workspace apps and third-party integrations                            |
+| Access Management        | Centralize access requests and approvals for Google services                               |
+| Automation Workflows     | Build custom workflows using the Google Workspace Admin API                                |
+
+Anything defined in the [Google Workspace Admin API](https://developers.google.com/admin-sdk) can be accessed through Harmony workflows.
+
+***
+
+## Prerequisites
+
+Before connecting Google Workspace to Harmony, ensure you have:
+
+1. **Google Workspace Super Admin access**
+2. **A Harmony account** with admin privileges
+3. **Domain ownership verified** in Google Workspace
+4. **API access enabled** in Google Workspace admin console
+
+<Note>
+  You need Super Admin privileges to grant API access and configure OAuth consent for the integration.
+</Note>
+
+***
+
+## Google Workspace Configuration
+
+### Step 1: Enable API Access
+
+<Steps>
+  <Step title="Navigate to Admin Console">
+    1. Sign in to the [Google Workspace Admin console](https://admin.google.com)
+    2. Navigate to **Security → Access and data control → API controls**
+  </Step>
+
+  <Step title="Enable API Access">
+    1. Ensure **Enable API access** is checked
+    2. If not enabled, check the box and click **Save**
+
+    <Warning>
+      API access must be enabled for Harmony to connect to your Google Workspace environment.
+    </Warning>
+  </Step>
+</Steps>
+
+### Step 2: Configure Domain-Wide Delegation (Recommended)
+
+For enhanced security and automation capabilities:
+
+<Steps>
+  <Step title="Navigate to Domain-Wide Delegation">
+    1. In Admin console, go to **Security → Access and data control → API controls**
+    2. Click **Manage Domain-Wide Delegation**
+  </Step>
+
+  <Step title="Add Harmony Client ID">
+    1. Click **Add new**
+    2. Enter the following Harmony Client ID: `harmony-workspace-integration`
+    3. Add the following OAuth scopes:
+
+    ```
+    https://www.googleapis.com/auth/admin.directory.user
+    https://www.googleapis.com/auth/admin.directory.group
+    https://www.googleapis.com/auth/admin.directory.orgunit
+    https://www.googleapis.com/auth/admin.directory.user.security
+    https://www.googleapis.com/auth/admin.directory.user.readonly
+    https://www.googleapis.com/auth/admin.directory.domain.readonly
+    https://www.googleapis.com/auth/apps.licensing
+    ```
+
+    4. Click **Authorize**
+
+    <Tip>
+      Domain-wide delegation allows Harmony to act on behalf of your organization without requiring individual user consent.
+    </Tip>
+  </Step>
+</Steps>
+
+***
+
+## Harmony Configuration
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. Log into your Harmony dashboard
+    2. Navigate to **Settings → Integrations**
+    3. Find **Google Workspace** under **Identity & Access Management**
+    4. Click **Connect**
+  </Step>
+
+  <Step title="Authorize with Google">
+    1. You'll be redirected to Google to authorize the connection
+    2. Sign in with your Google Workspace Super Admin account
+    3. Review the requested permissions
+    4. Click **Allow** to authorize Harmony
+    5. You'll be redirected back to Harmony
+  </Step>
+
+  <Step title="Verify Connection">
+    1. Confirm that Google Workspace shows **Connected** status
+    2. User and group sync will begin automatically
+    3. Initial sync may take several minutes depending on organization size
+  </Step>
+</Steps>
+
+***
+
+## What Harmony Syncs from Google Workspace
+
+Once connected, Harmony automatically syncs:
+
+### Users
+
+- User profiles (name, email, photo)
+- User status (active, suspended, archived)
+- Organizational units and departments
+- Manager relationships
+- Last login and creation dates
+- License assignments
+- 2-Step Verification status
+
+### Groups
+
+- Group names and descriptions
+- Group members and managers
+- Group settings and permissions
+- Distribution lists
+
+### Organizational Units
+
+- OU hierarchy and structure
+- OU members
+- Inherited policies
+
+### Licenses
+
+- License SKUs and plans
+- Assigned vs. available seats
+- License costs and utilization
+- User license assignments
+
+<Tip>
+  Harmony syncs data every 24 hours by default. Trigger a manual sync anytime from **Settings → Integrations → Google Workspace → Sync Now**.
+</Tip>
+
+***
+
+## Use Cases
+
+### Automated User Lifecycle
+
+- **Onboarding**: Auto-create Google Workspace accounts for new hires
+- **Provisioning**: Assign appropriate licenses based on department/role
+- **Offboarding**: Suspend accounts and transfer data when employees leave
+- **Role Changes**: Update groups and access automatically when roles change
+
+### License Optimization
+
+- **Identify unused licenses**: Track users who haven't logged in recently
+- **Right-size plans**: Identify users with expensive licenses who don't use features
+- **Forecast needs**: Predict license requirements based on hiring plans
+- **Cost allocation**: Track license costs by department
+
+### Access Management
+
+- **Group-based access**: Automate group memberships based on attributes
+- **Temporary access**: Grant time-limited access to resources
+- **Access reviews**: Periodic audits of group memberships and permissions
+- **Compliance**: Enforce security policies like 2-Step Verification
+
+***
+
+## Troubleshooting
+
+### Connection fails during authorization
+
+**Possible causes:**
+- Not signed in as Super Admin
+- API access not enabled
+- OAuth consent screen not configured
+
+**Solutions:**
+1. Ensure you're using a Super Admin account
+2. Verify API access is enabled in Admin console
+3. Check OAuth settings in Google Cloud Console
+
+### User sync is incomplete
+
+**Possible causes:**
+- Large organization (sync in progress)
+- Missing API scopes
+- Suspended users not included
+
+**Solutions:**
+1. Wait 30-60 minutes for initial sync to complete
+2. Verify all required scopes are authorized
+3. Check if you want to include suspended users in sync settings
+
+### Cannot provision new users
+
+**Possible causes:**
+- Missing admin privileges
+- Domain-wide delegation not configured
+- No available licenses
+
+**Solutions:**
+1. Verify domain-wide delegation is set up
+2. Check that required scopes are authorized
+3. Ensure available licenses exist for the user type
+
+***
+
+Need help? Contact **[support@harmony.io](mailto:support@harmony.io)** for assistance with your Google Workspace integration.

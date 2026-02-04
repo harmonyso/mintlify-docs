@@ -1,0 +1,361 @@
+---
+title: 'Jamf Pro'
+description: 'Automate Apple device deployment and manage macOS, iOS, and iPadOS fleets intelligently'
+icon: '/images/integrations/jamf.svg'
+---
+
+## About Jamf Pro
+
+Jamf Pro is the leading Apple device management platform for enterprises, providing comprehensive MDM (Mobile Device Management) for macOS, iOS, iPadOS, and tvOS devices. Connecting Jamf Pro to Harmony enables automated device provisioning, intelligent policy management, and streamlined Apple fleet operations.
+
+## What the Jamf integration enables
+
+| Capability                  | Description                                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| Automated Device Enrollment | Trigger device setup and configuration workflows automatically                             |
+| Policy Management           | Deploy and manage configuration profiles across your Apple fleet                           |
+| Application Deployment      | Automate app installation and updates                                                      |
+| Device Compliance           | Monitor and enforce security policies across devices                                       |
+| Inventory Management        | Track device assignments, status, and health                                               |
+| Automation Workflows        | Build custom workflows using the Jamf Pro API                                              |
+
+Anything defined in the [Jamf Pro API](https://developer.jamf.com/jamf-pro/docs) can be accessed through Harmony workflows.
+
+***
+
+## Prerequisites
+
+Before connecting Jamf to Harmony, ensure you have:
+
+1. **Jamf Pro Administrator access**
+2. **Permissions to create API users and roles**
+3. **Your Jamf Pro URL** (e.g., `company.jamfcloud.com`)
+4. **A Harmony account** with admin privileges
+
+<Note>
+  Jamf Pro (not Jamf Now) is required for full API access and automation capabilities.
+</Note>
+
+***
+
+## Jamf Pro Configuration
+
+### Step 1: Create API User
+
+<Steps>
+  <Step title="Navigate to API Roles and Clients">
+    1. Log in to your Jamf Pro console
+    2. Click **Settings** (gear icon) in the top-right
+    3. Navigate to **System → API Roles and Clients**
+    4. Click the **API Clients** tab
+  </Step>
+
+  <Step title="Create New API Client">
+    1. Click **+ New**
+    2. Enter configuration details:
+
+    | Field              | Value                                  |
+    | ------------------ | -------------------------------------- |
+    | **Display Name**   | `Harmony Integration`                  |
+    | **Client ID**      | Auto-generated (copy this value)       |
+    | **Client Secret**  | Auto-generated (copy this value)       |
+    | **Access Token Lifetime** | `1800` (30 minutes, recommended) |
+
+    <Warning>
+      Save the Client ID and Client Secret immediately—the secret cannot be retrieved later.
+    </Warning>
+  </Step>
+
+  <Step title="Assign Privileges">
+    Grant the following minimum privileges:
+
+    ### Read Access
+    - Computers (all objects)
+    - Mobile Devices (all objects)
+    - Users (read only)
+    - Configuration Profiles
+    - Policies
+    - Smart Groups
+    - Static Groups
+
+    ### Create/Update Access (for automation)
+    - Computer Management
+    - Mobile Device Management
+    - Policy Management
+    - Configuration Profile Management
+
+    <Tip>
+      Start with read-only access to test, then add write permissions when enabling automation workflows.
+    </Tip>
+  </Step>
+
+  <Step title="Save Configuration">
+    1. Click **Save** to create the API client
+    2. Verify the client appears in your API Clients list
+  </Step>
+</Steps>
+
+***
+
+## Harmony Configuration
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. Log into your Harmony dashboard
+    2. Navigate to **Settings → Integrations**
+    3. Find **Jamf** under **Mobile Device Management**
+    4. Click **Connect**
+  </Step>
+
+  <Step title="Enter Configuration">
+    Fill in the following fields:
+
+    | Field             | Description                          | Example                      |
+    | ----------------- | ------------------------------------ | ---------------------------- |
+    | **Jamf Pro URL**  | Your Jamf Pro server URL             | `https://company.jamfcloud.com` |
+    | **Client ID**     | The Client ID from Jamf API client   | `abc123-def456-ghi789`       |
+    | **Client Secret** | The Client Secret from Jamf API client | `your_secure_client_secret` |
+
+    <Note>
+      Include the full URL with `https://` for your Jamf Pro server.
+    </Note>
+  </Step>
+
+  <Step title="Test Connection">
+    1. Click **Connect**
+    2. Harmony will authenticate and fetch device inventory
+    3. If successful, you'll see a confirmation message
+    4. Device sync will begin automatically
+  </Step>
+</Steps>
+
+***
+
+## What Harmony Syncs from Jamf
+
+Once connected, Harmony automatically syncs:
+
+### Computers (macOS Devices)
+
+- Device hardware information (model, serial, specs)
+- Operating system version and build
+- User assignments
+- Last check-in and inventory dates
+- Installed applications
+- Security settings (FileVault, firewall, etc.)
+- Smart/Static group memberships
+- Configuration profile status
+
+### Mobile Devices (iOS/iPadOS)
+
+- Device model and identifier
+- iOS/iPadOS version
+- Supervised status
+- Assigned user
+- Last inventory update
+- Installed apps
+- Compliance status
+- Enrollment method
+
+### Policies and Profiles
+
+- Configuration profile list
+- Policy names and scopes
+- Deployment status
+- Success/failure rates
+
+### Users
+
+- User accounts and details
+- Device assignments
+- Group memberships
+
+<Tip>
+  Harmony syncs inventory data every 6 hours by default. Device check-ins trigger real-time updates for critical changes.
+</Tip>
+
+***
+
+## Use Cases
+
+### Automated Device Onboarding
+
+Streamline new device setup for employees:
+
+<Steps>
+  <Step title="Pre-Enrollment">
+    When new device is ordered:
+    - Auto-assign to correct smart group
+    - Stage configuration profiles
+    - Prepare app deployment policies
+  </Step>
+
+  <Step title="Enrollment Workflow">
+    When device enrolls in Jamf:
+    - Trigger Harmony workflow
+    - Apply department-specific configuration
+    - Install required applications
+    - Set up security policies (FileVault, firewall)
+    - Assign to employee record
+    - Create ticket for physical delivery
+  </Step>
+
+  <Step title="Post-Enrollment">
+    - Verify all policies applied successfully
+    - Notify IT of any failures
+    - Send welcome email to employee
+    - Schedule first-day check-in
+  </Step>
+</Steps>
+
+### Compliance Monitoring
+
+Ensure all devices meet security requirements:
+
+- **Policy Violations**: Alert when devices don't comply
+- **Out-of-Date OS**: Flag devices running old macOS/iOS versions
+- **Missing Encryption**: Identify unencrypted devices
+- **Unauthorized Apps**: Detect prohibited applications
+- **Automatic Remediation**: Trigger policy re-deployment
+
+### Device Lifecycle Management
+
+- **New Device**: Automated enrollment and configuration
+- **Employee Transfer**: Re-assign device, apply new policies
+- **Device Upgrade**: Backup, wipe, re-enroll
+- **Retirement**: Offboard, wipe, remove from inventory
+
+### Proactive Support
+
+Detect and resolve issues before users report them:
+
+- Monitor disk space and alert when low
+- Track battery health and replacement needs
+- Identify devices with repeated policy failures
+- Detect connectivity issues
+- Create tickets automatically for intervention
+
+***
+
+## Troubleshooting
+
+### Connection fails with authentication error
+
+**Possible causes:**
+- Incorrect Client ID or Secret
+- API client has been disabled
+- Jamf Pro URL incorrect
+
+**Solutions:**
+1. Verify Client ID and Secret were copied correctly
+2. Check API client status in Jamf Pro
+3. Confirm Jamf Pro URL includes `https://` and is accessible
+4. Regenerate credentials if unsure
+
+### Device inventory not syncing
+
+**Possible causes:**
+- Missing read permissions for computers/mobile devices
+- Devices haven't checked in recently
+- API rate limits reached
+
+**Solutions:**
+1. Verify API client has inventory read privileges
+2. Check device last check-in dates in Jamf Pro
+3. For large fleets (5,000+ devices), contact support for optimization
+
+### Cannot deploy policies or profiles
+
+**Possible causes:**
+- Missing write permissions
+- Target scope not defined
+- Profile conflicts
+
+**Solutions:**
+1. Ensure API client has policy/profile management privileges
+2. Verify smart group or static group scope is set
+3. Check for conflicting profiles in Jamf Pro
+
+### Webhooks not triggering workflows
+
+**Possible causes:**
+- Webhooks not configured in Jamf Pro
+- Network firewall blocking requests
+- Workflow trigger conditions not met
+
+**Solutions:**
+1. Configure webhooks in Jamf Pro pointing to Harmony
+2. Whitelist Harmony webhook URLs in firewall
+3. Review workflow trigger conditions
+
+***
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Smart Groups for Dynamic Assignment">
+    Leverage Jamf Smart Groups for automated device management:
+    - Group by department, location, or role
+    - Auto-apply policies to matching devices
+    - Reduce manual device management
+    - Scale policies across fleet automatically
+  </Accordion>
+
+  <Accordion title="Stage Policies Before Enrollment">
+    Prepare configurations before devices arrive:
+    - Pre-create smart groups for new hires
+    - Stage configuration profiles
+    - Test policies in pilot group first
+    - Ensure zero-touch enrollment experience
+  </Accordion>
+
+  <Accordion title="Monitor Compliance Continuously">
+    Set up automated compliance monitoring:
+    - Daily checks for policy violations
+    - Alerts for critical security issues
+    - Automatic remediation workflows
+    - Regular compliance reporting
+  </Accordion>
+
+  <Accordion title="Implement Self-Service Options">
+    Empower users with self-service capabilities:
+    - Allow users to request app installations
+    - Enable password reset workflows
+    - Provide troubleshooting guides
+    - Reduce IT support burden
+  </Accordion>
+</AccordionGroup>
+
+***
+
+## Security Considerations
+
+<Warning>
+  **API Client Permissions**: Grant only the minimum privileges required for your use case. Avoid giving full administrative access unless absolutely necessary.
+</Warning>
+
+**Security best practices:**
+
+- Rotate API credentials every 90 days
+- Use IP restrictions if Jamf Pro supports it
+- Monitor API usage for anomalies
+- Enable audit logging for all API actions
+- Store credentials in Harmony's encrypted vault
+- Review privileges quarterly
+
+***
+
+Need help? Contact **[support@harmony.io](mailto:support@harmony.io)** for assistance with your Jamf integration.
+
+***
+
+## Data & Privacy
+
+For information about how Harmony handles your data, see our [Privacy Policy](https://harmony.io/privacy).
+
+**Key privacy principles:**
+- Jamf credentials are encrypted at rest and in transit
+- Only necessary device data is synced
+- User assignment data is handled securely
+- API access is logged for audit compliance
+- Integration can be revoked at any time

@@ -1,0 +1,295 @@
+---
+title: 'SharePoint'
+description: 'Leverage SharePoint content to train Harmony AI and automate document-based workflows'
+icon: '/images/integrations/sharepoint.svg'
+---
+
+## About SharePoint
+
+Microsoft SharePoint is an enterprise content management and collaboration platform integrated with Microsoft 365. Connecting SharePoint to Harmony enables your AI agents to search organizational documents, retrieve policies and procedures, and provide intelligent support responses based on your company's knowledge base.
+
+## What the SharePoint integration enables
+
+| Capability                  | Description                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------- |
+| Document Search             | Search across SharePoint sites, libraries, and lists                                             |
+| Policy Retrieval            | Access IT policies, procedures, and compliance documents                                          |
+| File Access                 | Retrieve and share documents during support interactions                                          |
+| Knowledge Base              | Power AI responses with SharePoint content                                                        |
+| Site Analytics              | Track which documents are most frequently accessed                                                |
+| Automated Updates           | Update SharePoint lists based on support tickets and resolutions                                  |
+
+## Prerequisites
+
+Before configuring the SharePoint integration, ensure you have:
+
+- **Microsoft 365 Admin Access**: Global Administrator or SharePoint Administrator role
+- **SharePoint Sites**: Sites and document libraries to integrate
+- **Azure AD Application**: Registered app for API access
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Microsoft 365 License**: E3, E5, or Business Premium with SharePoint included
+
+## Configuration in Microsoft 365
+
+### Step 1: Register Azure AD Application
+
+1. Sign in to [Azure Portal](https://portal.azure.com)
+2. Navigate to **Azure Active Directory** > **App registrations**
+3. Click **New registration**
+4. Configure application:
+   - **Name**: "Harmony SharePoint Integration"
+   - **Supported account types**: Accounts in this organizational directory only
+   - **Redirect URI**: Leave blank for now
+5. Click **Register**
+6. Copy the **Application (client) ID** and **Directory (tenant) ID**
+
+### Step 2: Configure API Permissions
+
+1. In your app registration, go to **API permissions**
+2. Click **Add a permission** > **Microsoft Graph**
+3. Select **Application permissions**
+4. Add the following permissions:
+   - `Sites.Read.All` - Read items in all site collections
+   - `Files.Read.All` - Read files in all site collections
+   - `User.Read.All` - Read all users' full profiles (optional)
+5. Click **Add permissions**
+6. Click **Grant admin consent for [Your Organization]**
+
+### Step 3: Create Client Secret
+
+1. Go to **Certificates & secrets**
+2. Click **New client secret**
+3. Configure:
+   - **Description**: "Harmony Integration Secret"
+   - **Expires**: 24 months (recommended)
+4. Click **Add**
+5. **Copy the secret value immediately** (it won't be shown again)
+
+### Step 4: Configure SharePoint Sites
+
+Organize content for optimal AI access:
+
+1. **IT Documentation Library**: Create a dedicated library for IT docs
+2. **Policies Folder**: Maintain up-to-date policies and procedures
+3. **Runbooks Library**: Store troubleshooting guides and runbooks
+4. **Metadata**: Use columns and metadata to categorize documents
+5. **Permissions**: Ensure service account has read access to required sites
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **SharePoint** and click **Connect**
+
+### Step 2: Enter Azure AD Credentials
+
+Provide the following information:
+
+- **Tenant ID**: Your Azure AD Directory (tenant) ID
+- **Client ID**: Application (client) ID from app registration
+- **Client Secret**: The secret value you copied
+- **SharePoint Root URL**: Your SharePoint site URL (e.g., `https://contoso.sharepoint.com`)
+
+Click **Verify Connection**
+
+### Step 3: Select Sites and Libraries
+
+1. Harmony will discover all accessible SharePoint sites
+2. Select which sites should be searchable by AI:
+   - ☑️ IT Documentation Site
+   - ☑️ Company Policies Hub
+   - ☑️ Support Knowledge Base
+   - ☐ HR Documents (exclude if not relevant)
+3. Choose specific document libraries within each site
+4. Set priority levels for different content types
+
+### Step 4: Configure Content Filtering
+
+1. **File Types**: Select which file types to index (PDF, DOCX, XLSX, etc.)
+2. **Size Limits**: Set maximum file size for indexing
+3. **Date Range**: Optionally exclude documents older than X months
+4. **Metadata Filters**: Filter by SharePoint columns/metadata
+5. **Exclusion Patterns**: Exclude folders matching patterns (e.g., "Archive/*")
+6. Click **Save Configuration**
+
+### Step 5: Enable Search Features
+
+1. **Full-Text Search**: Enable comprehensive document content search
+2. **Metadata Search**: Search by document properties
+3. **OCR**: Enable optical character recognition for scanned PDFs (optional)
+4. **Auto-Sync**: Enable automatic content refresh (daily recommended)
+5. Click **Enable Integration**
+
+## What Harmony Syncs
+
+### From SharePoint to Harmony
+
+- **Document Content**: Full text extraction from PDFs, Word docs, Excel files
+- **Document Metadata**: Title, author, created/modified dates, custom columns
+- **Site Structure**: Site hierarchy and document library organization
+- **File URLs**: Direct links to documents for user access
+- **Permissions**: Document-level access control information
+- **Version History**: Latest version tracking
+- **Tags and Categories**: SharePoint metadata and managed metadata
+- **List Items**: Data from SharePoint lists (if configured)
+
+### From Harmony to SharePoint
+
+- **Usage Analytics**: Track which documents are most accessed via AI
+- **Search Queries**: Log searches to improve content organization
+- **Resolution Links**: Link tickets to relevant SharePoint documents
+- **Feedback**: AI-generated suggestions for content improvements
+- **Access Logs**: Audit trail of document access via integration
+
+## Use Cases
+
+### Policy and Procedure Lookup
+
+Instant access to organizational policies:
+
+```
+User: "What's our password policy?"
+Harmony AI:
+1. Searches SharePoint IT Policies library
+2. Finds "Password Security Policy.pdf"
+3. Extracts relevant requirements
+4. Provides summary with link to full document
+```
+
+### Runbook Retrieval
+
+Access troubleshooting guides during support:
+
+- User reports issue
+- Harmony searches SharePoint runbooks
+- Retrieves step-by-step resolution guide
+- Walks user through troubleshooting
+- Links to original document for reference
+
+### Onboarding Documentation
+
+Automate new employee onboarding:
+
+- New hire asks setup questions
+- AI retrieves onboarding checklists from SharePoint
+- Provides software installation guides
+- Shares relevant policy documents
+- Tracks completion of onboarding steps
+
+### Compliance Documentation
+
+Ensure consistent access to compliance materials:
+
+- Maintain compliance docs in SharePoint
+- AI retrieves current versions for audits
+- Provides evidence of policy adherence
+- Tracks access for compliance reporting
+
+## Troubleshooting
+
+### Documents Not Appearing in Search
+
+**Issue**: Harmony can't find documents that exist in SharePoint
+
+**Solutions**:
+- Verify app registration has Sites.Read.All permission with admin consent
+- Check that documents are in selected sites/libraries
+- Ensure file types are enabled in content filtering
+- Trigger manual sync to refresh content index
+- Verify documents aren't in excluded folders
+
+### Authentication Failures
+
+**Issue**: "Unauthorized" or "Invalid credentials" errors
+
+**Solutions**:
+- Verify client secret hasn't expired (check Azure AD app)
+- Confirm Tenant ID and Client ID are correct
+- Ensure admin consent was granted for API permissions
+- Check that service principal hasn't been disabled
+- Regenerate client secret if needed
+
+### Slow Search Performance
+
+**Issue**: Document searches take too long
+
+**Solutions**:
+- Reduce number of sites being indexed
+- Limit file types to most relevant formats
+- Exclude large media files from indexing
+- Use metadata filters to reduce scope
+- Consider excluding archived content
+
+### OCR Not Working
+
+**Issue**: Scanned PDFs aren't searchable
+
+**Solutions**:
+- Verify OCR feature is enabled in integration settings
+- Check that files are actually image-based PDFs
+- Large files may timeout during OCR processing
+- Some image quality may be too low for OCR
+- Consider using SharePoint's built-in OCR instead
+
+## Best Practices
+
+### Content Organization
+
+- **Logical Structure**: Organize sites and libraries logically
+- **Naming Conventions**: Use clear, descriptive file names
+- **Metadata**: Leverage SharePoint columns for better categorization
+- **Version Control**: Enable versioning on document libraries
+- **Regular Cleanup**: Archive or delete outdated documents
+
+### Performance Optimization
+
+- **Selective Indexing**: Only index sites relevant to IT support
+- **File Type Limits**: Focus on text-based documents (PDF, DOCX, TXT)
+- **Size Restrictions**: Exclude very large files that slow indexing
+- **Incremental Sync**: Use auto-sync to only index changes
+- **Content Types**: Use SharePoint content types for consistent structure
+
+### Security and Compliance
+
+- **Least Privilege**: Grant minimum required API permissions
+- **Access Reviews**: Regularly audit which sites are integrated
+- **Secret Rotation**: Rotate client secrets before expiration
+- **Sensitive Content**: Mark sensitive documents and exclude from integration
+- **Audit Logging**: Enable SharePoint audit logging for compliance
+
+### Document Quality
+
+- **Searchable PDFs**: Ensure PDFs contain searchable text
+- **Clear Formatting**: Use headings and structure for better extraction
+- **Consistent Templates**: Use document templates for standardization
+- **Regular Updates**: Keep documents current with regular reviews
+- **Version History**: Maintain version history for accountability
+
+## Data & Privacy
+
+### Data Handling
+
+- Harmony indexes document content and metadata for search
+- Original documents remain in SharePoint under your control
+- Document excerpts are cached temporarily for search results
+- All data in transit is encrypted with TLS 1.2+
+- Search indexes are encrypted at rest with AES-256
+
+### Compliance
+
+- **GDPR**: Supports data subject access and deletion requests
+- **Data Residency**: Documents stay in your Microsoft 365 tenant
+- **Microsoft 365 Compliance**: Inherits SharePoint's compliance features
+- **Audit Trail**: All access is logged in Microsoft 365 audit logs
+- **Retention Policies**: Respects SharePoint retention and deletion policies
+
+### Access Control
+
+- Harmony respects SharePoint permissions and access control
+- Users can only access documents they have SharePoint permissions for
+- Service principal access can be revoked instantly in Azure AD
+- Document-level permissions are checked on each access
+- Integration can be disabled immediately if needed
+

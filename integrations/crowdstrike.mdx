@@ -1,0 +1,305 @@
+---
+title: 'CrowdStrike'
+description: 'Automate threat response and endpoint security management with CrowdStrike Falcon integration'
+icon: '/images/integrations/crowdstrike.svg'
+---
+
+## About CrowdStrike
+
+CrowdStrike Falcon is a cloud-native endpoint protection platform that provides advanced threat detection, prevention, and response capabilities. Connecting CrowdStrike to Harmony enables automated threat response, intelligent security monitoring, and AI-powered incident resolution for your endpoint security operations.
+
+## What the CrowdStrike integration enables
+
+| Capability                     | Description                                                                                    |
+| ------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Threat Detection               | Monitor and respond to security threats across all endpoints                                   |
+| Automated Response             | Execute automated containment and remediation actions                                          |
+| Device Monitoring              | Track CrowdStrike agent status and protection state                                            |
+| Incident Management            | Sync security incidents with IT support tickets                                                |
+| Policy Enforcement             | Monitor and enforce security policies automatically                                            |
+| Real-Time Alerts               | Receive and route security alerts to appropriate teams                                         |
+
+## Prerequisites
+
+Before configuring the CrowdStrike integration, ensure you have:
+
+- **CrowdStrike Falcon Subscription**: Active subscription with API access
+- **Admin Credentials**: Falcon Administrator or API Client Manager role
+- **OAuth2 API Client**: Created in CrowdStrike Falcon console
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Deployment**: CrowdStrike Falcon agent deployed on endpoints
+
+## Configuration in CrowdStrike
+
+### Step 1: Create OAuth2 API Client
+
+1. Log in to CrowdStrike Falcon console
+2. Navigate to **Support** > **API Clients and Keys**
+3. Click **Add new API Client**
+4. Configure client:
+   - **Client Name**: "Harmony Integration"
+   - **Description**: "Integration with Harmony IT operations platform"
+5. Select **API Scopes** (click "Show all scopes" for full list):
+   - **Detections**: Read
+   - **Devices**: Read + Write (for containment actions)
+   - **Incidents**: Read + Write
+   - **Hosts**: Read
+   - **Prevention Policies**: Read
+   - **Sensor Update Policies**: Read
+   - **Real Time Response**: Read + Write (for advanced remediation)
+6. Click **Add**
+7. **Copy the Client ID, Client Secret, and Base URL** immediately
+
+<Warning>
+The Client Secret will only be shown once. Store it securely.
+</Warning>
+
+### Step 2: Configure Detection Policies
+
+Ensure your detection policies are configured:
+
+1. Go to **Configuration** > **Prevention Policies**
+2. Review or create policies for different device groups
+3. Set detection and prevention levels appropriately
+4. Document policy names for Harmony mapping
+
+### Step 3: Set Up Host Groups (Optional)
+
+Organize devices for better management:
+
+1. Navigate to **Configuration** > **Host Management** > **Host Groups**
+2. Create groups by department, location, or function
+3. Assign policies to host groups
+4. These groups will be synced to Harmony for routing
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **CrowdStrike** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **Client ID**: Your OAuth2 client ID
+- **Client Secret**: Your OAuth2 client secret
+- **Base URL**: Your CrowdStrike cloud (e.g., `https://api.crowdstrike.com`)
+- **Customer ID**: Your CrowdStrike Customer ID (CID)
+
+Click **Verify Connection**
+
+### Step 3: Configure Detection Settings
+
+1. **Alert Severity Threshold**: Choose minimum severity for Harmony alerts (Low, Medium, High, Critical)
+2. **Detection Types**: Select which detection types to monitor
+3. **Auto-Containment**: Enable automatic device containment for Critical threats (optional)
+4. **Ticket Creation**: Auto-create tickets for security incidents
+5. **Notification Routing**: Route alerts to specific Slack channels or teams
+
+### Step 4: Set Up Response Automation
+
+Configure intelligent security workflows:
+
+1. **Critical Threat Response**:
+   - Trigger: Critical severity detection
+   - Action: Contain device immediately
+   - Notify: Alert security team via Slack
+   - Escalate: Create high-priority ticket
+2. **Malware Detection**:
+   - Trigger: Malware detection on endpoint
+   - Action: Quarantine file, scan system
+   - Notify: Inform user and IT team
+   - Document: Log incident with resolution steps
+3. **Policy Violations**:
+   - Trigger: Prevention policy violation
+   - Action: Enforce policy, educate user
+   - Monitor: Track repeat violations
+4. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From CrowdStrike to Harmony
+
+- **Detections**: All security detections with severity and details
+- **Incidents**: Security incidents and investigation data
+- **Device Status**: Falcon agent status, version, and health
+- **Host Information**: Device details, OS, network information
+- **Containment State**: Whether devices are contained or released
+- **Prevention Policies**: Applied policies and compliance status
+- **Threat Intelligence**: IOCs (Indicators of Compromise) and threat actors
+- **Alerts**: Real-time security alerts and notifications
+- **Remediation Actions**: Executed response actions and results
+
+### From Harmony to CrowdStrike
+
+- **Containment Actions**: Contain or release devices
+- **Detection Updates**: Update detection status (resolved, in progress)
+- **Host Tags**: Add context tags to devices
+- **Response Actions**: Execute Real Time Response commands
+- **Incident Notes**: Add investigation notes to incidents
+- **Policy Changes**: Trigger policy updates (if configured)
+
+## Use Cases
+
+### Automated Threat Response
+
+Immediate response to critical threats:
+
+```
+Scenario: Ransomware Detection
+1. CrowdStrike detects ransomware on device
+2. Harmony immediately contains the device
+3. Sends critical alert to security team Slack channel
+4. Notifies affected user: "Your device has been isolated for security"
+5. Creates high-priority incident ticket
+6. Initiates forensic data collection
+7. Begins automated investigation workflow
+```
+
+### User-Friendly Security Notifications
+
+Translate security alerts for end users:
+
+- **Technical Alert**: "NGAV ML Detection: Suspicious PowerShell Activity"
+- **Harmony to User**: "We detected potentially harmful activity on your computer and took action to protect you. The IT security team has been notified."
+
+### Device Compliance Monitoring
+
+Track endpoint protection status:
+
+- Monitor Falcon agent health across all devices
+- Alert when agents go offline or outdated
+- Automatically resolve common agent issues
+- Escalate persistent problems to IT team
+
+### Incident Investigation
+
+AI-assisted security investigations:
+
+- User reports suspicious activity
+- Harmony queries CrowdStrike for recent detections
+- Retrieves timeline of security events
+- Provides security analyst with comprehensive context
+- Links related tickets and incidents
+- Documents investigation findings
+
+### Offboarding Security
+
+Secure device management during employee exits:
+
+1. Employee offboarding triggered in HRIS
+2. Harmony checks CrowdStrike for assigned devices
+3. Verifies no active security incidents
+4. Documents device security status
+5. After device retrieval, removes from monitoring
+6. Maintains forensic data per retention policy
+
+## Troubleshooting
+
+### Detections Not Appearing
+
+**Issue**: Security detections from CrowdStrike don't show in Harmony
+
+**Solutions**:
+- Verify API client has "Detections: Read" scope
+- Check severity threshold settings in Harmony
+- Ensure API credentials are valid and not expired
+- Trigger manual sync from Harmony dashboard
+- Review CrowdStrike audit logs for API access
+
+### Containment Actions Failing
+
+**Issue**: Cannot contain devices via Harmony
+
+**Solutions**:
+- Confirm API client has "Devices: Write" scope
+- Verify device is online and has active Falcon agent
+- Check that device isn't already contained
+- Ensure user has appropriate CrowdStrike permissions
+- Review containment policy in CrowdStrike console
+
+### Alerts Not Routing
+
+**Issue**: Security alerts not appearing in Slack/Teams
+
+**Solutions**:
+- Verify notification routing configuration in Harmony
+- Check Slack/Teams integration is active
+- Review alert severity threshold settings
+- Test with a sample detection
+- Check notification channel permissions
+
+### API Rate Limiting
+
+**Issue**: Integration slows down or fails
+
+**Solutions**:
+- CrowdStrike API has rate limits (varies by license)
+- Implement smart polling intervals
+- Use webhook delivery if available
+- Cache frequently accessed data
+- Contact CrowdStrike to discuss rate limit increases
+
+## Best Practices
+
+### Security Operations
+
+- **Tiered Response**: Define different response actions for each severity level
+- **Escalation Paths**: Clear paths from automated to human response
+- **Playbooks**: Document response playbooks for common scenarios
+- **Regular Drills**: Test automated response workflows quarterly
+- **Continuous Tuning**: Adjust detection thresholds based on false positive rates
+
+### Alert Management
+
+- **Noise Reduction**: Filter low-severity alerts that don't require action
+- **Context Enhancement**: Enrich alerts with user and device context
+- **Smart Routing**: Route alerts to appropriate teams based on type
+- **SLA Tracking**: Monitor time to detection, containment, and resolution
+- **After-Action Reviews**: Learn from incidents to improve automation
+
+### User Communication
+
+- **Non-Technical Language**: Translate security jargon for end users
+- **Clear Actions**: Tell users exactly what to do (or not do)
+- **Timely Updates**: Keep users informed during incidents
+- **Education**: Use incidents as teaching moments
+- **Transparency**: Be honest about what happened and why
+
+### Integration Maintenance
+
+- **Credential Rotation**: Rotate API credentials regularly
+- **Permission Reviews**: Audit API client permissions quarterly
+- **Update Monitoring**: Track CrowdStrike API changes
+- **Performance Metrics**: Monitor integration health and performance
+- **Documentation**: Keep integration documentation current
+
+## Data & Privacy
+
+### Data Handling
+
+- Security telemetry encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches detection metadata; full forensic data remains in CrowdStrike
+- Personal information processed according to GDPR and privacy regulations
+- Data retention configurable to match security and compliance requirements
+- Forensic data handled according to incident response procedures
+
+### Compliance
+
+- **GDPR**: Full compliance with EU data protection regulations
+- **SOC 2 Type II**: Both CrowdStrike and Harmony maintain certification
+- **FedRAMP**: Available for government customers (specific clouds)
+- **PCI DSS**: Compliant with payment card industry standards
+- **Audit Logging**: All security actions logged for compliance
+
+### Access Control
+
+- API credentials scoped to minimum required permissions
+- Harmony respects CrowdStrike's role-based access control
+- Integration can be disabled immediately if needed
+- All containment actions require explicit authorization
+- Audit trail for all integration activities
+

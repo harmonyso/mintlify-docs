@@ -1,0 +1,374 @@
+---
+title: 'Microsoft Teams'
+description: 'Transform your IT operations with Harmony intelligent Microsoft Teams integration. Get real-time alerts, execute commands, and collaborate seamlessly'
+icon: '/images/integrations/teams.svg'
+---
+
+## About Microsoft Teams
+
+Microsoft Teams is a collaboration platform that combines workplace chat, video meetings, file storage, and application integration. Connecting Teams to Harmony transforms your channels into an intelligent IT helpdesk with autonomous ticket resolution, AI-powered responses, and seamless workflow automation.
+
+## What the Microsoft Teams integration enables
+
+| Capability           | Description                                                                                                  |
+| -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Autonomous Help Desk | Transform Teams channels into an AI-powered help desk with autonomous ticket resolution                      |
+| Team Inbox           | Centralize all IT tickets in a dedicated channel for support agents to triage and collaborate                |
+| Automation workflows | Trigger workflows, receive notifications, and execute IT actions directly from Teams                         |
+| Adaptive Cards       | Interactive rich cards for ticket updates, approvals, and status changes                                     |
+| Message Actions      | Convert any message into a ticket using the Teams message context menu                                       |
+| AI Responses         | Get intelligent answers from Harmony's AI trained on your knowledge base and IT procedures                   |
+
+***
+
+## Prerequisites
+
+Before connecting Microsoft Teams to Harmony, ensure you have:
+
+1. **Microsoft 365 Admin access** or permissions to install Teams applications
+2. **Microsoft Entra ID connected** to Harmony as your identity provider
+3. **A Harmony account** with admin access to manage integrations
+
+<Warning>
+  You must connect Microsoft Entra ID to Harmony before setting up the Teams integration. Entra ID provides user authentication and identity management for Teams.
+</Warning>
+
+***
+
+## Step 1: Connect Microsoft Entra ID
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. Log into your Harmony dashboard
+    2. Navigate to **Settings → Integrations**
+    3. Find **Microsoft Entra ID** under **Identity & Access Management**
+    4. Click **Connect**
+  </Step>
+
+  <Step title="Authorize Entra ID">
+    1. You'll be redirected to Microsoft to authorize the connection
+    2. Sign in with your Microsoft 365 admin account
+    3. Review the requested permissions
+    4. Click **Accept** to authorize
+    5. You'll be redirected back to Harmony
+  </Step>
+
+  <Step title="Verify Connection">
+    Confirm that Microsoft Entra ID shows **Connected** status before proceeding to Teams setup.
+  </Step>
+</Steps>
+
+***
+
+## Step 2: Connect Microsoft Teams
+
+### Initiate the Connection
+
+<Steps>
+  <Step title="Navigate to Teams Integration">
+    1. In your Harmony dashboard, navigate to **Settings → Integrations**
+    2. Find **Microsoft Teams** under **Collaboration**
+    3. Click **Connect**
+  </Step>
+
+  <Step title="Authorize in Microsoft">
+    1. You'll be redirected to Microsoft to authorize Teams integration
+    2. Review the requested permissions (see [Permissions](#permissions-explained) below)
+    3. Click **Accept** to authorize the connection
+    4. You'll be redirected back to Harmony
+  </Step>
+</Steps>
+
+***
+
+## Step 3: Upload Harmony App to Teams
+
+The Harmony app must be uploaded to your Microsoft Teams environment by a Teams administrator.
+
+<Steps>
+  <Step title="Download Harmony App Package">
+    1. In Harmony, navigate to **Settings → Integrations → Microsoft Teams**
+    2. Click **Download Teams App Package**
+    3. Save the `.zip` file to your computer
+  </Step>
+
+  <Step title="Upload to Teams Admin Center">
+    1. Navigate to the [Microsoft Teams admin center](https://admin.teams.microsoft.com/policies/manage-apps)
+    2. Click the **Actions** dropdown button
+    3. Select **Upload new app**
+    4. Upload the Harmony Teams app package (`.zip` file)
+    5. Click **Upload** to complete the installation
+
+    <Tip>
+      The app will be available to users within a few minutes, but organization-wide deployment may take several hours.
+    </Tip>
+  </Step>
+</Steps>
+
+***
+
+## Step 4: Deploy to Users (Optional)
+
+By default, users must manually add the Harmony app to their Teams. To automatically install it for all users:
+
+<Steps>
+  <Step title="Navigate to Setup Policies">
+    1. In the Microsoft Teams admin center, go to **Teams apps → Setup policies**
+    2. Click on **Global (Org-wide default)** or create a custom policy
+  </Step>
+
+  <Step title="Add Harmony to Installed Apps">
+    1. Under **Installed apps**, click **+ Add apps**
+    2. Search for **Harmony** and add it to the list
+    3. Click **Save**
+
+    <Note>
+      It may take a few minutes to several hours for the app to propagate to all users in your organization.
+    </Note>
+  </Step>
+</Steps>
+
+***
+
+## Configure Teams Channels
+
+After uploading the Harmony app, configure how it operates in your Teams channels:
+
+### Add Harmony to a Channel
+
+<Steps>
+  <Step title="Add Harmony Bot to Channel">
+    1. Open the Teams channel where you want Harmony
+    2. Click the **+** button to add a tab
+    3. Search for **Harmony** and select it
+    4. Click **Add** to add Harmony to the channel
+  </Step>
+
+  <Step title="Configure Channel Mode">
+    1. In Harmony dashboard, navigate to **Settings → Integrations → Microsoft Teams**
+    2. Find your channel in the list
+    3. Select a channel mode (see [Channel Modes](#channel-configuration-modes) below)
+    4. Click **Save**
+  </Step>
+</Steps>
+
+***
+
+## Channel Configuration Modes
+
+Configure how Harmony operates in each Teams channel:
+
+### Disabled Mode (Default)
+
+*Harmony will do nothing*
+
+- Does not create tickets from messages
+- Does not respond to messages in the channel
+- Safe for testing without activating features
+
+### Silent Mode
+
+*Harmony monitors but operates quietly*
+
+- Creates tickets from channel messages
+- Does not post responses in the channel
+- @mention Harmony to activate assistance on specific threads
+- Ideal for testing without channel noise
+
+### Help Desk Mode
+
+*Full autonomous IT helpdesk*
+
+- Creates tickets from messages automatically
+- Responds with intelligent AI-powered answers
+- Attempts autonomous resolution
+- Complete autonomous support experience
+- **Recommended for primary IT support channels**
+
+### Team Only Mode
+
+*Internal IT team channels*
+
+- IT team members can create tickets and workflows
+- Access to privileged workflows and operations
+- Maximum functionality for IT operations
+- **Only use in private channels with IT team members**
+
+### Team Inbox Mode
+
+*Centralized ticket triage for agents*
+
+- Aggregates all escalated tickets into one channel
+- Agents view, respond, and collaborate on tickets
+- Responses sync automatically to end users
+- Egress-only (doesn't create new tickets from messages)
+- **Use a private channel with only IT support agents**
+
+***
+
+## Interacting with Harmony in Teams
+
+### In Channels
+
+**@mention Harmony** to get AI-powered responses:
+
+```
+@Harmony How do I reset a user's MFA?
+```
+
+### In Thread Replies
+
+Continue the conversation by @mentioning Harmony in thread replies:
+
+```
+@Harmony Can you walk me through the steps?
+```
+
+### Direct Messages
+
+Use the `/harmony` command or **Create Ticket** message action:
+
+1. Open a chat with Harmony bot
+2. Type `/harmony [your request]` OR
+3. Right-click any message → **More actions** → **Create Harmony Ticket**
+
+### Message Actions
+
+Convert any existing message into a ticket:
+
+1. Hover over any message
+2. Click the **⋯** (more actions) menu
+3. Select **Create Harmony Ticket**
+
+<Warning>
+  **Important:**
+  - **In channels**: @mention Harmony to get AI responses
+  - **In thread replies**: Continue with @mentions for context
+  - **In DMs**: Use `/harmony` command or message actions to create tickets
+</Warning>
+
+***
+
+## Permissions Explained
+
+Harmony requests the following Microsoft Teams permissions:
+
+| Permission              | Why we need it                                              |
+| ----------------------- | ----------------------------------------------------------- |
+| `ChannelMessage.Read.All` | To read messages in channels where Harmony is added         |
+| `ChannelMessage.Send`   | To post responses and ticket updates in channels            |
+| `Chat.Read`             | To read direct messages sent to Harmony bot                 |
+| `Chat.ReadWrite`        | To send responses in direct message conversations           |
+| `User.Read.All`         | To identify users and personalize responses                 |
+| `TeamSettings.Read.All` | To read team and channel information                        |
+| `Files.Read.All`        | To access file attachments in ticket requests               |
+
+***
+
+## Troubleshooting
+
+### Harmony app not appearing in Teams
+
+**Possible causes:**
+- App not uploaded to Teams admin center
+- Organization's app policies block custom apps
+- App hasn't propagated to all users yet
+
+**Solutions:**
+1. Verify app was uploaded successfully in Teams admin center
+2. Check **Teams apps → Permission policies** allow custom apps
+3. Wait 15-30 minutes for app to propagate
+4. Have users refresh Teams (Ctrl+R or Cmd+R)
+
+### Bot doesn't respond to messages
+
+**Possible causes:**
+- Teams integration not connected in Harmony
+- Not @mentioning the bot in channels
+- Channel is in Disabled or Silent mode
+
+**Solutions:**
+1. Verify **Settings → Integrations → Microsoft Teams** shows **Connected**
+2. Ensure you're @mentioning **@Harmony** in channel messages
+3. Check channel mode in Harmony settings
+
+### Cannot create tickets in DMs
+
+**Possible causes:**
+- Using @mention instead of commands in DMs
+- Bot not added to personal apps
+
+**Solutions:**
+1. In DMs, use `/harmony [request]` instead of @mentions
+2. Use message actions: right-click message → **Create Harmony Ticket**
+3. Have users add Harmony bot from Teams app store
+
+### Adaptive cards not displaying
+
+**Possible causes:**
+- Teams client version too old
+- Card schema compatibility issue
+
+**Solutions:**
+1. Update Microsoft Teams to the latest version
+2. Try accessing Teams via web browser
+3. Contact Harmony support with Teams version info
+
+***
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Start with a Pilot Channel">
+    Before rolling out organization-wide:
+    - Choose one IT support channel for testing
+    - Start in Silent Mode to observe ticket creation
+    - Gradually move to Help Desk Mode
+    - Gather feedback from early users
+    - Roll out to additional channels based on success
+  </Accordion>
+
+  <Accordion title="Configure Team Inbox for Agents">
+    Create a dedicated private channel for IT support agents:
+    - Name it clearly (e.g., `IT Support Inbox`)
+    - Only invite support agents and managers
+    - Configure as Team Inbox Mode
+    - Train agents on responding within threads
+    - Use as central triage location
+  </Accordion>
+
+  <Accordion title="Educate End Users">
+    Help users understand how to interact with Harmony:
+    - Create a quick reference guide
+    - Explain the difference between channels (@ mention) and DMs (commands)
+    - Share example questions and requests
+    - Highlight the Create Ticket message action
+    - Set expectations for response times
+  </Accordion>
+
+  <Accordion title="Monitor and Optimize">
+    Regularly review integration performance:
+    - Check ticket creation patterns
+    - Monitor resolution rates
+    - Identify common user questions
+    - Adjust channel modes based on usage
+    - Collect user feedback on AI responses
+  </Accordion>
+</AccordionGroup>
+
+***
+
+Need help? Contact **[support@harmony.io](mailto:support@harmony.io)** for assistance with your Microsoft Teams integration.
+
+***
+
+## Data & Privacy
+
+For information about how Harmony handles your data, see our [Privacy Policy](https://harmony.io/privacy).
+
+**Key privacy principles:**
+- Harmony only accesses channels where explicitly added
+- All data transmission is encrypted using Microsoft's security standards
+- Message content is processed to provide AI responses and ticket management
+- Integration can be revoked from Teams admin center or Harmony settings
+- Complies with Microsoft 365 security and compliance requirements

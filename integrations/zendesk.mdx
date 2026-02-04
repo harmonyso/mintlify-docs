@@ -1,0 +1,245 @@
+---
+title: 'Zendesk'
+description: 'Bridge Zendesk with Harmony AI for intelligent ticket routing and automated resolution'
+icon: '/images/integrations/zendesk.svg'
+---
+
+## About Zendesk
+
+Zendesk is a customer service and support ticketing platform that helps organizations manage customer interactions across multiple channels. Connecting Zendesk to Harmony enables bidirectional ticket synchronization, AI-powered resolution, and seamless migration from traditional support workflows to autonomous IT operations.
+
+## What the Zendesk integration enables
+
+| Capability                  | Description                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------- |
+| Ticket Synchronization      | Sync tickets bidirectionally between Zendesk and Harmony                                         |
+| AI-Powered Resolution       | Leverage Harmony's AI to automatically resolve Zendesk tickets                                   |
+| Knowledge Base Integration  | Connect Zendesk Guide articles to power intelligent responses                                     |
+| User Management             | Automatically sync Zendesk users and agents with Harmony                                         |
+| SLA Monitoring              | Track and maintain SLA compliance across both platforms                                          |
+| Custom Field Mapping        | Map custom fields between Zendesk and Harmony for complete data fidelity                         |
+
+## Prerequisites
+
+Before configuring the Zendesk integration, ensure you have:
+
+- **Zendesk Administrator Access**: Ability to create API tokens and manage integrations
+- **Zendesk Plan**: Professional plan or higher (for API access)
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **API Token**: Generated from Zendesk Admin Center
+
+## Configuration in Zendesk
+
+### Step 1: Generate API Token
+
+1. Navigate to **Admin Center** > **Apps and integrations** > **APIs** > **Zendesk API**
+2. Click the **Settings** tab
+3. Under **Token Access**, enable token access if not already enabled
+4. Click **Add API token**
+5. Enter a description (e.g., "Harmony Integration")
+6. Copy the generated token immediately (it won't be shown again)
+7. Click **Save**
+
+### Step 2: Configure Webhook (Optional)
+
+For real-time ticket updates:
+
+1. Go to **Admin Center** > **Apps and integrations** > **Webhooks**
+2. Click **Create webhook**
+3. Configure:
+   - **Endpoint URL**: Provided by Harmony
+   - **Request method**: POST
+   - **Authentication**: Bearer token (provided by Harmony)
+4. Add triggers for ticket events (created, updated, solved)
+5. Click **Create webhook**
+
+### Step 3: Set Up Custom Fields (Optional)
+
+Create custom fields to track Harmony sync status:
+
+1. Navigate to **Admin Center** > **Objects and rules** > **Tickets** > **Fields**
+2. Click **Add field**
+3. Create fields:
+   - **Harmony Ticket ID**: Text field
+   - **Harmony Status**: Dropdown with values (Synced, Pending, Resolved)
+4. Click **Save**
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Zendesk** and click **Connect**
+
+### Step 2: Enter Credentials
+
+Provide the following information:
+
+- **Zendesk Subdomain**: Your Zendesk subdomain (e.g., `company.zendesk.com`)
+- **Email Address**: Your Zendesk admin email
+- **API Token**: The token generated in Step 1
+- **Sync Direction**: Choose bidirectional, Zendesk → Harmony, or Harmony → Zendesk
+
+### Step 3: Configure Sync Settings
+
+1. **Ticket Status Mapping**: Map Zendesk statuses to Harmony statuses
+2. **Priority Mapping**: Align priority levels between platforms
+3. **User Assignment**: Configure how agents are mapped
+4. **Custom Field Mapping**: Map custom fields between systems
+5. Click **Test Connection** to verify
+6. Click **Save Configuration**
+
+### Step 4: Enable Automation Rules
+
+Configure automation rules:
+
+1. **Auto-Resolution**: Enable Harmony AI to automatically resolve certain ticket types
+2. **Escalation Rules**: Set thresholds for human escalation
+3. **Knowledge Base Integration**: Enable Zendesk Guide article search
+4. Click **Enable Integration**
+
+## What Harmony Syncs
+
+### From Zendesk to Harmony
+
+- **Tickets**: All ticket data including subject, description, status, priority
+- **Comments**: Full conversation history and internal notes
+- **Attachments**: Files attached to tickets
+- **Users**: Requesters, agents, and administrators
+- **Organizations**: Company/organization associations
+- **Tags**: Ticket tags and labels
+- **Custom Fields**: All configured custom field values
+- **SLA Events**: SLA breach notifications and metrics
+
+### From Harmony to Zendesk
+
+- **Resolution Actions**: Automated resolution steps and outcomes
+- **AI Responses**: Harmony-generated responses to ticket queries
+- **Status Updates**: Real-time ticket status changes
+- **Assignment Changes**: Ticket routing and agent assignments
+- **Knowledge Articles**: Links to relevant documentation
+- **Time Tracking**: Time spent on automated resolutions
+
+## Use Cases
+
+### Migrating from Zendesk to Harmony
+
+Seamlessly transition from traditional ticketing to autonomous IT operations:
+
+1. Enable bidirectional sync to maintain Zendesk records during transition
+2. Gradually route tickets to Harmony for AI resolution
+3. Monitor resolution rates and user satisfaction
+4. Phase out Zendesk as confidence in Harmony grows
+
+### Hybrid Support Model
+
+Use both platforms for different support functions:
+
+- **Zendesk**: Customer-facing support and external tickets
+- **Harmony**: Internal IT support with autonomous resolution
+- **Sync**: Keep both platforms updated for complete visibility
+
+### Knowledge Base Enhancement
+
+Leverage Zendesk Guide content in Harmony:
+
+- Automatically search Zendesk articles when resolving tickets
+- Surface relevant Help Center content to end users
+- Track article effectiveness and suggest improvements
+
+## Troubleshooting
+
+### Tickets Not Syncing
+
+**Issue**: Tickets created in Zendesk don't appear in Harmony
+
+**Solutions**:
+- Verify API token is valid and hasn't expired
+- Check webhook configuration for real-time sync
+- Review sync filters and ensure tickets meet criteria
+- Confirm network connectivity between systems
+
+### Duplicate Tickets
+
+**Issue**: Same ticket appears multiple times in either system
+
+**Solutions**:
+- Check custom field mapping for unique identifiers
+- Verify webhook triggers aren't duplicated
+- Review sync direction settings
+- Disable and re-enable integration if necessary
+
+### Status Mapping Errors
+
+**Issue**: Ticket statuses don't match between systems
+
+**Solutions**:
+- Review status mapping configuration
+- Ensure all Zendesk statuses are mapped to Harmony equivalents
+- Check for custom statuses that need manual mapping
+- Test with a sample ticket to verify behavior
+
+### API Rate Limiting
+
+**Issue**: Integration slows down or fails intermittently
+
+**Solutions**:
+- Zendesk has API rate limits (200 requests per minute for Professional plan)
+- Implement batch processing for bulk operations
+- Contact Zendesk to increase rate limits if needed
+- Use webhook-based sync to reduce API calls
+
+## Best Practices
+
+### Ticket Management
+
+- **Status Consistency**: Maintain consistent status definitions across both platforms
+- **Priority Alignment**: Ensure priority levels mean the same thing in both systems
+- **SLA Preservation**: Configure SLAs in Harmony to match or exceed Zendesk SLAs
+- **Tag Standardization**: Use consistent tagging across both platforms
+
+### Performance Optimization
+
+- **Selective Sync**: Only sync tickets that require dual visibility
+- **Webhook Usage**: Use webhooks for real-time updates instead of polling
+- **Batch Processing**: Process bulk operations during off-hours
+- **Archive Strategy**: Archive old tickets to reduce sync overhead
+
+### User Experience
+
+- **Clear Communication**: Inform users about which platform to use for different request types
+- **Consistent Branding**: Maintain consistent language and branding across both platforms
+- **Training**: Provide training on when to use Zendesk vs. Harmony
+- **Feedback Loop**: Collect user feedback on the hybrid experience
+
+### Migration Strategy
+
+- **Phased Approach**: Migrate ticket types gradually rather than all at once
+- **Pilot Program**: Start with a small team or department
+- **Success Metrics**: Define clear KPIs for migration success
+- **Rollback Plan**: Maintain ability to revert if issues arise
+
+## Data & Privacy
+
+### Data Handling
+
+- All ticket data is encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony stores minimal ticket metadata; full ticket content remains in Zendesk
+- Personal information is processed according to GDPR and privacy regulations
+- Data retention policies can be configured to match your compliance requirements
+
+### Compliance
+
+- **GDPR**: Full data subject rights support including access, deletion, and portability
+- **SOC 2 Type II**: Both Zendesk and Harmony maintain SOC 2 certification
+- **HIPAA**: Available for healthcare organizations (requires Business Associate Agreement)
+- **PCI DSS**: Payment data is never stored; compliant with credit card handling requirements
+
+### Access Control
+
+- Harmony respects Zendesk's role-based access control
+- API tokens can be scoped to specific permissions
+- Audit logs track all integration activities
+- Integration can be disabled instantly if security concerns arise
+

@@ -1,0 +1,378 @@
+---
+title: 'Ceridian Dayforce'
+description: 'Sync Dayforce HCM data to automate employee lifecycle and payroll-driven IT workflows'
+icon: '/images/integrations/ceridian-dayforce.svg'
+---
+
+## About Ceridian Dayforce
+
+Ceridian Dayforce is a comprehensive cloud HCM platform that combines HR, payroll, benefits, workforce management, and talent management in a single application. Connecting Dayforce to Harmony enables automated IT provisioning triggered by HR events, intelligent workforce analytics, and seamless employee lifecycle management.
+
+## What the Ceridian Dayforce integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Employee Data Sync            | Sync employee profiles, departments, and organizational structure                               |
+| Payroll-Driven Provisioning   | Trigger IT actions based on payroll status changes                                             |
+| Onboarding Automation         | Automate IT setup when new hires are added                                                      |
+| Offboarding Workflows         | Secure access removal during employee terminations                                              |
+| Org Structure Integration     | Maintain current reporting hierarchy in Harmony                                                 |
+| Time-Off Awareness            | Track employee availability for support routing                                                 |
+
+## Prerequisites
+
+Before configuring the Ceridian Dayforce integration, ensure you have:
+
+- **Dayforce Administrator Access**: Admin role with API access permissions
+- **Dayforce Subscription**: Active Dayforce HCM subscription
+- **API Credentials**: OAuth client credentials from Dayforce
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **API Documentation Access**: Access to Dayforce Developer Network
+
+## Configuration in Ceridian Dayforce
+
+### Step 1: Create OAuth Client
+
+1. Log in to Dayforce at your organization's URL (e.g., `https://[company].dayforcehcm.com`)
+2. Navigate to **System Tools** > **Configure** > **System Configuration**
+3. Select **Security** > **OAuth Clients**
+4. Click **Add OAuth Client**
+5. Configure:
+   - **Client Name**: "Harmony Integration"
+   - **Client Type**: Service/Backend
+   - **Grant Types**: Client Credentials
+   - **Scopes**: Select required API scopes:
+     - Employee Data: Read
+     - Organization Structure: Read
+     - Employment Status: Read
+     - Time Off: Read (optional)
+6. Click **Save**
+7. **Copy the Client ID and Client Secret immediately**
+
+### Step 2: Configure API Permissions
+
+Ensure the OAuth client has access to required endpoints:
+
+- **Employee**: GET /v1/Employee
+- **Employee Details**: GET /v1/Employee/{xRefCode}
+- **Organization**: GET /v1/Organization
+- **Employment Status**: GET /v1/EmploymentStatus
+- **Job**: GET /v1/Job
+- **Department**: GET /v1/Department
+
+### Step 3: Organize Employee Data
+
+Ensure Dayforce data is structured for automation:
+
+1. **Employee Records**: Verify all employees have:
+   - Employee Number (XRefCode)
+   - Email Address
+   - Department
+   - Job Title
+   - Hire Date
+   - Employment Status
+   - Reports To (Manager)
+2. **Custom Fields**: Consider configuring:
+   - IT Access Level
+   - Primary Device Type
+   - Remote/Hybrid Status
+3. **Department Codes**: Ensure consistent department naming
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **Ceridian Dayforce** and click **Connect**
+
+### Step 2: Enter OAuth Credentials
+
+Provide the following information:
+
+- **Dayforce URL**: Your Dayforce instance URL
+- **Client ID**: OAuth client ID from Dayforce
+- **Client Secret**: OAuth client secret
+- **Username**: Dayforce API service account username
+- **Password**: Dayforce API service account password
+
+Click **Verify Connection**
+
+### Step 3: Configure Employee Sync
+
+1. **Sync Frequency**: Choose sync interval (real-time, hourly, daily)
+2. **Employment Status Filter**: Select statuses to sync:
+   - ☑️ Active
+   - ☑️ Pending (for pre-boarding)
+   - ☑️ Leave of Absence (for availability tracking)
+   - ☐ Terminated (optional for offboarding)
+3. **Employee Fields**: Select fields to sync:
+   - Basic info (name, email, employee number)
+   - Organization (department, title, manager)
+   - Employment (hire date, status, location)
+   - Compensation (optional, for asset allocation)
+4. **Department Mapping**: Map Dayforce departments to Harmony teams
+
+### Step 4: Set Up Lifecycle Automation
+
+Configure workflows for HR events:
+
+1. **New Hire Provisioning**:
+   - Trigger: New employee with status "Active" or "Pending"
+   - Conditions: Hire date within next 14 days
+   - Actions:
+     - Order hardware based on job role
+     - Create email and IT accounts
+     - Provision software licenses
+     - Assign to security groups
+     - Send welcome email with instructions
+2. **Payroll Status Changes**:
+   - Trigger: Employee moves from "Pending" to "Active" (first payroll)
+   - Actions:
+     - Enable full system access
+     - Assign additional licenses
+     - Complete final onboarding steps
+3. **Department Transfer**:
+   - Trigger: Employee department changes
+   - Actions:
+     - Update access permissions
+     - Adjust security group memberships
+     - Notify new manager
+     - Transfer ticket ownership
+4. **Termination**:
+   - Trigger: Employment status changes to "Terminated"
+   - Actions:
+     - Disable accounts immediately
+     - Schedule email archive
+     - Retrieve company assets
+     - Generate offboarding report
+5. **Leave of Absence**:
+   - Trigger: Employee status changes to "LOA"
+   - Actions:
+     - Suspend accounts temporarily
+     - Set out-of-office auto-responders
+     - Redirect tickets to backup
+     - Track return date
+6. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From Dayforce to Harmony
+
+- **Employee Profiles**: Full name, email, employee number
+- **Employment Details**: Job title, department, pay group
+- **Employment Status**: Active, pending, terminated, LOA
+- **Organizational Data**: Manager, supervisor, reporting hierarchy
+- **Work Information**: Work location, work phone, shift
+- **Employment Dates**: Hire date, termination date, seniority date
+- **Compensation**: Pay type, employee type (optional)
+- **Time Off**: Scheduled absences and availability (optional)
+- **Department Structure**: All departments and cost centers
+- **Custom Fields**: IT-relevant custom fields
+
+### From Harmony to Dayforce
+
+- **IT Asset Assignment**: Update employee records with assigned devices
+- **Custom Field Updates**: Update IT-specific fields (laptop serial, etc.)
+- **Notes**: Add IT onboarding/offboarding notes
+- **Contact Information**: Update emergency contact for IT purposes
+
+## Use Cases
+
+### Automated Pre-Boarding
+
+Start IT provisioning before day one:
+
+1. HR adds new employee to Dayforce (start date: 2 weeks from now)
+2. Harmony detects new employee in "Pending" status
+3. Two weeks before start:
+   - Orders laptop and peripherals
+   - Creates email account (disabled until start date)
+   - Prepares account credentials
+4. One week before:
+   - Ships laptop to employee's address
+   - Sends pre-boarding email with company info
+5. Day before start:
+   - Enables email account
+   - Sends setup instructions
+6. On start date:
+   - Activates all accounts
+   - Sends welcome Slack message
+   - Creates onboarding checklist
+
+### Payroll-Driven Access
+
+Use payroll events to control access:
+
+```
+Scenario: Contractor Conversion to Employee
+1. HR changes employee type from "Contractor" to "Full-Time"
+2. Payroll status updated in Dayforce
+3. Harmony detects employment type change
+4. Automatically:
+   - Upgrades to full employee licenses (Microsoft 365 E3)
+   - Grants access to employee-only systems (401k portal)
+   - Adds to full-time security groups
+   - Sends benefits enrollment information
+5. Notifies employee of new access and benefits
+```
+
+### Leave of Absence Management
+
+Temporary access management:
+
+- Employee goes on maternity leave (3 months)
+- Dayforce status changes to "LOA"
+- Harmony:
+  1. Suspends non-essential accounts (keep email active)
+  2. Sets Slack status to "Out on leave - back [date]"
+  3. Redirects IT tickets to backup team member
+  4. Removes from on-call rotations
+  5. Retains access for secure email checks
+- Before return date:
+  6. Re-enables all accounts
+  7. Sends "welcome back" message
+  8. Updates manager on account status
+
+### Department Reorganization
+
+Automated access adjustment during reorgs:
+
+1. HR reorganizes departments in Dayforce
+2. 50 employees move from "IT-Operations" to "Engineering-Platform"
+3. Harmony detects department changes
+4. For each employee:
+   - Updates Slack channels
+   - Adjusts GitHub team memberships
+   - Modifies AWS IAM groups
+   - Updates email distribution lists
+   - Changes approval workflows
+5. Notifies managers of completed changes
+6. Generates reorganization report
+
+### Secure Offboarding
+
+Complete termination workflow:
+
+1. HR terminates employee in Dayforce (last day: Friday 5 PM)
+2. Harmony creates offboarding plan:
+   - Asset retrieval (laptop, phone, badge)
+   - Account deactivation schedule
+   - Data transfer requirements
+3. On termination date at 5 PM:
+   - Disables all accounts immediately
+   - Removes VPN/network access
+   - Removes from all distribution lists
+   - Locks physical access badge
+4. Within 24 hours:
+   - Archives email to manager
+   - Transfers files and documents
+   - Cancels software licenses
+5. Generates complete offboarding report
+
+## Troubleshooting
+
+### Employees Not Syncing
+
+**Issue**: New employees in Dayforce don't appear in Harmony
+
+**Solutions**:
+- Verify OAuth client has Employee Data read permissions
+- Check employment status filter includes "Active" or "Pending"
+- Ensure employees have required fields (email, employee number)
+- Trigger manual sync from Harmony dashboard
+- Review Dayforce API logs for authentication issues
+
+### OAuth Authentication Failures
+
+**Issue**: "Unauthorized" or "Invalid credentials" errors
+
+**Solutions**:
+- Verify Client ID and Client Secret are correct
+- Check that service account credentials are valid
+- Ensure OAuth client hasn't been deactivated in Dayforce
+- Confirm Dayforce URL is correct (including https://)
+- Review OAuth token expiration and refresh settings
+
+### Department Mapping Issues
+
+**Issue**: Employees assigned to wrong Harmony teams
+
+**Solutions**:
+- Review department code mapping in Harmony settings
+- Check for department name changes in Dayforce
+- Verify department codes are consistent
+- Update mappings for new departments
+- Test with specific employee to verify routing
+
+### Delayed Provisioning
+
+**Issue**: Onboarding workflows trigger too late
+
+**Solutions**:
+- Adjust sync frequency to hourly or real-time
+- Check workflow trigger conditions and timing
+- Verify hire date is set correctly in Dayforce
+- Consider using webhooks if available
+- Review workflow execution logs for delays
+
+## Best Practices
+
+### Data Quality
+
+- **Complete Records**: Ensure all employees have required fields
+- **Consistent Codes**: Use standard department and job codes
+- **Accurate Dates**: Set precise hire and termination dates
+- **Manager Hierarchy**: Maintain current reporting structure
+- **Regular Audits**: Review employee data quarterly
+
+### Onboarding Excellence
+
+- **Pre-Boarding**: Start provisioning 2 weeks before start date
+- **Hardware Lead Time**: Order devices 3-4 weeks in advance
+- **Communication**: Send clear, timely pre-boarding messages
+- **Checklists**: Track onboarding task completion
+- **Feedback**: Collect new hire experience feedback
+
+### Offboarding Security
+
+- **Immediate Disabling**: Disable accounts on termination date
+- **Asset Recovery**: Track all company property retrieval
+- **Data Preservation**: Archive email and files appropriately
+- **Access Verification**: Audit to ensure complete removal
+- **Documentation**: Maintain detailed offboarding records
+
+### Integration Reliability
+
+- **Credential Management**: Securely store OAuth credentials
+- **Error Monitoring**: Alert on sync failures
+- **Data Validation**: Verify employee data accuracy
+- **Backup Processes**: Have manual fallback procedures
+- **Performance Tracking**: Monitor sync duration and success rates
+
+## Data & Privacy
+
+### Data Handling
+
+- Employee data encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches HR data for operational purposes
+- Sensitive data (SSN, compensation) optionally excluded from sync
+- Data processed according to GDPR, CCPA, and privacy regulations
+- Data retention configurable to match compliance requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with EU data protection regulations
+- **CCPA**: California Consumer Privacy Act compliance
+- **SOC 2 Type II**: Both Dayforce and Harmony maintain certification
+- **Data Minimization**: Only sync fields required for IT operations
+- **Audit Trails**: All employee data access logged
+
+### Access Control
+
+- OAuth credentials scoped to minimum required permissions
+- Service account credentials encrypted in Harmony
+- Integration can be disabled immediately if needed
+- All automation actions logged with employee context
+- Role-based access in Harmony for viewing HR data
+

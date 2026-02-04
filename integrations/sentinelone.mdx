@@ -1,0 +1,309 @@
+---
+title: 'SentinelOne'
+description: 'Integrate SentinelOne for autonomous endpoint protection and AI-driven threat detection'
+icon: '/images/integrations/sentinelone.svg'
+---
+
+## About SentinelOne
+
+SentinelOne is an autonomous cybersecurity platform that provides AI-powered prevention, detection, and response across endpoints, containers, and cloud workloads. Connecting SentinelOne to Harmony enables automated threat response, intelligent security operations, and seamless incident management for comprehensive endpoint protection.
+
+## What the SentinelOne integration enables
+
+| Capability                     | Description                                                                                    |
+| ------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Threat Prevention              | AI-powered threat prevention and automated remediation                                         |
+| Incident Response              | Automated containment and rollback of malicious actions                                        |
+| Agent Management               | Monitor agent status, health, and policy compliance                                            |
+| Threat Hunting                 | Query threat intelligence and hunt for IOCs across endpoints                                   |
+| Quarantine Management          | Manage quarantined files and isolation status                                                  |
+| Automated Remediation          | Execute remediation actions and rollback capabilities                                          |
+
+## Prerequisites
+
+Before configuring the SentinelOne integration, ensure you have:
+
+- **SentinelOne Account**: Active subscription with Management Console access
+- **API Token**: Generated with appropriate permissions
+- **Admin Access**: Admin or API User role in SentinelOne
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Agent Deployment**: SentinelOne agents deployed on endpoints
+
+## Configuration in SentinelOne
+
+### Step 1: Create API Token
+
+1. Log in to SentinelOne Management Console
+2. Navigate to **Settings** > **Users**
+3. Click **Actions** > **Create API Token** (or create a service user)
+4. Configure API user:
+   - **Name**: "Harmony Integration"
+   - **Role**: Admin (or custom role with specific permissions)
+   - **Expiration**: Set appropriate expiration date (or never)
+5. Click **Create**
+6. **Copy the API Token immediately** (it won't be shown again)
+
+### Step 2: Configure Required Permissions
+
+If using a custom role, ensure these permissions are granted:
+
+- **Agents**: View, Manage, Disconnect from network
+- **Threats**: View, Manage, Mitigate
+- **Activities**: View
+- **Groups**: View
+- **Policies**: View
+- **Exclusions**: View (optional)
+- **Deep Visibility**: Query (for advanced threat hunting)
+
+### Step 3: Set Up Site and Group Structure
+
+Organize your SentinelOne environment:
+
+1. **Sites**: Ensure sites are configured for different locations/departments
+2. **Groups**: Create groups within sites for device categories
+3. **Policies**: Configure protection policies for each group
+4. **Naming Convention**: Use clear, consistent names for Harmony mapping
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **SentinelOne** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **Console URL**: Your SentinelOne console URL (e.g., `https://company.sentinelone.net`)
+- **API Token**: The token you generated
+- **Account ID**: Your SentinelOne Account ID (found in console)
+
+Click **Verify Connection**
+
+### Step 3: Configure Threat Response Settings
+
+1. **Threat Severity Threshold**: Minimum severity level for alerts (Low, Medium, High, Critical)
+2. **Auto-Isolation**: Enable automatic network isolation for Critical threats
+3. **Auto-Remediation**: Enable SentinelOne's autonomous rollback features
+4. **Ticket Creation**: Automatically create tickets for threats
+5. **Alert Routing**: Configure notification channels (Slack, Teams, Email)
+
+### Step 4: Set Up Automation Workflows
+
+Configure intelligent security automation:
+
+1. **Malware Detection & Remediation**:
+   - Trigger: Malware detected on endpoint
+   - Action: Kill process, quarantine file, rollback changes
+   - Notify: Alert user and security team
+   - Document: Create incident ticket with details
+2. **Ransomware Response**:
+   - Trigger: Ransomware detection
+   - Action: Isolate device, kill process, rollback
+   - Escalate: Immediate notification to security team
+   - Preserve: Capture forensic data
+3. **Policy Violations**:
+   - Trigger: Agent policy violation
+   - Action: Enforce policy, update agent
+   - Notify: Alert IT team if persistent
+4. **Agent Health Monitoring**:
+   - Trigger: Agent goes offline or out-of-date
+   - Action: Attempt remote update
+   - Escalate: Notify user if action needed
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From SentinelOne to Harmony
+
+- **Threats**: All detected threats with classification and severity
+- **Agents**: Agent status, version, health, and policy compliance
+- **Endpoints**: Device information, OS details, network data
+- **Isolation Status**: Whether devices are network-isolated
+- **Activities**: Security events, agent actions, policy changes
+- **Quarantined Files**: List of quarantined threats
+- **Remediation Actions**: Rollback and mitigation actions taken
+- **Deep Visibility Events**: Advanced telemetry data (if enabled)
+- **Groups and Sites**: Organizational structure
+
+### From Harmony to SentinelOne
+
+- **Isolation Commands**: Isolate or reconnect devices to network
+- **Threat Actions**: Mark as threat, benign, or false positive
+- **Remediation**: Trigger remediation or rollback actions
+- **Agent Actions**: Update, restart, or uninstall agents
+- **Quarantine Management**: Restore or permanently delete quarantined files
+- **Exclusions**: Add file or process exclusions (with approval)
+- **Notes**: Add context and investigation notes to threats
+
+## Use Cases
+
+### Autonomous Threat Response
+
+Fully automated malware remediation:
+
+```
+Scenario: Malware Execution Detected
+1. SentinelOne detects malicious process
+2. Automatically kills process and quarantines file
+3. Rolls back malicious changes to system
+4. Harmony notifies user: "We detected and removed malware from your device"
+5. Creates ticket documenting the incident
+6. No user action required
+```
+
+### Ransomware Protection
+
+Rapid response to ransomware attacks:
+
+1. SentinelOne detects ransomware behavior
+2. Immediately isolates device from network
+3. Kills ransomware process
+4. Rolls back file encryption
+5. Harmony alerts security team with critical priority
+6. Provides forensic timeline of attack
+7. Documents incident for security review
+8. Restores network access after verification
+
+### Agent Health Management
+
+Proactive endpoint protection monitoring:
+
+- Monitor agent health across all endpoints
+- Detect agents that go offline or out-of-date
+- Automatically attempt to update agents
+- Notify users if manual action required
+- Track agent deployment and coverage
+- Escalate persistent issues to IT team
+
+### Threat Hunting
+
+AI-assisted threat investigation:
+
+- Security analyst queries for specific IOCs
+- Harmony searches SentinelOne Deep Visibility data
+- Identifies affected endpoints
+- Provides timeline of relevant events
+- Suggests containment and remediation actions
+- Documents findings in investigation tickets
+
+### False Positive Management
+
+Streamline handling of benign detections:
+
+- User reports legitimate software blocked
+- Harmony reviews threat details from SentinelOne
+- AI suggests if likely false positive based on context
+- Security team approves with one click
+- Marks as benign, adds exclusion if needed
+- Restores user access immediately
+
+## Troubleshooting
+
+### Threats Not Syncing
+
+**Issue**: Threats detected in SentinelOne don't appear in Harmony
+
+**Solutions**:
+- Verify API token has "Threats: View" permission
+- Check severity threshold settings in Harmony
+- Ensure API token hasn't expired
+- Trigger manual sync from Harmony dashboard
+- Review SentinelOne activity log for API access
+
+### Isolation Commands Failing
+
+**Issue**: Unable to isolate/reconnect devices
+
+**Solutions**:
+- Confirm API token has "Agents: Disconnect from network" permission
+- Verify agent is online and active
+- Check that device isn't already in requested state
+- Ensure agent version supports network isolation
+- Review SentinelOne logs for error details
+
+### Agent Status Outdated
+
+**Issue**: Agent health status not current in Harmony
+
+**Solutions**:
+- Agents report status based on heartbeat interval
+- Trigger manual sync to refresh data
+- Verify agent has network connectivity
+- Check SentinelOne console for agent status
+- Adjust sync frequency in Harmony settings
+
+### Remediation Actions Not Executing
+
+**Issue**: Rollback or mitigation actions fail
+
+**Solutions**:
+- Verify API token has "Threats: Mitigate" permission
+- Check that threat is in a state that allows remediation
+- Ensure agent supports requested action
+- Review threat classification (some threats can't be rolled back)
+- Check SentinelOne activity log for errors
+
+## Best Practices
+
+### Threat Response
+
+- **Autonomous First**: Let SentinelOne's AI handle standard threats automatically
+- **Escalation Rules**: Define clear escalation criteria for human intervention
+- **Response Playbooks**: Document procedures for different threat types
+- **Regular Testing**: Test response automation with simulated threats
+- **Tuning**: Adjust sensitivity based on false positive rates
+
+### Agent Management
+
+- **Update Strategy**: Keep agents current with staged rollout approach
+- **Coverage Monitoring**: Track agent deployment across all endpoints
+- **Health Checks**: Monitor agent health metrics and act on degradation
+- **Policy Alignment**: Ensure policies match organizational risk tolerance
+- **Offline Handling**: Define procedures for persistently offline agents
+
+### User Communication
+
+- **Transparent Messaging**: Inform users when threats are detected and remediated
+- **Education**: Use incidents to teach security awareness
+- **Minimal Disruption**: Automate responses to minimize user impact
+- **Clear Instructions**: Provide specific guidance when user action needed
+- **Feedback Loop**: Collect user feedback on security experiences
+
+### Security Operations
+
+- **Threat Intelligence**: Regularly review threat trends and patterns
+- **Incident Reviews**: Conduct post-mortems for significant incidents
+- **Performance Metrics**: Track MTTD (Mean Time To Detect) and MTTR (Mean Time To Respond)
+- **Continuous Improvement**: Refine automation based on lessons learned
+- **Integration Health**: Monitor API usage and integration performance
+
+## Data & Privacy
+
+### Data Handling
+
+- Security telemetry encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches threat metadata; detailed forensic data remains in SentinelOne
+- Quarantined files stored securely in SentinelOne cloud
+- Personal information processed according to GDPR and privacy regulations
+- Data retention follows configured security policies
+
+### Compliance
+
+- **GDPR**: Full compliance with EU data protection regulations
+- **SOC 2 Type II**: Both SentinelOne and Harmony maintain certification
+- **ISO 27001**: Information security management certification
+- **HIPAA**: Available for healthcare organizations
+- **PCI DSS**: Payment card industry compliance
+- **Audit Logging**: All security actions logged for compliance
+
+### Access Control
+
+- API tokens scoped to minimum required permissions
+- Harmony respects SentinelOne's role-based access control
+- Integration can be disabled immediately if needed
+- All remediation actions logged in audit trail
+- Critical actions can require multi-approval
+

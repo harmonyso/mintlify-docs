@@ -1,0 +1,393 @@
+---
+title: 'Confluence'
+description: 'Power Harmony AI with Confluence knowledge to deliver intelligent, context-aware support responses'
+icon: '/images/integrations/confluence.svg'
+---
+
+## About Confluence
+
+Confluence is Atlassian's team collaboration and knowledge management software that provides a centralized space for creating, organizing, and sharing documentation. Connecting Confluence to Harmony enables your AI to access your organization's knowledge base, providing accurate and contextual responses to IT support requests.
+
+## What the Confluence integration enables
+
+| Capability                  | Description                                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| Knowledge Base Sync         | Import Confluence pages and spaces to power Harmony's AI responses                         |
+| Intelligent Search          | Find relevant documentation instantly within support conversations                         |
+| Contextual Responses        | AI provides answers based on your actual IT documentation                                  |
+| Automated Documentation     | Create and update Confluence pages from Harmony workflows                                  |
+| Access Control              | Respect Confluence permissions when suggesting articles                                    |
+| Real-Time Updates           | Keep AI knowledge current with automatic page sync                                         |
+
+Anything defined in the [Confluence REST API](https://developer.atlassian.com/cloud/confluence/rest/) can be accessed through Harmony workflows.
+
+***
+
+## Prerequisites
+
+Before connecting Confluence to Harmony, ensure you have:
+
+1. **Confluence Administrator access** (for Cloud) or **System Administrator** (for Server/Data Center)
+2. **Permissions to create API tokens** or OAuth apps
+3. **Your Confluence URL** (Cloud: `company.atlassian.net`, Server: `https://confluence.company.com`)
+4. **A Harmony account** with admin privileges
+
+<Note>
+  For Confluence Cloud, you'll need an Atlassian account with admin privileges. For Server/Data Center, you'll need system administrator access to create OAuth apps.
+</Note>
+
+***
+
+## Confluence Cloud Configuration
+
+### Step 1: Generate API Token
+
+<Steps>
+  <Step title="Navigate to API Tokens">
+    1. Go to [Atlassian Account Settings](https://id.atlassian.com/manage-profile/security/api-tokens)
+    2. Click **Create API token**
+  </Step>
+
+  <Step title="Create Token">
+    1. Enter a label: `Harmony Integration`
+    2. Click **Create**
+    3. **Important**: Copy the token immediately—it won't be shown again
+
+    <Warning>
+      Save the API token securely. If lost, you'll need to generate a new token.
+    </Warning>
+  </Step>
+</Steps>
+
+### Step 2: Note Your Email
+
+You'll need the email address associated with your Atlassian account for authentication.
+
+***
+
+## Confluence Server/Data Center Configuration
+
+### Create OAuth Application
+
+<Steps>
+  <Step title="Navigate to Application Links">
+    1. Log in to Confluence as System Administrator
+    2. Go to **Settings → General Configuration → Application Links**
+  </Step>
+
+  <Step title="Create Application Link">
+    1. Enter `https://harmony.io` as the application URL
+    2. Click **Create new link**
+    3. Configure the application:
+
+    | Field              | Value                       |
+    | ------------------ | --------------------------- |
+    | **Application Name** | `Harmony`                   |
+    | **Application Type** | `Generic Application`       |
+    | **Create incoming link** | ✅ Checked                  |
+
+    4. Click **Continue**
+  </Step>
+
+  <Step title="Configure Incoming Authentication">
+    1. Enter OAuth details:
+
+    | Field              | Value                       |
+    | ------------------ | --------------------------- |
+    | **Consumer Key**   | `harmony-confluence`        |
+    | **Consumer Name**  | `Harmony`                   |
+    | **Public Key**     | *Provided by Harmony support* |
+
+    2. Click **Continue**
+  </Step>
+</Steps>
+
+***
+
+## Harmony Configuration
+
+### For Confluence Cloud
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. Log into your Harmony dashboard
+    2. Navigate to **Settings → Integrations**
+    3. Find **Confluence** under **Knowledge Base**
+    4. Click **Connect → Confluence Cloud**
+  </Step>
+
+  <Step title="Enter Configuration">
+    Fill in the following fields:
+
+    | Field              | Description                          | Example                      |
+    | ------------------ | ------------------------------------ | ---------------------------- |
+    | **Site URL**       | Your Atlassian Confluence URL        | `company.atlassian.net`      |
+    | **Email**          | Your Atlassian account email         | `admin@company.com`          |
+    | **API Token**      | The API token generated              | `ATATT3xFfGF0...`            |
+
+    <Note>
+      Enter only the subdomain for Atlassian Cloud (e.g., `company.atlassian.net`), not the full Confluence URL.
+    </Note>
+  </Step>
+
+  <Step title="Test Connection">
+    1. Click **Connect**
+    2. Harmony will verify authentication and fetch space list
+    3. If successful, you'll see a confirmation message
+  </Step>
+</Steps>
+
+### For Confluence Server/Data Center
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    1. In Harmony, go to **Settings → Integrations → Confluence**
+    2. Click **Connect → Confluence Server**
+  </Step>
+
+  <Step title="Complete OAuth Flow">
+    1. Enter your Confluence Server base URL
+    2. Click **Authorize**
+    3. You'll be redirected to your Confluence instance
+    4. Log in and authorize Harmony
+    5. You'll be redirected back to Harmony
+  </Step>
+</Steps>
+
+***
+
+## Configure Knowledge Sync
+
+### Select Spaces to Sync
+
+<Steps>
+  <Step title="Choose Spaces">
+    1. Navigate to **Settings → Integrations → Confluence**
+    2. Click **Configure Knowledge Sync**
+    3. Select spaces to include:
+
+    **Recommended spaces:**
+    - IT Documentation
+    - Help Center
+    - How-To Guides
+    - Troubleshooting
+    - Policies & Procedures
+
+    <Tip>
+      Start with your most frequently referenced IT documentation spaces. You can add more spaces later.
+    </Tip>
+  </Step>
+
+  <Step title="Set Sync Frequency">
+    Choose how often to sync:
+    - **Real-time**: Updates immediately when pages change (requires webhooks)
+    - **Hourly**: Syncs every hour
+    - **Daily**: Syncs once per day (default)
+
+    <Note>
+      Real-time sync requires configuring webhooks in Confluence. Harmony will provide webhook URLs during setup.
+    </Note>
+  </Step>
+
+  <Step title="Configure Filters">
+    Optional: Filter which pages to include:
+    - **Exclude archived pages**
+    - **Include only published pages**
+    - **Exclude pages with specific labels** (e.g., `draft`, `internal-only`)
+    - **Minimum page age** (e.g., only sync pages older than 1 day)
+  </Step>
+</Steps>
+
+### Start Initial Sync
+
+<Steps>
+  <Step title="Begin Sync">
+    1. Click **Start Initial Sync**
+    2. Sync duration depends on content volume:
+       - Small (< 100 pages): 1-5 minutes
+       - Medium (100-1,000 pages): 5-30 minutes
+       - Large (1,000+ pages): 30-120 minutes
+  </Step>
+
+  <Step title="Monitor Progress">
+    1. Track sync progress in Harmony dashboard
+    2. View indexed page count
+    3. Review any sync errors or warnings
+  </Step>
+
+  <Step title="Verify Sync">
+    1. Once complete, verify pages are indexed
+    2. Test AI responses with knowledge-based questions
+    3. Check that formatting and images are preserved
+  </Step>
+</Steps>
+
+***
+
+## How Harmony Uses Confluence Knowledge
+
+### AI-Powered Responses
+
+When a user asks a question, Harmony:
+
+1. **Searches** indexed Confluence pages for relevant content
+2. **Analyzes** context and user intent
+3. **Synthesizes** an answer from documentation
+4. **Cites** specific Confluence pages for reference
+5. **Suggests** related articles for further reading
+
+**Example:**
+```
+User: "How do I reset my VPN password?"
+
+Harmony: "Based on our VPN Setup Guide, here's how to reset your VPN password:
+
+1. Go to vpn.company.com
+2. Click "Forgot Password"
+3. Enter your employee email
+4. Check your email for reset link
+5. Create a new password meeting complexity requirements
+
+Source: VPN Setup Guide (Confluence)
+Last updated: 2 days ago
+
+Would you like me to create a ticket if you need additional help?"
+```
+
+### Intelligent Page Suggestions
+
+Harmony suggests relevant articles proactively:
+
+- Detects common issues and recommends solutions
+- Links to step-by-step guides
+- Provides policy documentation when relevant
+- Respects user access permissions (only shows articles they can view)
+
+### Automated Documentation Updates
+
+Use Harmony workflows to:
+
+- Create new Confluence pages from ticket resolutions
+- Update existing pages with new troubleshooting steps
+- Generate reports and publish to Confluence
+- Maintain runbook documentation
+
+***
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Organize Content Hierarchically">
+    Structure your Confluence spaces for optimal AI performance:
+    - Use clear page hierarchies
+    - Group related content together
+    - Apply consistent labeling
+    - Create parent pages for topics
+    - Use space categories logically
+  </Accordion>
+
+  <Accordion title="Maintain Documentation Quality">
+    Keep content AI-friendly:
+    - Use clear, descriptive page titles
+    - Write concise, actionable content
+    - Include step-by-step instructions
+    - Add relevant labels and tags
+    - Update outdated pages regularly
+    - Archive obsolete content
+  </Accordion>
+
+  <Accordion title="Use Page Labels Effectively">
+    Labels help Harmony categorize knowledge:
+    - `troubleshooting`: Common issues and fixes
+    - `how-to`: Step-by-step guides
+    - `policy`: Company policies
+    - `faq`: Frequently asked questions
+    - `onboarding`: New employee information
+  </Accordion>
+
+  <Accordion title="Set Up Real-Time Sync">
+    For the best experience:
+    - Configure Confluence webhooks for instant updates
+    - Test webhook delivery
+    - Monitor sync logs for errors
+    - Keeps AI responses current
+  </Accordion>
+
+  <Accordion title="Review AI Suggestions">
+    Periodically audit AI responses:
+    - Check citation accuracy
+    - Verify outdated content isn't used
+    - Identify knowledge gaps
+    - Improve documentation based on common questions
+  </Accordion>
+</AccordionGroup>
+
+***
+
+## Troubleshooting
+
+### Connection fails with authentication error
+
+**Possible causes:**
+- Incorrect email or API token (Cloud)
+- OAuth not configured properly (Server)
+- User lacks admin permissions
+
+**Solutions:**
+1. Verify email and API token are correct
+2. For Server: re-run OAuth setup
+3. Ensure user has Confluence administrator access
+
+### Pages not syncing
+
+**Possible causes:**
+- Space not selected for sync
+- Pages are restricted or archived
+- Sync frequency not set
+
+**Solutions:**
+1. Verify space is enabled in sync configuration
+2. Check page permissions (Harmony can only sync pages the API user can access)
+3. Trigger manual sync to test
+
+### AI not using Confluence content
+
+**Possible causes:**
+- Initial sync not complete
+- Pages lack sufficient content
+- Search index needs rebuilding
+
+**Solutions:**
+1. Wait for initial sync to complete
+2. Check that pages have substantial content (not just headings)
+3. Contact support to rebuild search index
+
+### Formatting issues in AI responses
+
+**Possible causes:**
+- Complex Confluence macros not supported
+- Tables with nested content
+- Embedded media
+
+**Solutions:**
+1. Simplify complex macros
+2. Use basic formatting (bold, lists, links)
+3. Avoid deeply nested tables
+4. Extract key information to plain text
+
+***
+
+## Data & Privacy
+
+For information about how Harmony handles your data, see our [Privacy Policy](https://harmony.io/privacy).
+
+**Key privacy principles:**
+- Confluence credentials are encrypted at rest and in transit
+- Only selected spaces are accessed
+- Page permissions are respected in AI responses
+- Content is indexed securely
+- Integration can be revoked at any time
+
+***
+
+Need help? Contact **[support@harmony.io](mailto:support@harmony.io)** for assistance with your Confluence integration.

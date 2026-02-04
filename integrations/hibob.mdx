@@ -1,0 +1,346 @@
+---
+title: 'HiBob'
+description: 'Connect Bob for modern HR management with automated IT provisioning and org chart syncing'
+icon: '/images/integrations/hibob.svg'
+---
+
+## About HiBob
+
+HiBob (Bob) is a modern HR management platform designed for dynamic, distributed workforces. Connecting Bob to Harmony enables automated IT provisioning based on HR events, intelligent employee lifecycle management, and seamless synchronization of organizational data for optimal IT operations.
+
+## What the HiBob integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Employee Data Sync            | Sync employee profiles, departments, roles, and org structure                                   |
+| Automated Onboarding          | Trigger IT provisioning when new employees are added                                           |
+| Offboarding Workflows         | Automate access revocation when employees are terminated                                        |
+| Org Chart Integration         | Maintain current organizational structure in Harmony                                            |
+| Department Routing            | Route IT requests based on employee department and location                                     |
+| Lifecycle Automation          | Automate IT tasks for role changes, transfers, and promotions                                   |
+
+## Prerequisites
+
+Before configuring the HiBob integration, ensure you have:
+
+- **HiBob Administrator Access**: Admin role with API access permissions
+- **HiBob Subscription**: Active Bob account for your organization
+- **API Service User**: Created in Bob for integration access
+- **Harmony Account**: Active Harmony workspace with integration permissions
+
+## Configuration in HiBob
+
+### Step 1: Create Service User
+
+1. Log in to Bob at `https://app.hibob.com`
+2. Navigate to **Settings** > **People** > **Service users**
+3. Click **Add service user**
+4. Configure:
+   - **Name**: "Harmony Integration"
+   - **Email**: `harmony-integration@yourcompany.com`
+   - **Access level**: System Administrator (or custom role)
+5. Click **Create**
+6. **Copy the Service User ID and Token** immediately
+
+### Step 2: Configure API Permissions
+
+If using a custom access level, ensure these permissions:
+
+- **People**: Read (view employee data)
+- **Organization**: Read (view org structure, departments)
+- **Time Off**: Read (optional, for availability tracking)
+- **Documents**: Read (optional, for policy distribution)
+
+### Step 3: Organize Employee Data
+
+Ensure your Bob data is structured for automation:
+
+1. **Employee Fields**: Verify all employees have:
+   - Department
+   - Job title
+   - Manager
+   - Start date
+   - Employment type
+   - Work location
+2. **Custom Fields**: Consider adding:
+   - IT Access Level (Junior, Standard, Senior, Admin)
+   - Primary Device (Mac, Windows, Linux)
+   - Software Requirements
+3. **Departments**: Ensure department names are consistent
+4. **Lists**: Create lists for dropdown fields used in IT provisioning
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **HiBob** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **Service User ID**: The ID from Bob
+- **API Token**: The token you copied
+- **Bob Subdomain**: Your Bob subdomain (e.g., `company.hibob.com`)
+
+Click **Verify Connection**
+
+### Step 3: Configure Employee Sync
+
+1. **Sync Frequency**: Choose how often to sync employee data (real-time, hourly, daily)
+2. **Employee Status**: Select which statuses to sync:
+   - ☑️ Active
+   - ☑️ On boarding
+   - ☐ Terminated (optional for offboarding automation)
+3. **Employee Fields**: Select fields to sync:
+   - Basic info (name, email, phone)
+   - Organization (department, title, manager)
+   - Employment (start date, type, status)
+   - Custom fields relevant to IT
+4. **Department Mapping**: Map Bob departments to Harmony teams
+
+### Step 4: Set Up Lifecycle Automation
+
+Configure workflows for employee lifecycle events:
+
+1. **New Hire Onboarding**:
+   - Trigger: New employee with status "Active" or "Onboarding"
+   - Conditions: Start date within next 7 days
+   - Actions:
+     - Create accounts (Google Workspace, Okta, etc.)
+     - Provision hardware based on role
+     - Assign to IT security groups
+     - Send welcome email with instructions
+     - Create onboarding checklist ticket
+2. **Role Change**:
+   - Trigger: Employee department or title changes
+   - Actions:
+     - Review current access permissions
+     - Adjust access based on new role
+     - Update security groups
+     - Notify manager of changes
+3. **Employee Termination**:
+   - Trigger: Employee status changes to "Terminated"
+   - Actions:
+     - Disable all accounts within 24 hours
+     - Retrieve hardware and assets
+     - Archive email and files
+     - Remove from all access groups
+     - Generate offboarding report for manager
+4. **Manager Change**:
+   - Trigger: Employee reports-to field updated
+   - Actions:
+     - Update approval workflows
+     - Notify new manager
+     - Transfer ticket ownership if needed
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From HiBob to Harmony
+
+- **Employee Profiles**: Full name, email, personal info
+- **Employment Details**: Job title, department, employment type
+- **Organizational Data**: Manager, direct reports, organizational hierarchy
+- **Work Information**: Work location, work phone, time zone
+- **Employment Dates**: Start date, end date (if terminated)
+- **Custom Fields**: IT-relevant custom fields you configure
+- **Department Structure**: All departments and sub-departments
+- **Status Changes**: Employee status updates (active, terminated, etc.)
+
+### From Harmony to HiBob
+
+- **IT Asset Assignment**: Update employee records with assigned devices
+- **Custom Field Updates**: Update IT-specific custom fields (device serial numbers, etc.)
+- **Documentation Links**: Add links to IT documentation in employee profiles
+- **Onboarding Status**: Update custom fields tracking IT onboarding completion
+
+## Use Cases
+
+### Automated New Hire Provisioning
+
+Complete IT setup triggered by HR:
+
+1. HR adds new employee to Bob with start date next Monday
+2. Harmony detects new employee in Engineering department
+3. One week before start date:
+   - Orders MacBook Pro (based on role)
+   - Creates email account in Google Workspace
+   - Sets up Okta account with temp password
+   - Adds to GitHub Engineering team
+   - Assigns to Slack channels
+   - Adds to relevant security groups
+4. Day before start:
+   - Ships laptop to employee's address
+   - Sends welcome email with setup instructions
+5. On start date:
+   - Sends Slack welcome message
+   - Assigns IT onboarding buddy
+   - Creates checklist ticket for IT setup verification
+
+### Role-Based Access Provisioning
+
+Automatic access adjustment for role changes:
+
+```
+Scenario: Employee Promotion
+1. HR updates employee in Bob: "Software Engineer" → "Senior Engineer"
+2. Harmony detects role change
+3. Reviews current access:
+   - Has: Write access to app repositories
+   - Has: Standard AWS permissions
+4. Grants additional access:
+   - Adds: Admin access to team repositories
+   - Adds: Elevated AWS permissions
+   - Adds: Production environment access
+5. Notifies employee and manager of access changes
+6. Documents change in audit log
+```
+
+### Department-Based Request Routing
+
+Intelligent ticket routing using org data:
+
+- Employee from Sales department submits ticket
+- Harmony checks Bob for department and location
+- Routes to appropriate IT support team
+- Includes context: manager name, office location, start date
+- Prioritizes based on role (executive = higher priority)
+
+### Seamless Offboarding
+
+Complete access removal based on HR termination:
+
+1. HR marks employee as terminated in Bob (last day: Friday)
+2. Harmony creates offboarding checklist:
+   - ☐ Retrieve laptop and peripherals
+   - ☐ Disable all accounts
+   - ☐ Transfer files and emails
+   - ☐ Remove from all security groups
+   - ☐ Cancel software licenses
+3. On termination date:
+   - Disables Okta account (cascades to all apps)
+   - Schedules email archive for 30 days
+   - Removes from Slack workspace
+   - Revokes VPN access
+   - Locks laptop remotely
+4. Generates comprehensive offboarding report for manager
+
+### Manager Hierarchy for Approvals
+
+Use org structure for approval workflows:
+
+- Employee requests elevated access
+- Harmony checks Bob for manager
+- Routes approval request to direct manager
+- If denied, can escalate to manager's manager
+- Maintains audit trail of approval chain
+
+## Troubleshooting
+
+### Employees Not Syncing
+
+**Issue**: New employees in Bob don't appear in Harmony
+
+**Solutions**:
+- Verify service user has "People: Read" permission
+- Check employee status is included in sync filter
+- Ensure employee has required fields populated (email, name)
+- Trigger manual sync from Harmony dashboard
+- Review Bob API status and rate limits
+
+### Onboarding Workflows Not Triggering
+
+**Issue**: New hire automation doesn't activate
+
+**Solutions**:
+- Verify employee start date is set correctly
+- Check that employee status is "Active" or "Onboarding"
+- Review workflow conditions and filters
+- Ensure all required fields are populated
+- Test workflow with sample employee
+
+### Department Mapping Issues
+
+**Issue**: Employees routed to wrong teams
+
+**Solutions**:
+- Review department name mapping in Harmony settings
+- Check for typos or inconsistent department names in Bob
+- Verify department hierarchy is correct
+- Update mappings for new departments
+- Test routing with specific employee
+
+### Offboarding Delays
+
+**Issue**: Termination workflows delayed or incomplete
+
+**Solutions**:
+- Check sync frequency settings (consider real-time for terminations)
+- Verify terminated status is included in sync
+- Review workflow execution logs in Harmony
+- Ensure all connected systems (Okta, Google, etc.) are functioning
+- Consider manual trigger for urgent offboarding
+
+## Best Practices
+
+### Data Quality
+
+- **Complete Profiles**: Ensure all employees have required fields populated
+- **Consistent Naming**: Use standard department and title names
+- **Regular Audits**: Review employee data quarterly for accuracy
+- **Custom Fields**: Leverage custom fields for IT-specific data
+- **Start Date Accuracy**: Always set accurate start dates for automation timing
+
+### Onboarding Excellence
+
+- **Lead Time**: Start provisioning 1 week before start date
+- **Hardware Planning**: Order devices well in advance
+- **Welcome Communications**: Personalize welcome messages
+- **Checklists**: Use detailed checklists to track completion
+- **Feedback Loop**: Collect new hire feedback on IT onboarding
+
+### Offboarding Security
+
+- **Immediate Disabling**: Disable critical access immediately on termination
+- **Phased Removal**: Archive data before permanent deletion
+- **Asset Recovery**: Track hardware retrieval completion
+- **Access Verification**: Audit to ensure complete access removal
+- **Documentation**: Maintain detailed offboarding records
+
+### Organizational Accuracy
+
+- **Sync Frequency**: Use real-time or hourly sync for org changes
+- **Manager Changes**: Immediately update approval workflows
+- **Reorganizations**: Plan IT impacts of large org changes
+- **Location Tracking**: Keep work locations current for support routing
+- **Promotion Workflows**: Define clear access change procedures
+
+## Data & Privacy
+
+### Data Handling
+
+- Employee data encrypted in transit (TLS 1.2+) and at rest (AES-256)
+- Harmony caches organizational and employment data
+- Personal information (SSN, bank details) never accessed
+- Data processed according to GDPR, CCPA, and privacy regulations
+- Data retention configurable to match compliance requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with EU data protection regulations
+- **CCPA**: California Consumer Privacy Act compliance
+- **SOC 2 Type II**: Both HiBob and Harmony maintain certification
+- **Data Minimization**: Only sync fields required for IT operations
+- **Audit Trails**: All employee data access logged
+
+### Access Control
+
+- Service user permissions scoped to minimum required access
+- API token encrypted in Harmony
+- Integration can be disabled immediately if needed
+- All automation actions logged with employee context
+- Role-based access in Harmony for viewing employee data
+

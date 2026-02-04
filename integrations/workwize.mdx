@@ -1,0 +1,73 @@
+---
+title: 'Workwize'
+description: 'Automate device procurement and asset management workflows with Workwize integration'
+icon: '/images/integrations/workwize.svg'
+---
+
+## About Workwize
+
+Workwize is a global IT asset management and device procurement platform that streamlines hardware lifecycle management for distributed teams. Connecting Workwize to Harmony enables automated device ordering, intelligent asset tracking, and seamless equipment provisioning workflows for remote and hybrid workforces.
+
+## What the Workwize integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Global Device Procurement     | Order devices worldwide with automated shipping                                                 |
+| Asset Lifecycle Management    | Track devices from order through end-of-life                                                    |
+| Remote Deployment             | Ship devices directly to employee locations                                                     |
+| Return Logistics              | Automate device returns with prepaid labels                                                     |
+| Inventory Management          | Real-time visibility into global device inventory                                               |
+| Refresh Management            | Automate device upgrade cycles                                                                  |
+
+## Prerequisites
+
+- **Workwize Administrator Access**: Admin role in Workwize portal
+- **Workwize Account**: Active Workwize subscription
+- **API Credentials**: API key from Workwize
+- **Harmony Account**: Active Harmony workspace
+
+## Configuration
+
+### In Workwize
+
+1. Log in to [Workwize portal](https://portal.workwize.com)
+2. Navigate to **Settings** > **API Access**
+3. Click **Create API Key**
+4. Configure:
+   - Name: "Harmony Integration"
+   - Permissions: Full access (or Orders, Assets, Users)
+5. Copy the API key
+
+### In Harmony
+
+1. Go to **Settings** > **Integrations** > **Workwize**
+2. Enter API credentials
+3. Configure device preferences by role
+4. Set up shipping locations
+5. Enable automated ordering workflows
+
+## What Harmony Syncs
+
+**From Workwize:**
+- Device orders and order status
+- Asset inventory and assignments
+- Shipping tracking information
+- Device configurations and specifications
+- Return requests and status
+- Device warranty and support info
+
+**To Workwize:**
+- New device orders
+- Employee shipping addresses
+- Device assignment requests
+- Return authorizations
+- Asset status updates
+
+## Use Cases
+
+- **Remote Onboarding**: Order laptop shipped to new remote employee's home
+- **Global Device Management**: Track devices across 50+ countries
+- **Bulk Deployments**: Order 100 laptops for new office opening
+- **Device Upgrades**: Automatically refresh devices every 3 years
+- **Offboarding Returns**: Generate return label, track device return
+

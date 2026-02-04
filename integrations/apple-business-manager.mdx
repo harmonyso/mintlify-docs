@@ -1,0 +1,64 @@
+---
+title: 'Apple Business Manager'
+description: 'Streamline Apple device enrollment and automate zero-touch deployment workflows'
+icon: '/images/integrations/apple.svg'
+---
+
+## About Apple Business Manager
+
+Apple Business Manager is Apple's platform for deploying and managing Apple devices at scale. It provides zero-touch enrollment, automated app distribution, and streamlined device management for organizations. Connecting Apple Business Manager to Harmony enables automated device provisioning and intelligent fleet management.
+
+## What the Apple Business Manager integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| Device Enrollment             | Automate device enrollment through DEP                                                          |
+| Zero-Touch Deployment         | Enable automatic device configuration on first boot                                             |
+| App Distribution              | Manage VPP licenses and app assignments                                                         |
+| Device Assignment             | Assign devices to users automatically                                                           |
+| MDM Integration               | Coordinate with MDM solutions (Jamf, Kandji, Intune)                                           |
+| Purchase Tracking             | Track device purchases and serial numbers                                                       |
+
+## Prerequisites
+
+- **Apple Business Manager Admin**: Administrator or Device Enrollment Manager role
+- **MDM Solution**: Connected MDM (Jamf, Kandji, or Intune)
+- **Server Token**: Generated for MDM integration
+- **Harmony Account**: Active Harmony workspace
+
+## Configuration
+
+### In Apple Business Manager
+
+1. Sign in to [business.apple.com](https://business.apple.com)
+2. Go to **Settings** > **MDM Server Assignment**
+3. Assign devices to your MDM server
+4. Configure default device enrollment settings
+
+### In Harmony
+
+1. Connect your MDM solution first (Jamf, Kandji, or Intune)
+2. Harmony will automatically detect ABM-managed devices
+3. Configure automated assignment rules
+4. Set up new hire device provisioning workflows
+
+## What Harmony Syncs
+
+**From Apple Business Manager:**
+- Device serial numbers and models
+- Purchase dates and order information
+- Device enrollment status
+- MDM server assignments
+- VPP license availability
+
+**To Apple Business Manager:**
+- Device assignment changes (via MDM)
+- User assignments for devices
+
+## Use Cases
+
+- **Zero-Touch Onboarding**: New hire receives device, powers on, all apps and settings configured automatically
+- **Bulk Device Deployment**: Order 50 MacBooks, automatically assign to new employees
+- **VPP License Management**: Track and assign app licenses based on roles
+- **Device Lifecycle**: From purchase through deployment to retirement
+

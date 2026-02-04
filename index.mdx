@@ -1,97 +1,75 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Welcome to Harmony"
+description: "Your guide to Harmony's AI-powered IT service management platform"
 ---
 
-## Setting up
+Welcome to Harmony! This documentation covers everything you need to deploy, configure, and operate your autonomous IT help desk.
 
-Get your documentation site up and running in minutes.
+<Note>
+New to Harmony? Start with our [Integrations](/integrations/slack) to connect your collaboration tools and get operational quickly.
+</Note>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
+## IT Service Desk & Ticketing
+
+Employees submit requests through Slack, Microsoft Teams, email, or web portal. Harmony's AI help desk agent handles each request intelligently:
+
+- **Smart Routing** — Tickets are classified and routed to the right team based on request content and context
+- **Knowledge-Powered** — References knowledge bases to answer questions with accurate, sourced information
+- **Autonomous Resolution** — Executes automations to resolve common requests without human intervention
+- **Seamless Escalation** — Hands off to human agents when needed, with full context and transparency
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/integrations/slack" className="block p-4 border rounded-lg hover:shadow-md transition-shadow no-underline">
+    <div className="flex items-center gap-3 mb-2">
+      <img src="/images/integrations/slack.svg" className="h-8 w-8" alt="Slack" />
+      <h3 className="text-base font-semibold m-0">Slack Integration</h3>
+    </div>
+    <p className="text-sm text-muted-foreground m-0">Connect Harmony to Slack for instant IT support</p>
+  </a>
+  
+  <a href="/integrations/teams" className="block p-4 border rounded-lg hover:shadow-md transition-shadow no-underline">
+    <div className="flex items-center gap-3 mb-2">
+      <img src="/images/integrations/teams.svg" className="h-8 w-8" alt="Microsoft Teams" />
+      <h3 className="text-base font-semibold m-0">Microsoft Teams</h3>
+    </div>
+    <p className="text-sm text-muted-foreground m-0">Integrate with Teams for seamless ticket management</p>
+  </a>
+  
+  <a href="/integrations/okta" className="block p-4 border rounded-lg hover:shadow-md transition-shadow no-underline">
+    <div className="flex items-center gap-3 mb-2">
+      <img src="/images/integrations/okta.svg" className="h-8 w-8" alt="Okta" />
+      <h3 className="text-base font-semibold m-0">Okta Integration</h3>
+    </div>
+    <p className="text-sm text-muted-foreground m-0">Sync users and applications automatically</p>
+  </a>
+  
+  <a href="/integrations/zoom" className="block p-4 border rounded-lg hover:shadow-md transition-shadow no-underline">
+    <div className="flex items-center gap-3 mb-2">
+      <img src="/images/integrations/zoom.svg" className="h-8 w-8" alt="Zoom" />
+      <h3 className="text-base font-semibold m-0">Zoom Integration</h3>
+    </div>
+    <p className="text-sm text-muted-foreground m-0">Track Zoom usage and license management</p>
+  </a>
+</div>
+
+## API & Developer Tools
+
+Build custom integrations and automate your IT workflows programmatically.
+
+<Card title="API Reference" icon="code" href="/api-reference/introduction">
+  Explore our REST API for tickets, users, and workflows
 </Card>
 
-## Make it yours
+## Integrations
 
-Design a docs site that looks great and empowers your users.
+Connect Harmony to 40+ tools including Slack, Okta, Google Workspace, Jira, ServiceNow, and more. Our integrations enable automated workflows, centralized user management, and unified visibility across your IT ecosystem.
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+<Card title="Browse All Integrations" icon="grid" href="/integrations/overview">
+  Explore our complete integration catalog organized by category
+</Card>
 
-## Create beautiful pages
+## Need Help?
 
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
+<Card title="Contact Support" icon="envelope" href="mailto:support@harmony.io">
+  Reach out to our team at support@harmony.io
 </Card>

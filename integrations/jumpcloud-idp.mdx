@@ -1,0 +1,344 @@
+---
+title: 'JumpCloud (IdP)'
+description: 'Centralize identity management and automate cross-platform user lifecycle workflows'
+icon: '/images/integrations/jumpcloud-idp.svg'
+---
+
+## About JumpCloud
+
+JumpCloud is a comprehensive directory-as-a-service platform that provides unified identity, access, and device management across Windows, macOS, and Linux environments. Connecting JumpCloud to Harmony enables automated user provisioning, intelligent application discovery, and seamless cross-platform identity management.
+
+## What the JumpCloud integration enables
+
+| Capability                    | Description                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| User Provisioning             | Automate user lifecycle management across all connected systems                                 |
+| SSO Integration               | Sync JumpCloud SSO applications with Harmony                                                    |
+| Group Management              | Synchronize user groups and system groups                                                       |
+| Multi-Factor Authentication   | Coordinate MFA policies and enrollment                                                          |
+| Directory Sync                | Maintain consistent user directory across platforms                                             |
+| Password Management           | Coordinate password policies and resets                                                         |
+
+## Prerequisites
+
+Before configuring the JumpCloud integration, ensure you have:
+
+- **JumpCloud Administrator Access**: Organization administrator role
+- **JumpCloud Subscription**: Business or Enterprise plan
+- **API Key**: Generated from JumpCloud admin console
+- **Harmony Account**: Active Harmony workspace with integration permissions
+- **Connected Applications**: SSO apps configured in JumpCloud
+
+## Configuration in JumpCloud
+
+### Step 1: Generate API Key
+
+1. Log in to JumpCloud admin portal at `https://console.jumpcloud.com`
+2. Navigate to the **Admin** icon (gear) > **API Settings**
+3. Click **Generate New API Key**
+4. Configure:
+   - **Name**: "Harmony Integration"
+   - **Permissions**: Select appropriate permissions (User Management, System Management, Directory Insights)
+5. Click **Generate API Key**
+6. **Copy the API key immediately** (it won't be shown again)
+
+### Step 2: Configure User Attributes
+
+Ensure user profiles have required attributes:
+
+1. Go to **User Management** > **Users**
+2. Verify standard attributes are populated:
+   - Username
+   - Email
+   - First Name, Last Name
+   - Department
+   - Job Title
+3. Add custom attributes if needed for IT automation
+4. Ensure consistent attribute formatting
+
+### Step 3: Set Up User Groups
+
+Organize users for automated access management:
+
+1. Navigate to **User Groups**
+2. Create groups by function:
+   - Engineering
+   - Sales
+   - Operations
+   - Contractors
+3. Add users to appropriate groups
+4. These groups will be synced to Harmony for routing and provisioning
+
+### Step 4: Configure SSO Applications
+
+Prepare connected applications:
+
+1. Go to **SSO Applications**
+2. Review configured SAML/OIDC applications
+3. Note application names and IDs
+4. Ensure user assignments are current
+5. Document which apps should be auto-provisioned
+
+## Configuration in Harmony
+
+### Step 1: Navigate to Integrations
+
+1. Log in to your Harmony dashboard
+2. Go to **Settings** > **Integrations**
+3. Find **JumpCloud (IdP)** and click **Connect**
+
+### Step 2: Enter API Credentials
+
+Provide the following information:
+
+- **Organization ID**: Your JumpCloud organization ID
+- **API Key**: The key you generated
+- **API Endpoint**: Usually `https://console.jumpcloud.com/api/v2`
+
+Click **Verify Connection**
+
+### Step 3: Configure User Sync
+
+1. **Sync Frequency**: Choose sync interval (real-time, hourly, daily)
+2. **User Filters**: Select which users to sync (active only, include suspended, etc.)
+3. **Attribute Mapping**: Map JumpCloud attributes to Harmony fields:
+   - JumpCloud `email` → Harmony `email`
+   - JumpCloud `department` → Harmony `department`
+   - JumpCloud `title` → Harmony `role`
+4. **Group Sync**: Enable synchronization of user groups
+5. **SSO App Sync**: Select which SSO applications to track
+
+### Step 4: Set Up Automation Workflows
+
+Configure intelligent provisioning:
+
+1. **New User Onboarding**:
+   - Trigger: New user added to JumpCloud
+   - Conditions: User in specific group (e.g., "Employees")
+   - Actions:
+     - Provision accounts in connected systems
+     - Assign to appropriate teams
+     - Send welcome message via Slack
+     - Create onboarding ticket
+2. **Application Access Requests**:
+   - Trigger: User requests application via Harmony
+   - Verify: Check JumpCloud for existing access
+   - Approve: Route to manager if needed
+   - Grant: Add user to SSO application in JumpCloud
+   - Notify: Confirm access granted
+3. **User Deactivation**:
+   - Trigger: User suspended or deleted in JumpCloud
+   - Actions:
+     - Disable accounts in all systems
+     - Remove from groups and applications
+     - Archive email and files
+     - Document offboarding completion
+4. **MFA Enrollment**:
+   - Trigger: User not enrolled in MFA
+   - Action: Send enrollment guide via Slack
+   - Monitor: Track enrollment completion
+   - Escalate: Alert security team if not enrolled within 7 days
+5. Click **Save Configuration** and **Enable Integration**
+
+## What Harmony Syncs
+
+### From JumpCloud to Harmony
+
+- **User Accounts**: All user profiles with attributes
+- **User Status**: Active, suspended, or deleted status
+- **User Groups**: Group memberships and assignments
+- **System Groups**: Device-based group memberships
+- **SSO Applications**: Connected SAML/OIDC applications
+- **Application Assignments**: User access to SSO apps
+- **MFA Status**: MFA enrollment and enforcement state
+- **Password Status**: Last password change date
+- **Login History**: Recent authentication events (optional)
+- **Directory Insights**: User activity and access patterns
+
+### From Harmony to JumpCloud
+
+- **User Modifications**: Update user attributes and info
+- **Group Assignments**: Add/remove users from groups
+- **Application Access**: Grant or revoke SSO app access
+- **Account Status**: Suspend or activate user accounts
+- **Password Resets**: Trigger password reset emails
+- **MFA Enrollment**: Initiate MFA setup
+- **Custom Attributes**: Update IT-specific custom fields
+
+## Use Cases
+
+### Unified User Provisioning
+
+Centralized user management across all platforms:
+
+1. New employee added to JumpCloud
+2. Harmony detects new user in "Engineering" group
+3. Automatically provisions:
+   - Google Workspace account
+   - GitHub organization access
+   - Slack workspace membership
+   - Okta secondary directory sync
+   - VPN access
+4. Assigns to appropriate teams and security groups
+5. Sends personalized onboarding guide
+6. Tracks provisioning completion
+
+### Self-Service Access Requests
+
+Streamlined application access via Harmony:
+
+```
+User via Slack: "I need access to Figma"
+Harmony:
+1. Checks JumpCloud for existing Figma access
+2. Verifies user's role and permissions
+3. Routes approval to manager if required
+4. Adds user to Figma SSO app in JumpCloud
+5. Confirms: "✅ You now have access to Figma. Sign in at figma.com"
+6. Logs access grant for audit
+```
+
+### Password Reset Automation
+
+AI-powered password assistance:
+
+- User: "I forgot my password"
+- Harmony:
+  1. Verifies user identity
+  2. Triggers password reset in JumpCloud
+  3. Sends reset email to user
+  4. Provides guidance on creating strong password
+  5. Confirms when reset is complete
+  6. Offers MFA enrollment if not enabled
+
+### Cross-Platform Access Management
+
+Maintain consistent access across environments:
+
+- User role changes from "Developer" to "Senior Developer"
+- Harmony updates JumpCloud user group
+- JumpCloud propagates access changes to:
+  - Windows domain (via LDAP)
+  - macOS devices (via JumpCloud agent)
+  - Linux servers (via RADIUS/LDAP)
+  - SSO applications (via SAML)
+- All access levels automatically adjusted
+
+### MFA Compliance Monitoring
+
+Ensure security policy adherence:
+
+1. Harmony scans JumpCloud users for MFA status
+2. Identifies users without MFA enrolled
+3. Sends reminder via Slack: "Please enroll in MFA for account security"
+4. Provides enrollment instructions and support link
+5. Tracks enrollment completion
+6. Escalates to security team if not enrolled within deadline
+7. Generates compliance report for management
+
+## Troubleshooting
+
+### Users Not Syncing
+
+**Issue**: New users in JumpCloud don't appear in Harmony
+
+**Solutions**:
+- Verify API key has User Management read permissions
+- Check user status filter settings (active vs. suspended)
+- Ensure users have required attributes (email, username)
+- Trigger manual sync from Harmony dashboard
+- Review JumpCloud audit logs for API access
+
+### SSO Application Access Not Granted
+
+**Issue**: Cannot add users to SSO applications
+
+**Solutions**:
+- Confirm API key has SSO Application write permissions
+- Verify application exists and is active in JumpCloud
+- Check that user account is active (not suspended)
+- Ensure application supports API-based user assignment
+- Review JumpCloud logs for specific error messages
+
+### Group Membership Changes Not Syncing
+
+**Issue**: Group updates don't reflect in Harmony
+
+**Solutions**:
+- Verify API key has Group Management permissions
+- Check sync frequency settings
+- Trigger manual sync to refresh data
+- Ensure groups are properly configured in JumpCloud
+- Review group sync filters in Harmony settings
+
+### Authentication Failures
+
+**Issue**: "Unauthorized" or "Invalid API key" errors
+
+**Solutions**:
+- Verify API key copied correctly (no extra spaces)
+- Check that API key hasn't been revoked in JumpCloud
+- Ensure organization ID is correct
+- Confirm API endpoint URL is accurate
+- Regenerate API key if necessary
+
+## Best Practices
+
+### User Management
+
+- **Consistent Naming**: Use standard username formats (firstname.lastname)
+- **Complete Profiles**: Ensure all required attributes populated
+- **Group Organization**: Use hierarchical groups for clarity
+- **Regular Audits**: Review user accounts and access quarterly
+- **Deactivation Process**: Promptly suspend departing users
+
+### Security and Compliance
+
+- **MFA Enforcement**: Require MFA for all users
+- **Password Policies**: Implement strong password requirements
+- **Access Reviews**: Conduct regular access certification
+- **Least Privilege**: Grant minimum necessary permissions
+- **Audit Logging**: Monitor and review authentication logs
+
+### Integration Maintenance
+
+- **API Key Rotation**: Rotate API keys annually
+- **Permission Reviews**: Audit API permissions quarterly
+- **Sync Monitoring**: Track sync success rates and errors
+- **Performance Optimization**: Use appropriate sync frequencies
+- **Documentation**: Maintain current integration documentation
+
+### Automation Strategy
+
+- **Start Simple**: Begin with basic user provisioning
+- **Iterate Gradually**: Add complexity as confidence grows
+- **Test Thoroughly**: Test automations with test users first
+- **Monitor Closely**: Track automation success and failures
+- **User Feedback**: Collect feedback on provisioning experience
+
+## Data & Privacy
+
+### Data Handling
+
+- User directory data encrypted in transit (TLS 1.2+)
+- Harmony caches user profiles and group memberships
+- Sensitive data (passwords, MFA secrets) never accessed
+- Data processed according to GDPR and privacy regulations
+- Data retention configurable based on requirements
+
+### Compliance
+
+- **GDPR**: Full compliance with data protection regulations
+- **SOC 2 Type II**: Both JumpCloud and Harmony maintain certification
+- **HIPAA**: Available for healthcare organizations
+- **Audit Trails**: All user provisioning actions logged
+- **Data Residency**: JumpCloud operates from US data centers
+
+### Access Control
+
+- API key permissions scoped to minimum required
+- Harmony respects JumpCloud's role-based access control
+- Integration can be disabled immediately if needed
+- All provisioning actions logged with user context
+- Multi-approval workflows for sensitive operations
+
