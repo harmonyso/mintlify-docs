@@ -8,8 +8,8 @@
     },
     "servers": [
         {
-            "url": "https://demo.harmony.io",
-            "description": "Harmony API (demo environment)"
+            "url": "https://api.harmony.io/service-desk",
+            "description": "Harmony API"
         }
     ],
     "paths": {
